@@ -1,0 +1,247 @@
+\documentclass[12pt,openany]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}      
+\usepackage[brazilian]{babel}
+\usepackage{geometry}
+\geometry{a4paper, top=3cm, bottom=2cm, left=3cm, right=2cm}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{tikz}
+
+% FONTES COMPATÍVEIS COM A REFERÊNCIA
+\usepackage{lmodern}          % Ativa a família Latin Modern
+\usepackage{chngcntr}
+
+% CONFIGURAÇÃO DE LINKS INTERATIVOS NO SUMÁRIO
+\usepackage[hidelinks]{hyperref} % Cria os links clicáveis e remove as caixas coloridas
+
+% Configurações de espaçamento e parágrafos
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+
+% REESTRUTURAÇÃO DOS TÍTULOS
+\titleformat{\chapter}[hang]{\normalfont\fontfamily{lmr}\selectfont\Huge\bfseries}{\thechapter\quad}{0pt}{}
+\titleformat{\section}{\normalfont\fontfamily{lmr}\selectfont\Large\bfseries}{\thesection\quad}{0pt}{}
+
+\begin{document}
+
+% ==============================================================================
+% PAGINA 1: CAPA (Formatada dentro das margens e bordas do ITA)
+% ==============================================================================
+\begin{titlepage}
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[line width = 1.2pt] 
+            ([shift={(20mm,-20mm)}]current page.north west) 
+            rectangle 
+            ([shift={(-20mm,20mm)}]current page.south east);
+    \end{tikzpicture}
+
+    \centering
+    \vspace*{0.1cm}
+    
+    {\large\bfseries INSTITUTO TECNOLÓGICO DE AERONÁUTICA\par}
+    
+    \vspace{2.0cm}
+    
+    \includegraphics[width=8.2cm]{Imagens/ita-logo.png}\par    
+    
+    \vspace{2.0cm} 
+    \begin{singlespace}
+        {\Large Rafael Lucas de Albuquerque Louvain \par}
+    \end{singlespace}
+    
+    \vspace{2.0cm}
+    
+    \begin{minipage}{\textwidth}
+        \centering
+        {\Large\bfseries
+        ANÁLISE DA INFLUÊNCIA DE PARÂMETROS DE PROCESSO DE FABRICAÇÃO (CINEMÁTICOS, DE GEOMETRIA DA FERRAMENTA, ENTRE OUTROS) NA INTEGRIDADE DE JUNTAS SOLDADAS POR FSW\par}
+    \end{minipage}
+    
+    \vspace{2.2cm} 
+    
+    \begin{singlespace}
+        {\Large Trabalho de Graduação \par} 
+        {\Large 2026\par} 
+        
+        \vspace{2.8cm} 
+        
+        {\Large\bfseries Curso de Engenharia Mecânica-Aeronáutica\par} 
+    \end{singlespace}
+    \vspace*{0.2cm}
+\end{titlepage}
+
+\newpage
+
+% ==============================================================================
+% PAGINA 2: RESUMO
+% ==============================================================================
+\thispagestyle{empty}
+\vspace*{2.5cm} 
+
+\begin{center}
+    {\fontfamily{lmr}\selectfont\Huge Resumo\par} 
+\end{center}
+
+\vspace{1.8cm} 
+
+Este Trabalho de Graduação propõe o desenvolvimento de um modelo matemático-fenomenológico na forma de um Coeficiente Analítico de Vazio ($C_{void}$) para prever de maneira expedita a ocorrência de descontinuidades volumétricas (\textit{voids}) no processo de \textit{Friction Stir Welding} (FSW). A metodologia baseia-se no isolamento e acoplamento de leis físicas fundamentais para agrupar parâmetros independentes de naturezas distintas (cinemática, geométrica, dinâmica, térmica) em uma expressão multiplicativa adimensional única. O objetivo geral consiste em calibrar e validar essa formulação analítica utilizando o conjunto de dados experimentais estáveis de 108 ensaios das ligas aeroespaciais AA2024, AA2219 e AA6061 estabelecido pelo estudo de Du, Mukherjee e DebRoy (2019) publicado na \textit{Nature}. Como objetivo específico, busca-se mitigar a dependência de simulações numéricas pesadas no chão de fábrica, estabelecendo para o índice analítico a meta de superar o patamar de 70\% de acurácia preditiva global em testes cegos, além de estruturar uma hierarquia de sensibilidade fenomenológica das variáveis governantes.
+
+\vspace{1.0cm}
+\noindent \textbf{Palavras-chave:} FSW, Coeficiente Analítico, Vazios, Ligas Aeronáuticas, Análise Dimensional.
+
+\newpage
+
+% ==============================================================================
+% PAGINA 3: SUMÁRIO
+% ==============================================================================
+\thispagestyle{empty}
+\begin{center}
+    {\fontfamily{lmr}\selectfont\Huge Sumário\par}
+\end{center}
+\vspace{1.5cm}
+
+\begin{singlespace}
+\makeatletter
+\@starttoc{toc} 
+\makeatother
+\end{singlespace}
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{4} 
+
+% ==============================================================================
+% CAPÍTULO 1 - INTRODUÇÃO E CONTEXTUALIZAÇÃO (Fluxo Contínuo)
+% ==============================================================================
+\chapter{Introdução e contextualização}
+
+O processo de Soldagem por Fricção e Mistura Mecânica (\textit{Friction Stir Welding} - FSW) foi desenvolvido e patenteado pelo \textit{The Welding Institute} (TWI) em 1991 como uma alternativa disruptiva para a união de ligas de alumínio aeroespaciais de alta resistência (séries 2xxx, 6xxx e 7xxx), historicamente classificadas como não-soldáveis por métodos tradicionais de fusão. O FSW opera inteiramente no estado sólido abaixo da temperatura de fusão ($T < T_m$), utilizando uma ferramenta não-consumível constituída por um ombro e um pino para gerar calor por atrito e deformação plástica severa. O material atinge um estado viscoplástico e é mecanicamente transportado da borda de ataque para a borda de fuga, consolidando juntas de elevada integridade estrutural aplicadas em fuselagens e tanques criogênicos de propelentes, como nos foguetes \textit{Falcon 9} e \textit{SLS/Artemis}.
+
+Embora modelos numéricos avançados (como CFD ou Elementos Finitos) consigam simular esses fenômenos, o seu altíssimo custo computacional e tempo de processamento exigem malhas ultrafinas e tornam a abordagem inviável para varreduras paramétricas extensas ou para estimativas rápidas em tempo real no chão de fábrica. Essa limitação impossibilita correções imediatas e mascara o gatilho exato que inicia os defeitos volumétricos de vazio (\textit{voids/tunneling}), evidenciando a necessidade de um critério analítico prático, direto e instantâneo.
+
+\section{Objetivo}
+
+O objetivo deste trabalho consiste no desenvolvimento de um modelo fenomenológico-matemático unificado, expresso na forma de um Coeficiente Analítico de Vazio ($C_{void}$), fundamentado nos princípios de análise dimensional e mecânica dos processos de fabricação. O índice proposto visa agrupar as leis de potência físicas que governam a iniciação de defeitos volumétricos, substituindo a complexidade de simulações pesadas por uma equação explícita direcionada à parametrização industrial célere. A meta estabelecida busca calibrar e validar o índice frente à base de 108 ensaios experimentais das ligas AA2024, AA2219 e AA6061 de Du, Mukherjee e DebRoy (2019), estipulando-se o alvo mínimo de 70\% de acurácia preditiva global na classificação binária de integridade de juntas soldadas.
+
+% ==============================================================================
+% CAPÍTULO 2 - REVISÃO DA LITERATURA (Enxuta e Concisa)
+% ==============================================================================
+\chapter{Revisão da literatura}
+
+\section{Fundamentos Termomecânicos e Balanço Térmico}
+
+A geração de calor e o amolecimento mecânico do metal de base são requisitos primários para ativar o fluxo plástico são. Conforme estabelecido por \textit{Mishra \& Ma (2005)}, o escoamento seguro está confinado em uma janela estrita de temperatura homóloga de pico entre $0,6 \cdot T_m$ e $0,9 \cdot T_m$, atingindo a faixa ótima de $0,7$ a $0,8 \cdot T_m$ na borda de ataque. Modelos analíticos determinam que a taxa de geração térmica global ($Q_{total}$) isola as contribuições do ombro, da lateral e da ponta do pino ($Q_{total} = Q_{ombro} + Q_{pino\_lateral} + Q_{pino\_ponta}$). A expansão integral dessas equações prova que o ombro responde a boa parte do aporte térmico global devido ao braço de momento cúbico do raio ($R_{ombro}^3$). O contato na interface transita entre o escorregamento (\textit{sliding} puramente atritante) e a adesão (\textit{sticking} por dissipação viscosa), ditado pela elevação térmica local. 
+
+Se a ferramenta opera abaixo do limite térmico ($T < 0,6 \cdot T_m$), o material retém elevado limite de escoamento ($\sigma_{yield}$), resultando em torque excessivo e vazios frios (\textit{cold voids}). Acima do limite ($T > 0,9 \cdot T_m$), ocorre liquefação local, quebra do confinamento hidrostático e ejeção de massa como rebarba (\textit{flash}), gerando vazios quentes (\textit{hot voids}). O ciclo térmico severo impõe um zonamento microestrutural: a Zona de Mistura (\textit{Nugget}) sofre recristalização dinâmica (RCD), gerando grãos ultrafinos e equiaxados ($1-5\,\mu\text{m}$) e solubilização de precipitados. A TMAZ exibe grãos estirados por deformação moderada. A HAZ experimenta ciclo térmico puro conduzido através da chapa ($200^\circ\text{C}$ a $250^\circ\text{C}$), promovendo o superenvelhecimento (\textit{overaging}) e dissolução da fase endurecedora metaestável $\beta^{\prime\prime}$ ($Mg_5Si_6$). Sem refino de grão, a HAZ consolida-se como o vale de menor dureza e plano focal de fratura típica por tração.
+
+\section{Mecânica de Escoamento e Modelagem Computacional}
+
+O tratamento reológico do metal deformado é crucial para compreender o comportamento cinemático ao redor do ferramental. \textit{Laska et al. (2023)} modelam o material viscoplástico via CFD como um fluido não-Newtoniano onde a viscosidade dinâmica ($\mu$) depende da temperatura e da taxa de deformação. A previsão acoplada exige a resolução tridimensional das equações de continuidade e Navier-Stokes sob malhas finíssimas com elementos discretizados de até \textbf{0,05 mm} na interface ferramenta-peça. Esse refinamento gera matrizes densas de alto custo computacional, inviabilizando decisões operacionais imediatas no ambiente fabril e justificando o desenvolvimento do índice analítico instantâneo.
+
+A capacidade de bombeamento plástico e arraste mecânico é governada pelas características geométricas polares do pino. \textit{Ahmed (2021)} e \textit{Walla et al. (2024)} introduzem o conceito de Razão entre Volume Dinâmico e Estático do pino. Perfis poligonais (quadrados, hexagonais) expandem o volume varrido por rotação, gerando pulsação hidrodinâmica cíclica que reduz a viscosidade local e maximiza o transporte de massa. A excentricidade ($e$) do pino atua similarmente como um came mecânico indutor de ondas de pulsação e bombeamento volumétrico. Em pinos cônicos, o ajuste geométrico entre o raio da raiz ($R_{pr}$) e o raio da ponta ($R_{pt}$) comanda a homogeneidade vertical do escoamento; o desajuste dessa razão de aspecto estrangula o fluxo no fundo da junta, gerando vazios de raiz.
+
+\section{Parâmetros Operacionais e Forças de Restrição}
+
+A consolidação física do cordão depende do confinamento mecânico hidrostático imposto sob o ombro da ferramenta. Investigações de \textit{Aldanondo et al. (2020)} na liga AA2024-T3 provam que a força axial vertical ($F_z/p$) dita a pressão de selagem; forças insuficientes geram falha de vedação da câmara móvel e vazios volumétricos contínuos de raiz. O trabalho evidencia um forte acoplamento entre a velocidade de avanço ($v$) e os requerimentos dinâmicos: ao elevar a translação, a ferramenta depara-se com o material mais rígido, demandando elevação exponencial de $F_z$ para manter estável o forjamento.
+
+Para regularizar o gradiente de pressões sob o ombro, \textit{Meyghani \& Awang (2022)} equacionaram a influência do ângulo de inclinação da ferramenta (\textit{Tilt angle}, $\theta$) via modelagem computacional CEL. Os autores provam que inclinar o eixo da ferramenta ligeiramente para trás estabelece uma rampa de forjamento hidrodinâmica que força a compactação da massa contra a mesa de suporte. A ausência completa de inclinação ($\theta = 0^\circ$) destrói a restrição vertical; o metal é expelido livremente como rebarba superficial, gerando vazios por túnel. Ângulos ótimos situam-se na janela estreita entre $1,5^\circ$ e $3^\circ$; desvios severos ($> 4^\circ$) concentram tensões locais, provocando superaquecimento e afinamento da junta soldada.
+
+A modelagem estocástica de descontinuidades a partir de grandes matrizes ganhou relevância com o estudo de \textit{Du, Mukherjee e DebRoy (2019)} na \textit{Nature}. Os autores compilaram um banco de dados de 108 ensaios independentes mapeando a ocorrência de vazios nas ligas AA2024, AA2219 e AA6061. O estudo provou que as propriedades intrínsecas de difusividade térmica ($\alpha$) e limite de escoamento ($\sigma_{yield}$) interagem de forma não-linear com as variáveis da máquina, servindo como plataforma de calibração ideal para o modelo proposto.
+
+\vspace{2cm}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Imagens/Captura de tela 2026-06-07 204639.png}
+    \caption{Representação esquemática de fatores causais relevantes na análise do surgimento de voids, no estudo de Du et al..}
+    \label{fig:placeholder_fluxo}
+\end{figure}
+
+
+% ==============================================================================
+% CAPÍTULO 3 - METODOLOGIA (Foco na Proposta, Equação em Linha Única e Tabela Enxuta)
+% ==============================================================================
+\chapter{Metodologia}
+
+O presente trabalho foca no desenvolvimento de um índice fenomenológico analítico unificado buscando traduzir toda a complexidade e acoplamento das variáveis na formula de uma equação de simples cálculo. Enquanto o modelo baseline de Du et al. (2019) exige o acoplamento prévio de simulações CFD tridimensionais pesadas e algoritmos complexos de redes neurais, a nossa abordagem propõe uma expressão analítica explícita e direta de resolução instantânea, adequada para a agilidade do contexto prático de operação. A grande vantagem do modelo reside na transparência fenomenológica e na aplicabilidade direta no chão de fábrica pelo operador, prescindindo de poder computacional. A limitação inerente é a simplificação de gradientes reológicos tridimensionais complexos em termos globais concentrados. O Coeficiente Analítico de Vazio ($C_{void}$), em uma análise inicial e passível de alteração, é estruturado em uma única linha como o somatório ponderado de blocos adimensionais homogêneos:
+
+\begin{equation}
+C_{void} = \beta_{1} \cdot \Pi_{Geom} + \beta_{2} \cdot \Pi_{Cin} + \beta_{3} \cdot \Pi_{Term} + \beta_{4} \cdot \Pi_{Din} \tag{3.1}
+\end{equation}
+
+Os termos $\Pi_{Geom}$, $\Pi_{Cin}$, $\Pi_{Term}$ e $\Pi_{Din}$ representam, respetivamente, os blocos independentes de geometria do ferramental, cinemática de máquina, comportamento térmico e dinâmica de forjamento, pesados pelos coeficientes de ajuste analítico $\beta_i$. O modelo será calibrado fracionando estatisticamente o dataset de 108 ensaios experimentais de Du et al. (2019) em conjuntos de treinamento (78 ensaios para ajuste dos parâmetros $\beta_i$) e teste cego (30 ensaios). O processo numérico convergirá para determinar um valor crítico limite (\textit{threshold} $T$). Se $C_{void} > T$, o modelo classifica o cenário como indutor de defeito de vazio (1); se $C_{void} \le T$, a junta é classificada como solda sã integrada (0), perseguindo a meta mínima de 70\% de acurácia preditiva. Todas as variáveis físicas independentes que compõem os blocos do dataset estão consolidadas de forma enxuta na Tabela 3.1.
+
+\begin{table}[t!]
+\centering
+\caption{Variáveis operacionais e propriedades do dataset mestre.}
+\label{tab:variaveis_enxuta}
+\small
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Variável} & \textbf{Natureza} & \textbf{Descrição Operacional Resumida} \\ \midrule
+Alloy & Metalúrgica & Liga de alumínio utilizada (AA2024, AA2219 ou AA6061). \\
+Welding speed ($v$) & Cinemática & Velocidade de translação linear da ferramenta. \\
+Rotation speed ($\omega$) & Cinemática & Velocidade angular de rotação do ferramental. \\
+Plate thickness ($t$) & Geométrica & Espessura nominal das chapas de teste. \\
+Shoulder radius ($R_s$) & Geométrica & Raio externo do ombro da ferramenta. \\
+Axial pressure ($p$) & Dinâmica & Pressão vertical de forjamento aplicada. \\
+Pin root radius ($R_{pr}$) & Geométrica & Raio da seção superior (raiz) do pino. \\
+Pin tip radius ($R_{pt}$) & Geométrica & Raio da seção inferior (ponta) do pino. \\
+Tilt angle ($\theta$) & Dinâmica & Ângulo de inclinação traseira da ferramenta. \\
+Thermal diff. ($\alpha$) & Térmica & Capacidade de difusão de calor da liga. \\
+Yield strength ($\sigma_y$) & Metalúrgica & Limite de escoamento mecânico do material de base. \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+% ==============================================================================
+% CAPÍTULO 4 - CRONOGRAMA (Otimizado conforme especificações)
+% ==============================================================================
+\chapter{Cronograma}
+
+Para fins de cumprimento dos prazos administrativos regulamentares estabelecidos para a conclusão do Trabalho de Graduação no próximo semestre letivo (TG2), estabelece-se o seguinte planejamento detalhado de atividades computacionais e analíticas:
+
+\vspace{1.0cm}
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{Xcccc}
+\toprule
+\textbf{Atividade Prevista (TG2)} & \textbf{Set} & \textbf{Out} & \textbf{Nov} & \textbf{Dez} \\ \midrule
+Revisão bibliográfica complementar & X & & & \\
+Consolidação da equação analítica & & X & & \\
+Calibração dos coeficientes e expoentes & & X & & \\
+Validação e cálculo da acurácia & & & X & \\
+Análise da sensibilidade & & & X & \\
+Redação final e entrega do trabalho à banca & & & & X \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+% ==============================================================================
+% REFERÊNCIAS BIBLIOGRÁFICAS
+% ==============================================================================
+\begin{center}
+    {\fontfamily{lmr}\selectfont\Huge Referências\par}
+\end{center}
+\vspace{0.5cm}
+
+\begin{singlespace}
+\noindent AHMED, M. M. Z. et al. Bobbin Tool Friction Stir Welding of Aluminum Using Different Tool Pin Geometries: Mathematical Models for the Heat Generation. \textbf{Metals}, v. 11, n. 3, p. 438, 2021.\\[0.4cm]
+\noindent AHMED, W. H.; KADHUM, A. H.; SALLEH, M. S. A Review on Tool Pin Geometry of Friction Stir Welding. \textbf{Al-Khwarizmi Engineering Journal}, v. 20, n. 2, p. 39-55, 2024.\\[0.4cm]
+\noindent ALDANONDO, E. et al. Effect of Tool Geometry and Welding Parameters on Friction Stir Welded Lap Joint Formation with AA2099-T83 and AA2060-T8E30 Aluminium Alloys. \textbf{Metals}, v. 10, n. 7, p. 872, 2020.\\[0.4cm]
+\noindent DU, Y.; MUKHERJEE, T.; DEBROY, T. Conditions for void formation in friction stir welding from machine learning. \textbf{npj Computational Materials}, v. 5, n. 68, 2019.\\[0.4cm]
+\noindent LASKA, A. et al. Temperature Evolution, Material Flow, and Resulting Mechanical Properties as a Function of Tool Geometry during Friction Stir Welding of AA6082. \textbf{Journal of Materials Engineering and Performance}, v. 32, p. 10655-10668, 2023.\\[0.4cm]
+\noindent MISHRA, R. S.; MA, Z. Y. Friction stir welding and processing. \textbf{Materials Science and Engineering: R: Reports}, Elsevier, v. 50, n. 1-2, p. 1-78, 2005.\\[0.4cm]
+\noindent MEYGHANI, B.; AWANG, M. The Influence of the Tool Tilt Angle on the Heat Generation and the Material Behavior in Friction Stir Welding (FSW). \textbf{Metals}, v. 12, n. 11, p. 1837, 2022.
+\end{singlespace}
+
+\end{document}
