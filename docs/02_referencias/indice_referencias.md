@@ -17,7 +17,19 @@ Legenda de status: ✅ lida integralmente e resumida · 🔎 citada por outra fo
 | `Periodicos-CAPES-BibTex (1).bib` | AGHAJANI DERAZKOLA, H.; SIMCHI, A. Experimental and thermomechanical analysis of the effect of tool pin profile on the friction stir welding of poly(methyl methacrylate) sheets. **Journal of Manufacturing Processes**, v. 34, p. 412-423, 2018. DOI: 10.1016/j.jmapro.2018.06.015. | só metadados | Baixa relevância (PMMA) |
 | `TG1_E_TG_FINAL_.../TG_1_FSW (1).pdf` e `TG_Angelo_Bezerra_vEnvio (Updt)_2.pdf` | BEZERRA, Â. C. S. **Análise da energia efetiva por comprimento e ocorrência de defeitos no processo FSW (Friction Stir Welding)**. 2025. 56 f. Trabalho de Conclusão de Curso (Graduação) – Instituto Tecnológico de Aeronáutica, São José dos Campos, 2025. | ✅ [tg_veterano_angelo](../04_formato_ita/tg_veterano_angelo.md) | Formato; trabalho correlato (Q_eff × defeitos) |
 
+## Referências V2 (pasta `referencias/V2/`, obtidas em 2026-10-19) — resumo em [v2_arbegast_arora_ahmed2019](v2_arbegast_arora_ahmed2019.md)
+
+| Arquivo | Referência ABNT | Uso |
+|---|---|---|
+| `arbegast_2008_flow_partitioned_defects.pdf` | ARBEGAST, W. J. A flow-partitioned deformation zone model for defect formation during friction stir welding. **Scripta Materialia**, v. 58, n. 5, p. 372-376, 2008. | Janela quente/fria; wormhole por fluxo insuficiente; balanço de massa com φ = ω/v |
+| `arora_debroy_bhadeshia_2011_back_of_envelope.pdf` | ARORA, A.; DEBROY, T.; BHADESHIA, H. K. D. H. Back-of-the-envelope calculations in friction stir welding – Velocities, peak temperature, torque, and hardness. **Acta Materialia**, v. 59, n. 5, p. 2020-2028, 2011. | Correlação adimensional T* = 0,151 log Q* + 0,097; torque; argumento "modelos analíticos simples" |
+| `ahmed_threadgill_2019_tool_geometry_thick_section.pdf` | AHMED, M. M. Z. et al. Effect of tool geometry and heat input on the hardness, grain structure, and crystallographic texture of thick-section friction stir-welded aluminium. **Metallurgical and Materials Transactions A**, v. 50, n. 1, p. 271-284, 2019. | Pino cônico × paralelo (conicidade → taxa de deformação ao longo da espessura) |
+| `fox_mecanica_dos_fluidos.md` (sem PDF) | FOX, R. W.; McDONALD, A. T.; PRITCHARD, P. J. **Introdução à mecânica dos fluidos**. 8. ed. Rio de Janeiro: LTC, 2014. | Homogeneidade dimensional, teorema Π de Buckingham (seção 2.8) |
+
 ## Referências citadas nas fontes que valem buscar (CAPES/CAFe) 🔎
+
+> Status 2026-10-19: Arbegast 2008 ✅ e Arora 2011 ✅ obtidos (V2). Threadgill 2009 ❌ e Roy/Nandan/DebRoy 2006 ❌
+> não obtidos (a correlação de Roy et al. está reproduzida em Arora 2011).
 
 Prioridade alta (preenchem lacunas do TG1):
 - THREADGILL, P. L.; LEONARD, A. J.; SHERCLIFF, H. R.; WITHERS, P. J. Friction stir welding of aluminium alloys.

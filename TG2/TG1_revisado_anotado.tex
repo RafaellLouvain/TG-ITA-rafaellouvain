@@ -1,0 +1,291 @@
+% =============================================================================
+% VERSÃO DE REVISÃO DO TG1 (texto idêntico ao entregue) COM ANOTAÇÕES
+% Base: TG1/TG1_relatorio_formato_latex.tex  |  Anotações: 2026-10-17
+% Cores (texto marcado + nota na margem com o motivo):
+%   VERMELHO  = sem respaldo em nenhuma fonte do repositório (provável invenção do Gemini)
+%   LARANJA   = a informação existe, mas em OUTRA referência (atribuição trocada)
+%   AZUL      = dado real, mas impreciso / mal lido / nome errado
+%   ROXO      = afirmação plausível, porém sem referência no trabalho
+%   VERDE     = ponto metodológico a resolver no TG final (não é erro de citação)
+% Detalhes de cada item: docs/03_tg1/erros_e_correcoes_tg1.md
+% Margem direita alargada SÓ nesta versão de revisão, para caber as notas.
+% =============================================================================
+\documentclass[12pt,openany]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{geometry}
+\geometry{a4paper, top=3cm, bottom=2cm, left=2.5cm, right=5.6cm, marginparwidth=4.6cm, marginparsep=0.4cm}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage{lmodern}
+\usepackage{chngcntr}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorinlistoftodos,textsize=scriptsize,textwidth=4.5cm]{todonotes}
+\usepackage[hidelinks]{hyperref}
+
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+\titleformat{\chapter}[hang]{\normalfont\fontfamily{lmr}\selectfont\Huge\bfseries}{\thechapter\quad}{0pt}{}
+\titleformat{\section}{\normalfont\fontfamily{lmr}\selectfont\Large\bfseries}{\thesection\quad}{0pt}{}
+
+% ---------------- MACROS DE REVISÃO ----------------
+\definecolor{revVerm}{HTML}{C62828}
+\definecolor{revLar}{HTML}{D35400}
+\definecolor{revAzul}{HTML}{1F5FAD}
+\definecolor{revRoxo}{HTML}{7B3FA0}
+\definecolor{revVerde}{HTML}{2E7D32}
+\newcommand{\nota}[3]{\todo[color=#1!12,bordercolor=#1,linecolor=#1]{\textbf{\color{#1}#2:} #3}}
+\newcommand{\inventado}[2]{\textcolor{revVerm}{#1}\nota{revVerm}{Sem fonte}{#2}}
+\newcommand{\trocada}[2]{\textcolor{revLar}{#1}\nota{revLar}{Fonte trocada}{#2}}
+\newcommand{\impreciso}[2]{\textcolor{revAzul}{#1}\nota{revAzul}{Impreciso}{#2}}
+\newcommand{\semref}[2]{\textcolor{revRoxo}{#1}\nota{revRoxo}{Falta referência}{#2}}
+\newcommand{\metodo}[2]{\textcolor{revVerde}{#1}\nota{revVerde}{Metodológico}{#2}}
+% nota em linha (para tabelas, figuras e equações, onde nota de margem não funciona)
+\newcommand{\notalinha}[3]{\todo[inline,color=#1!12,bordercolor=#1]{\textbf{\color{#1}#2:} #3}}
+
+\begin{document}
+
+% ==============================================================================
+% LEGENDA DA REVISÃO (página extra, só nesta versão)
+% ==============================================================================
+\thispagestyle{empty}
+\begin{center}{\Large\bfseries Versão de revisão do TG1 — legenda}\end{center}
+\vspace{0.5cm}
+\noindent O texto abaixo é \textbf{idêntico} ao relatório do TG1 entregue. Trechos coloridos indicam problemas
+encontrados ao conferir cada afirmação com os PDFs originais (pasta \texttt{referencias/}); a nota na margem explica.
+\begin{itemize}
+  \item \textcolor{revVerm}{\textbf{Vermelho} — sem respaldo em nenhuma fonte do repositório (provável invenção do Gemini).}
+  \item \textcolor{revLar}{\textbf{Laranja} — a informação existe, mas em outra referência (atribuição trocada).}
+  \item \textcolor{revAzul}{\textbf{Azul} — dado real, mas impreciso, mal lido ou com nome errado.}
+  \item \textcolor{revRoxo}{\textbf{Roxo} — afirmação plausível, mas sem referência no trabalho.}
+  \item \textcolor{revVerde}{\textbf{Verde} — ponto metodológico a resolver no TG final (não é erro de citação).}
+\end{itemize}
+\noindent Lista completa e sugestões de correção: \texttt{docs/03\_tg1/erros\_e\_correcoes\_tg1.md}.
+\listoftodos[Lista de anotações]
+\newpage
+
+% ==============================================================================
+% PAGINA 1: CAPA
+% ==============================================================================
+\begin{titlepage}
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[line width = 1.2pt]
+            ([shift={(20mm,-20mm)}]current page.north west)
+            rectangle
+            ([shift={(-20mm,20mm)}]current page.south east);
+    \end{tikzpicture}
+
+    \centering
+    \vspace*{0.1cm}
+
+    {\large\bfseries INSTITUTO TECNOLÓGICO DE AERONÁUTICA\par}
+
+    \vspace{2.0cm}
+
+    \IfFileExists{Imagens/ita-logo.png}{\includegraphics[width=8.2cm]{Imagens/ita-logo.png}}{\fbox{\parbox[c][2.5cm][c]{8.2cm}{\centering [logo ITA — \texttt{Imagens/ita-logo.png} ausente]}}}\par
+
+    \vspace{2.0cm}
+    \begin{singlespace}
+        {\Large Rafael Lucas de Albuquerque Louvain \par}
+    \end{singlespace}
+
+    \vspace{2.0cm}
+
+    \begin{minipage}{\textwidth}
+        \centering
+        {\Large\bfseries
+        ANÁLISE DA INFLUÊNCIA DE PARÂMETROS DE PROCESSO DE FABRICAÇÃO (CINEMÁTICOS, DE GEOMETRIA DA FERRAMENTA, ENTRE OUTROS) NA INTEGRIDADE DE JUNTAS SOLDADAS POR FSW\par}
+    \end{minipage}
+
+    \vspace{2.2cm}
+
+    \begin{singlespace}
+        {\Large Trabalho de Graduação \par}
+        {\Large 2026\par}
+
+        \vspace{2.8cm}
+
+        {\Large\bfseries Curso de Engenharia Mecânica-Aeronáutica\par}
+    \end{singlespace}
+    \vspace*{0.2cm}
+\end{titlepage}
+
+\newpage
+
+% ==============================================================================
+% PAGINA 2: RESUMO
+% ==============================================================================
+\thispagestyle{empty}
+\vspace*{2.5cm}
+
+\begin{center}
+    {\fontfamily{lmr}\selectfont\Huge Resumo\par}
+\end{center}
+
+\vspace{1.8cm}
+
+Este Trabalho de Graduação propõe o desenvolvimento de um modelo matemático-fenomenológico na forma de um Coeficiente Analítico de Vazio ($C_{void}$) para prever de maneira expedita a ocorrência de descontinuidades volumétricas (\textit{voids}) no processo de \textit{Friction Stir Welding} (FSW). A metodologia baseia-se no isolamento e acoplamento de leis físicas fundamentais para agrupar parâmetros independentes de naturezas distintas (cinemática, geométrica, dinâmica, térmica) em uma expressão multiplicativa adimensional única. O objetivo geral consiste em calibrar e validar essa formulação analítica utilizando o conjunto de dados experimentais estáveis de 108 ensaios das ligas aeroespaciais AA2024, AA2219 e AA6061 estabelecido pelo estudo de Du, Mukherjee e DebRoy (2019) \impreciso{publicado na \textit{Nature}}{A revista é a \textit{npj Computational Materials} (grupo Nature), não a \textit{Nature}. A própria lista de referências já está correta.}. Como objetivo específico, busca-se mitigar a dependência de simulações numéricas pesadas no chão de fábrica, estabelecendo para o índice analítico a meta de \metodo{superar o patamar de 70\% de acurácia preditiva global em testes cegos}{Classe majoritária = 60,2\%; só a rotação dá 70,4\% dentro da amostra. Fora da amostra a meta não é trivial. Reportar baselines e intervalo.}, além de estruturar uma hierarquia de sensibilidade fenomenológica das variáveis governantes.
+
+\vspace{1.0cm}
+\noindent \textbf{Palavras-chave:} FSW, Coeficiente Analítico, Vazios, Ligas Aeronáuticas, Análise Dimensional.
+
+\newpage
+
+% ==============================================================================
+% PAGINA 3: SUMÁRIO
+% ==============================================================================
+\thispagestyle{empty}
+\begin{center}
+    {\fontfamily{lmr}\selectfont\Huge Sumário\par}
+\end{center}
+\vspace{1.5cm}
+
+\begin{singlespace}
+\makeatletter
+\@starttoc{toc}
+\makeatother
+\end{singlespace}
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{4}
+
+% ==============================================================================
+% CAPÍTULO 1 - INTRODUÇÃO E CONTEXTUALIZAÇÃO
+% ==============================================================================
+\chapter{Introdução e contextualização}
+
+O processo de Soldagem por Fricção e Mistura Mecânica (\textit{Friction Stir Welding} - FSW) foi desenvolvido e patenteado pelo \textit{The Welding Institute} (TWI) em 1991 como uma alternativa disruptiva para a união de ligas de alumínio aeroespaciais de alta resistência \impreciso{(séries 2xxx, 6xxx e 7xxx), historicamente classificadas como não-soldáveis} {Mishra \& Ma (2005, §1) citam só as séries 2XXX e 7XXX como ``não soldáveis''; a 6xxx é soldável por fusão.} por métodos tradicionais de fusão. O FSW opera inteiramente no estado sólido abaixo da temperatura de fusão ($T < T_m$), utilizando uma ferramenta não-consumível constituída por um ombro e um pino para gerar calor por atrito e deformação plástica severa. O material atinge um estado viscoplástico e é mecanicamente transportado da borda de ataque para a borda de fuga, consolidando juntas de elevada integridade estrutural aplicadas em fuselagens e tanques criogênicos de propelentes, \semref{como nos foguetes \textit{Falcon 9} e \textit{SLS/Artemis}}{Nenhuma referência do TG1 cita isso. SLS: Carter (2014)/PAR Systems (2022), citados pelo Ângelo. Mishra \& Ma citam Boeing Delta, C-17 e Eclipse 500.}.
+
+Embora modelos numéricos avançados (como CFD ou Elementos Finitos) consigam simular esses fenômenos, o seu altíssimo custo computacional e tempo de processamento exigem malhas ultrafinas e tornam a abordagem inviável para varreduras paramétricas extensas ou para estimativas rápidas em tempo real no chão de fábrica. Essa limitação impossibilita correções imediatas e mascara o gatilho exato que inicia os defeitos volumétricos de vazio (\textit{voids/tunneling}), evidenciando a necessidade de um critério analítico prático, direto e instantâneo.
+
+\section{Objetivo}
+
+O objetivo deste trabalho consiste no desenvolvimento de um modelo fenomenológico-matemático unificado, expresso na forma de um Coeficiente Analítico de Vazio ($C_{void}$), fundamentado nos princípios de análise dimensional e mecânica dos processos de fabricação. O índice proposto visa agrupar as leis de potência físicas que governam a iniciação de defeitos volumétricos, substituindo a complexidade de simulações pesadas por uma equação explícita direcionada à parametrização industrial célere. A meta estabelecida busca calibrar e validar o índice frente à base de 108 ensaios experimentais das ligas AA2024, AA2219 e AA6061 de Du, Mukherjee e DebRoy (2019), estipulando-se o alvo mínimo de 70\% de acurácia preditiva global na classificação binária de integridade de juntas soldadas.
+
+% ==============================================================================
+% CAPÍTULO 2 - REVISÃO DA LITERATURA
+% ==============================================================================
+\chapter{Revisão da literatura}
+
+\section{Fundamentos Termomecânicos e Balanço Térmico}
+
+A geração de calor e o amolecimento mecânico do metal de base são requisitos primários para ativar o fluxo plástico são. Conforme estabelecido por \textit{Mishra \& Ma (2005)}, o escoamento seguro está confinado em uma janela estrita de temperatura homóloga de pico entre $0,6 \cdot T_m$ e $0,9 \cdot T_m$, \inventado{atingindo a faixa ótima de $0,7$ a $0,8 \cdot T_m$ na borda de ataque}{Não aparece em Mishra \& Ma nem em outra fonte. O que existe (§3.2): T máx. entre 0,6 e 0,9 T\textsubscript{m} (Arbegast \& Hartley).}. Modelos analíticos determinam que a taxa de geração térmica global ($Q_{total}$) isola as contribuições do ombro, da lateral e da ponta do pino ($Q_{total} = Q_{ombro} + Q_{pino\_lateral} + Q_{pino\_ponta}$). A expansão integral dessas equações prova que o ombro responde a boa parte do aporte térmico global devido ao braço de momento cúbico do raio ($R_{ombro}^3$). O contato na interface transita entre o escorregamento (\textit{sliding} puramente atritante) e a adesão (\textit{sticking} por dissipação viscosa), ditado pela elevação térmica local.
+
+\trocada{Se a ferramenta opera abaixo do limite térmico ($T < 0,6 \cdot T_m$), o material retém elevado limite de escoamento ($\sigma_{yield}$), resultando em torque excessivo e vazios frios (\textit{cold voids}). Acima do limite ($T > 0,9 \cdot T_m$), ocorre liquefação local, quebra do confinamento hidrostático e ejeção de massa como rebarba (\textit{flash}), gerando vazios quentes (\textit{hot voids}).}{``Cold/hot voids'' não está em Mishra \& Ma. A janela ``hot weld / cold weld'' é de Threadgill et al. (2009); a auto-regulação térmica está em Mishra \& Ma §6.6.} O ciclo térmico severo impõe um zonamento microestrutural: a Zona de Mistura (\textit{Nugget}) sofre recristalização dinâmica (RCD), gerando grãos ultrafinos e equiaxados \impreciso{($1-5\,\mu\text{m}$)}{Mishra \& Ma: grãos tipicamente na faixa de micrômetros (0,1--18~$\mu$m no resumo). O valor exato ``1--5~$\mu$m'' não foi confirmado.} e solubilização de precipitados. A TMAZ exibe grãos estirados por deformação moderada. A HAZ experimenta ciclo térmico puro conduzido através da chapa \trocada{($200^\circ\text{C}$ a $250^\circ\text{C}$), promovendo o superenvelhecimento (\textit{overaging}) e dissolução da fase endurecedora metaestável $\beta^{\prime\prime}$ ($Mg_5Si_6$)}{Vem de Laska et al. (2023), para a AA6082 (série 6xxx). Mishra \& Ma definem HAZ como T > 250 °C. Para 2xxx os precipitados são $\theta'$/S'.}. Sem refino de grão, a HAZ consolida-se como o vale de menor dureza e plano focal de fratura típica por tração.
+
+\section{Mecânica de Escoamento e Modelagem Computacional}
+
+O tratamento reológico do metal deformado é crucial para compreender o comportamento cinemático ao redor do ferramental. \textit{Laska et al. (2023)} modelam o material viscoplástico via CFD como um fluido não-Newtoniano onde a viscosidade dinâmica ($\mu$) depende da temperatura e da taxa de deformação. A previsão acoplada exige a resolução tridimensional das equações de continuidade e Navier-Stokes sob malhas finíssimas com elementos discretizados de até \textbf{0,05 mm} na interface ferramenta-peça. \impreciso{Esse refinamento gera matrizes densas de alto custo computacional}{Laska não discute custo nem tempo (usa cerca de 13 mil elementos). Inferência nossa: formular como tal, ou citar Du et al. (``considerable computational work'').}, inviabilizando decisões operacionais imediatas no ambiente fabril e justificando o desenvolvimento do índice analítico instantâneo.
+
+A capacidade de bombeamento plástico e arraste mecânico é governada pelas características geométricas polares do pino. \trocada{\textit{Ahmed (2021)} e \textit{Walla et al. (2024)} introduzem o conceito de Razão entre Volume Dinâmico e Estático do pino.}{O conceito é de Thomas et al., citado em Mishra \& Ma §2.1 (1,1 / 1,8 / 2,6). Ahmed (2021) não trata disso. Além disso, ``Walla'' é o prenome: o correto é Ahmed, Kadhum e Salleh (2024).} Perfis poligonais (quadrados, hexagonais) expandem o volume varrido por rotação, gerando pulsação hidrodinâmica cíclica que reduz a viscosidade local e maximiza o transporte de massa. \inventado{A excentricidade ($e$) do pino atua similarmente como um came mecânico indutor de ondas de pulsação e bombeamento volumétrico.}{Nenhuma fonte desenvolve isso. Ahmed (2021) só menciona, de passagem, que pino excêntrico gera MENOS calor (Essa et al.).} \inventado{Em pinos cônicos, o ajuste geométrico entre o raio da raiz ($R_{pr}$) e o raio da ponta ($R_{pt}$) comanda a homogeneidade vertical do escoamento; o desajuste dessa razão de aspecto estrangula o fluxo no fundo da junta, gerando vazios de raiz.}{Sem respaldo direto. Laska (2023) diz o contrário: a conicidade facilita o fluxo ao redor do pino.}
+
+\section{Parâmetros Operacionais e Forças de Restrição}
+
+A consolidação física do cordão depende do confinamento mecânico hidrostático imposto sob o ombro da ferramenta. \inventado{Investigações de \textit{Aldanondo et al. (2020)} na liga AA2024-T3 provam que a força axial vertical ($F_z/p$) dita a pressão de selagem; forças insuficientes geram falha de vedação da câmara móvel e vazios volumétricos contínuos de raiz. O trabalho evidencia um forte acoplamento entre a velocidade de avanço ($v$) e os requerimentos dinâmicos: ao elevar a translação, a ferramenta depara-se com o material mais rígido, demandando elevação exponencial de $F_z$ para manter estável o forjamento.}{O ESTUDO DESCRITO NÃO EXISTE no artigo: Aldanondo trata de junta sobreposta AA2099/AA2060 (Al-Li), em controle de carga, SEM nenhum vazio; mede forças X/Y e torque. ``Força baixa → vazio'': citar Threadgill (2009).}
+
+Para regularizar o gradiente de pressões sob o ombro, \textit{Meyghani \& Awang (2022)} equacionaram a influência do ângulo de inclinação da ferramenta (\textit{Tilt angle}, $\theta$) \impreciso{via modelagem computacional CEL}{O modelo é Euleriano (CSM com atrito de Norton modificado), não exatamente CEL.}. Os autores provam que inclinar o eixo da ferramenta ligeiramente para trás estabelece uma rampa de forjamento hidrodinâmica que força a compactação da massa contra a mesa de suporte. \inventado{A ausência completa de inclinação ($\theta = 0^\circ$) destrói a restrição vertical; o metal é expelido livremente como rebarba superficial, gerando vazios por túnel.}{O artigo diz outra coisa: sem tilt, a deformação na raiz do pino fica incompleta → possível vazio. Não fala em rebarba.} \impreciso{Ângulos ótimos situam-se na janela estreita entre $1,5^\circ$ e $3^\circ$}{O artigo só compara 0° e 1,5°. Cita outros estudos com 1,5/3° e ótimo de 1–2° para AA2219.}; \inventado{desvios severos ($> 4^\circ$) concentram tensões locais, provocando superaquecimento e afinamento da junta soldada.}{Não está no artigo.}
+
+A modelagem estocástica de descontinuidades a partir de grandes matrizes ganhou relevância com o estudo de \textit{Du, Mukherjee e DebRoy (2019)} \impreciso{na \textit{Nature}}{\textit{npj Computational Materials}.}. Os autores compilaram um banco de dados de 108 ensaios independentes mapeando a ocorrência de vazios nas ligas AA2024, AA2219 e AA6061. \inventado{O estudo provou que as propriedades intrínsecas de difusividade térmica ($\alpha$) e limite de escoamento ($\sigma_{yield}$) interagem de forma não-linear com as variáveis da máquina}{Du et al. não afirmam isso. O que mostram: variáveis causais (T, tensão de cisalhamento no pino, torque, taxa de deformação) predizem melhor que as brutas.}, servindo como plataforma de calibração ideal para o modelo proposto.
+
+\vspace{2cm}
+
+\begin{figure}[ht!]
+    \centering
+    \IfFileExists{Imagens/Captura de tela 2026-06-07 204639.png}{\includegraphics[width=0.7\textwidth]{Imagens/Captura de tela 2026-06-07 204639.png}}{\fbox{\parbox[c][5cm][c]{0.7\textwidth}{\centering [Figura de Du et al. (2019, Fig.~1) — imagem ausente do repositório]}}}
+    \caption{Representação esquemática de fatores causais relevantes na análise do surgimento de voids, no estudo de Du et al..}
+    \label{fig:placeholder_fluxo}
+\end{figure}
+
+% ==============================================================================
+% CAPÍTULO 3 - METODOLOGIA
+% ==============================================================================
+\chapter{Metodologia}
+
+O presente trabalho foca no desenvolvimento de um índice fenomenológico analítico unificado buscando traduzir toda a complexidade e acoplamento das variáveis na formula de uma equação de simples cálculo. \impreciso{Enquanto o modelo baseline de Du et al. (2019) exige o acoplamento prévio de simulações CFD tridimensionais pesadas e algoritmos complexos de redes neurais}{Só os 96,6\% exigem CFD. Os 83,3\% vêm de rede neural com os parâmetros brutos, sem CFD: esse é o benchmark justo para o C\textsubscript{void}.}, a nossa abordagem propõe uma expressão analítica explícita e direta de resolução instantânea, adequada para a agilidade do contexto prático de operação. A grande vantagem do modelo reside na transparência fenomenológica e na aplicabilidade direta no chão de fábrica pelo operador, prescindindo de poder computacional. A limitação inerente é a simplificação de gradientes reológicos tridimensionais complexos em termos globais concentrados. O Coeficiente Analítico de Vazio ($C_{void}$), em uma análise inicial e passível de alteração, é estruturado em uma única linha como o somatório ponderado de \metodo{blocos adimensionais homogêneos}{Os $\Pi$ não estão definidos. Nas versões anteriores, $\Pi_{Term} = \omega R_s^3/(v\,t\,\alpha)$ tem unidade s/m (não é adimensional). O resumo fala em forma ``multiplicativa'' e aqui é soma.}:
+
+\begin{equation}
+C_{void} = \beta_{1} \cdot \Pi_{Geom} + \beta_{2} \cdot \Pi_{Cin} + \beta_{3} \cdot \Pi_{Term} + \beta_{4} \cdot \Pi_{Din} \tag{3.1}
+\end{equation}
+\notalinha{revVerde}{Metodológico}{Exploração de 12/10: dentro de cada estudo, só a rotação já separa vazio/são. O melhor índice simples foi $\omega R_s$ (cinemático × geométrico), com ~73\% fora da amostra. O bloco térmico ($\alpha$, $v$, $t$) não trouxe ganho robusto. Ver \texttt{docs/05\_modelagem/analises\_exploratorias\_2026-10-12.md}.}
+
+Os termos $\Pi_{Geom}$, $\Pi_{Cin}$, $\Pi_{Term}$ e $\Pi_{Din}$ representam, respetivamente, os blocos independentes de geometria do ferramental, cinemática de máquina, comportamento térmico e dinâmica de forjamento, pesados pelos coeficientes de ajuste analítico $\beta_i$. O modelo será calibrado fracionando estatisticamente o dataset de 108 ensaios experimentais de Du et al. (2019) em conjuntos de treinamento (78 ensaios para ajuste dos parâmetros $\beta_i$) e teste cego (30 ensaios). O processo numérico convergirá para determinar um valor crítico limite (\textit{threshold} $T$). Se $C_{void} > T$, o modelo classifica o cenário como indutor de defeito de vazio (1); se $C_{void} \le T$, a junta é classificada como solda sã integrada (0), perseguindo a meta mínima de 70\% de acurácia preditiva. \metodo{Todas as variáveis físicas independentes que compõem os blocos do dataset estão consolidadas de forma enxuta na Tabela 3.1.}{Com 30 amostras de teste, cada erro vale 3,3 pontos percentuais: reportar CV repetida e validação deixando um estudo de fora (os 14 estudos têm ferramenta fixa).}
+
+\begin{table}[t!]
+\centering
+\caption{Variáveis operacionais e propriedades do dataset mestre.}
+\label{tab:variaveis_enxuta}
+\small
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Variável} & \textbf{Natureza} & \textbf{Descrição Operacional Resumida} \\ \midrule
+\textcolor{revVerde}{Alloy} & Metalúrgica & Liga de alumínio utilizada (AA2024, AA2219 ou AA6061). \\
+Welding speed ($v$) & Cinemática & Velocidade de translação linear da ferramenta. \\
+Rotation speed ($\omega$) & Cinemática & Velocidade angular de rotação do ferramental. \\
+Plate thickness ($t$) & Geométrica & Espessura nominal das chapas de teste. \\
+Shoulder radius ($R_s$) & Geométrica & Raio externo do ombro da ferramenta. \\
+\textcolor{revVerde}{Axial pressure ($p$)} & Dinâmica & Pressão vertical de forjamento aplicada. \\
+Pin root radius ($R_{pr}$) & Geométrica & Raio da seção superior (raiz) do pino. \\
+Pin tip radius ($R_{pt}$) & Geométrica & Raio da seção inferior (ponta) do pino. \\
+\textcolor{revVerde}{Tilt angle ($\theta$)} & Dinâmica & Ângulo de inclinação traseira da ferramenta. \\
+Thermal diff. ($\alpha$) & Térmica & Capacidade de difusão de calor da liga. \\
+Yield strength ($\sigma_y$) & Metalúrgica & Limite de escoamento mecânico do material de base. \\ \bottomrule
+\end{tabularx}
+\end{table}
+\notalinha{revVerde}{Metodológico (Tabela 3.1)}{(i) A coluna \textit{Alloy} do CSV do Kaggle está errada em 33 linhas; a liga correta sai de $\alpha$/$\sigma_y$. (ii) Em 72 das 108 linhas a pressão é valor ASSUMIDO por Du et al. (``*''), e em 71 o tilt também; o tilt só vale 2° ou 2,5°. (iii) $\omega$ está em rps no CSV. (iv) A tabela está correta quanto às colunas; o erro (L\textsubscript{p}, F\textsubscript{z}, k) estava só nos slides.}
+
+% ==============================================================================
+% CAPÍTULO 4 - CRONOGRAMA
+% ==============================================================================
+\chapter{Cronograma}
+
+Para fins de cumprimento dos prazos administrativos regulamentares estabelecidos para a conclusão do Trabalho de Graduação no próximo semestre letivo (TG2), estabelece-se o seguinte planejamento detalhado de atividades computacionais e analíticas:
+
+\vspace{1.0cm}
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{Xcccc}
+\toprule
+\textbf{Atividade Prevista (TG2)} & \textbf{Set} & \textbf{Out} & \textbf{Nov} & \textbf{Dez} \\ \midrule
+Revisão bibliográfica complementar & X & & & \\
+Consolidação da equação analítica & & X & & \\
+Calibração dos coeficientes e expoentes & & X & & \\
+Validação e cálculo da acurácia & & & X & \\
+Análise da sensibilidade & & & X & \\
+Redação final e entrega do trabalho à banca & & & & X \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+% ==============================================================================
+% REFERÊNCIAS
+% ==============================================================================
+\begin{center}
+    {\fontfamily{lmr}\selectfont\Huge Referências\par}
+\end{center}
+\vspace{0.5cm}
+
+\notalinha{revVerde}{Formato}{No TG final: classe LaTeX do ITA + BibTeX, citações autor-data sem itálico. Faltam referências para o que for mantido: Threadgill et al. (2009), Thomas et al., fontes do SLS. Entradas ABNT prontas em \texttt{docs/02\_referencias/indice\_referencias.md}.}
+
+\begin{singlespace}
+\noindent AHMED, M. M. Z. et al. Bobbin Tool Friction Stir Welding of Aluminum Using Different Tool Pin Geometries: Mathematical Models for the Heat Generation. \textbf{Metals}, v. 11, n. 3, p. 438, 2021.\\[0.4cm]
+\noindent AHMED, W. H.; KADHUM, A. H.; SALLEH, M. S. A Review on Tool Pin Geometry of Friction Stir Welding. \textbf{Al-Khwarizmi Engineering Journal}, v. 20, n. 2, p. 39-55, 2024.\\[0.4cm]
+\noindent ALDANONDO, E. et al. Effect of Tool Geometry and Welding Parameters on Friction Stir Welded Lap Joint Formation with AA2099-T83 and AA2060-T8E30 Aluminium Alloys. \textbf{Metals}, v. 10, n. 7, p. 872, 2020.\\[0.4cm]
+\noindent DU, Y.; MUKHERJEE, T.; DEBROY, T. Conditions for void formation in friction stir welding from machine learning. \textbf{npj Computational Materials}, v. 5, n. 68, 2019.\\[0.4cm]
+\noindent LASKA, A. et al. Temperature Evolution, Material Flow, and Resulting Mechanical Properties as a Function of Tool Geometry during Friction Stir Welding of AA6082. \textbf{Journal of Materials Engineering and Performance}, v. 32, p. 10655-10668, 2023.\\[0.4cm]
+\noindent MISHRA, R. S.; MA, Z. Y. Friction stir welding and processing. \textbf{Materials Science and Engineering: R: Reports}, Elsevier, v. 50, n. 1-2, p. 1-78, 2005.\\[0.4cm]
+\noindent MEYGHANI, B.; AWANG, M. The Influence of the Tool Tilt Angle on the Heat Generation and the Material Behavior in Friction Stir Welding (FSW). \textbf{Metals}, v. 12, n. 11, p. 1837, 2022.
+\end{singlespace}
+
+\end{document}

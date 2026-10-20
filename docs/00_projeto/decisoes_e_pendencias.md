@@ -15,6 +15,8 @@ Atualizar este arquivo sempre que algo for decidido com o Rafael. Datas em AAAA-
 | 2026 (1º sem.) | Título = o da ficha aprovada | relatório TG1 |
 | 2026-10-12 | Documentação do projeto em `docs/` (markdown), organizada por tema | pedido do Rafael |
 | 2026-10-12 | Dados e PDFs do workspace conferidos com Downloads do Windows (MD5 idênticos, nada corrompido) | pedido do Rafael |
+| 2026-10-17 | **Fluxo de trabalho do TG final:** redigir o relatório na pasta `TG2/` primeiro; abordagens/análises de resultados serão deliberadas pelo Rafael quando chegar a esse capítulo | Rafael |
+| 2026-10-17 | `TG2/TG1_revisado_anotado.tex`: TG1 com texto intacto + marcação colorida dos erros (vermelho = sem fonte, laranja = fonte trocada, azul = impreciso, roxo = falta referência, verde = metodológico) | Rafael |
 | 2026-10-12 | Análises exploratórias feitas (não oficiais) — ver `05_modelagem/analises_exploratorias_2026-10-12.md` | pedido do Rafael |
 
 ## Pendências / decisões a tomar (sugeridas pelo assistente)

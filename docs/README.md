@@ -27,7 +27,8 @@ docs/
 │   ├── meyghani_awang_2022.md        ← tilt 0° × 1,5°
 │   ├── ahmed_2021_bobbin.md          ← modelos de calor por geometria de pino
 │   ├── walla_ahmed_2024_review.md    ← revisão de perfis de pino
-│   └── adiga_2024_e_outros.md        ← ML com poucos dados; .bib Derazkola
+│   ├── adiga_2024_e_outros.md        ← ML com poucos dados; .bib Derazkola
+│   └── v2_arbegast_arora_ahmed2019.md ← referências V2: Arbegast 2008, Arora 2011, Ahmed et al. 2019 (+ Fox)
 ├── 03_tg1/
 │   ├── relatorio_tg1.md              ← o que foi entregue (C_void aditivo 4 blocos, meta 70 %, cronograma)
 │   ├── apresentacao_tg1.md           ← 35 slides resumidos

@@ -1,0 +1,326 @@
+\documentclass[12pt,openany]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{geometry}
+\geometry{a4paper, top=3cm, bottom=2cm, left=3cm, right=2cm}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{tikz}
+
+% FONTES COMPATÍVEIS COM A REFERÊNCIA
+\usepackage{lmodern}          % Ativa a família Latin Modern
+\usepackage{chngcntr}
+
+% MARCAÇÃO DE PENDÊNCIAS (TODOs) DURANTE A REDAÇÃO DO TG2
+% Para a versão final: trocar a opção por [disable] para sumir com todos os TODOs.
+\usepackage[dvipsnames]{xcolor}
+\usepackage[textsize=small]{todonotes}
+\setlength{\marginparwidth}{1.8cm}
+\newcommand{\pendente}[1]{\todo[inline,color=Goldenrod!25,bordercolor=Goldenrod]{\textbf{TODO:} #1}}
+\newcommand{\inseririmagem}[1]{\todo[inline,color=red!12,bordercolor=red!70!black]{\textbf{\color{red!70!black}$\blacktriangleright$ INSERIR IMAGEM:} #1}}
+
+% CONFIGURAÇÃO DE LINKS INTERATIVOS NO SUMÁRIO
+\usepackage[hidelinks]{hyperref} % Cria os links clicáveis e remove as caixas coloridas
+
+% Configurações de espaçamento e parágrafos
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+
+% REESTRUTURAÇÃO DOS TÍTULOS
+\titleformat{\chapter}[hang]{\normalfont\fontfamily{lmr}\selectfont\Huge\bfseries}{\thechapter\quad}{0pt}{}
+\titleformat{\section}{\normalfont\fontfamily{lmr}\selectfont\Large\bfseries}{\thesection\quad}{0pt}{}
+
+\begin{document}
+
+% ==============================================================================
+% PAGINA 1: CAPA (Formatada dentro das margens e bordas do ITA)
+% ==============================================================================
+\begin{titlepage}
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[line width = 1.2pt]
+            ([shift={(20mm,-20mm)}]current page.north west)
+            rectangle
+            ([shift={(-20mm,20mm)}]current page.south east);
+    \end{tikzpicture}
+
+    \centering
+    \vspace*{0.1cm}
+
+    {\large\bfseries INSTITUTO TECNOLÓGICO DE AERONÁUTICA\par}
+
+    \vspace{2.0cm}
+
+    % Logo: coloque o arquivo em TG2/Imagens/ita-logo.png (enquanto não existir, aparece uma caixa no lugar)
+    \IfFileExists{Imagens/ita-logo.png}{\includegraphics[width=8.2cm]{Imagens/ita-logo.png}}{\fbox{\parbox[c][2.5cm][c]{8.2cm}{\centering [logo ITA --- \texttt{Imagens/ita-logo.png}]}}}\par
+
+    \vspace{2.0cm}
+    \begin{singlespace}
+        {\Large Rafael Lucas de Albuquerque Louvain \par}
+    \end{singlespace}
+
+    \vspace{2.0cm}
+
+    \begin{minipage}{\textwidth}
+        \centering
+        {\Large\bfseries
+        ANÁLISE DA INFLUÊNCIA DE PARÂMETROS DE PROCESSO DE FABRICAÇÃO (CINEMÁTICOS, DE GEOMETRIA DA FERRAMENTA, ENTRE OUTROS) NA INTEGRIDADE DE JUNTAS SOLDADAS POR FSW\par}
+    \end{minipage}
+
+    \vspace{2.2cm}
+
+    \begin{singlespace}
+        {\Large Trabalho de Graduação \par}
+        {\Large 2026\par}
+
+        \vspace{2.8cm}
+
+        {\Large\bfseries Curso de Engenharia Mecânica-Aeronáutica\par}
+    \end{singlespace}
+    \vspace*{0.2cm}
+\end{titlepage}
+
+\newpage
+
+% ==============================================================================
+% PAGINA 2: RESUMO
+% ==============================================================================
+\thispagestyle{empty}
+\vspace*{2.5cm}
+
+\begin{center}
+    {\fontfamily{lmr}\selectfont\Huge Resumo\par}
+\end{center}
+
+\vspace{1.8cm}
+
+Este Trabalho de Graduação propõe o desenvolvimento de um modelo matemático-fenomenológico na forma de um Coeficiente Analítico de Vazio ($C_{void}$) para prever de maneira expedita a ocorrência de descontinuidades volumétricas (\textit{voids}) no processo de \textit{Friction Stir Welding} (FSW). A metodologia baseia-se no isolamento e acoplamento de leis físicas fundamentais para agrupar parâmetros independentes de naturezas distintas (cinemática, geométrica, dinâmica, térmica) em uma expressão multiplicativa adimensional única. O objetivo geral consiste em calibrar e validar essa formulação analítica utilizando o conjunto de dados experimentais estáveis de 108 ensaios das ligas aeroespaciais AA2024, AA2219 e AA6061 estabelecido pelo estudo de Du, Mukherjee e DebRoy (2019), publicado na \textit{npj Computational Materials}, periódico do grupo \textit{Nature}. Como objetivo específico, busca-se mitigar a dependência de simulações numéricas pesadas no chão de fábrica, estabelecendo para o índice analítico a meta de superar o patamar de 70\% de acurácia preditiva global em testes cegos, além de estruturar uma hierarquia de sensibilidade fenomenológica das variáveis governantes.
+
+\vspace{1.0cm}
+\noindent \textbf{Palavras-chave:} FSW, Coeficiente Analítico, Vazios, Ligas Aeronáuticas, Análise Dimensional.
+
+\newpage
+
+% ==============================================================================
+% PAGINA 3: SUMÁRIO
+% ==============================================================================
+\thispagestyle{empty}
+\begin{center}
+    {\fontfamily{lmr}\selectfont\Huge Sumário\par}
+\end{center}
+\vspace{1.5cm}
+
+\begin{singlespace}
+\makeatletter
+\@starttoc{toc}
+\makeatother
+\end{singlespace}
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{4}
+
+% ==============================================================================
+% CAPÍTULO 1 - INTRODUÇÃO E CONTEXTUALIZAÇÃO
+% ==============================================================================
+\chapter{Introdução e contextualização}
+
+A soldagem por fricção e mistura mecânica (\textit{Friction Stir Welding} -- FSW) foi desenvolvida no \textit{The Welding Institute} (TWI), no Reino Unido, em 1991, como uma técnica de união no estado sólido aplicada inicialmente às ligas de alumínio de aplicação aerospacial historicamente classificadas como não-soldáveis por métodos tradicionais de fusão, como as séries 2XXX e 7XXX (MISHRA; MA, 2005). O FSW opera inteiramente abaixo da temperatura de fusão ($T < T_m$), utilizando uma ferramenta rotativa não consumível, composta por um ombro e um pino, inserida na linha de junta entre as chapas e deslocada ao longo dela. A ferramenta desempenha duas funções: aquecer localmente a peça, por atrito entre ferramenta e material e por deformação plástica, e movimentar o material, que atinge o estado viscoplástico, da frente para a parte de trás do pino, onde a junta é consolidada.  A intensa deformação plástica a temperatura elevada produz grãos finos e equiaxiais recristalizados na região soldada, o que confere às juntas boas propriedades mecânicas.
+
+
+A relevância do FSW para a engenharia aeronáutica decorre da sua aplicação na solda de fuselagens, asas e outras estruturas que utilizam ligas de alta resistência, como as séries de liga de alumínio mencionadas. A dificuldade de soldar esses materiais com métodos mais usuais se dá em razão da microestrutura de solidificação deficiente, da porosidade na zona fundida e da perda significativa de propriedades mecânicas em relação ao material de base; por isso, a união de estruturas aeroespaciais tem sido feita tradicionalmente por rebitagem, com maior complexidade e custo de fabricação. O FSW contorna essas limitações ao operar inteiramente no estado sólido e já foi adotado em aplicações como os revestimentos e a estrutura da aeronave Eclipse 500, os tanques do foguete Delta, estruturas internas do C-17, da Boeing (MISHRA; MA, 2005), e em diversas outras aplicações nos setores aerospacial, naval e automotivo. Além disso, uma característica interessante do FSW é o seu caráter substancialmente mais sustentável em relação às soldagens tradicionais. Isso se dá por três razões principais, são elas: a não necessidade de metal de adição altamente utilizado em ligas soldadas por fusão, o que reduz a demanda por metais auxiliares no processo de solda e poupa significativa quantidade da energia demandada, haja vista a alta demanda energética na produção de materiais metálicos semi-processados de um modo geral, como os arames e varetas usados como metais auxiliares; não geração de gases tóxicos proveninetes da vaporização desses elementos da liga; e, por fim, um ganho na economica energética decorrente de não necessitar superar o calor latente dos metais da liga, que acabam sendo dissipados em métodos tradicionais de soldagem por radiação e condução (MISHRA; MA, 2005).
+
+
+Apesar dessas vantagens, o sucesso do FSW depende da confluência de diversos fenômenos físicos complexos que governam a distribuição tridimensional de temperatura, as velocidades do material plastificado e as taxas de deformação na região da ferramenta. Alterações nesses campos podem levar à formação de vazios (\textit{voids}) na junta, tipicamente próximos à ponta do pino, que prejudicam tanto as propriedades mecânicas quanto a vida em serviço do componente. Esses defeitos volumétricos são internos e, em geral, identificados por cortes transversais do cordão ou por ensaios não destrutivos, como ultrassom e radiografia. Atribui-se sua origem ao escoamento inadequado e descontínuo do material plastificado ao redor do pino, decorrente, por exemplo, de aporte térmico insuficiente devido a uma rotação baixa para a velocidade de avanço adotada, de um diâmetro de ombro inadequado ou de uma espessura de chapa elevada. A literatura também associa a ausência de vazios a temperaturas de pico entre 80\% e 90\% da temperatura \textit{solidus} da liga (QIAN et al., 2013 \textit{apud} DU; MUKHERJEE; DEBROY, 2019). Ainda assim, apesar dos avanços na identificação das variáveis relevantes, nenhuma explicação mecanística rigorosa nem um critério para a formação de vazios foi estabelecido até o momento (DU; MUKHERJEE; DEBROY, 2019).
+
+Modelos numéricos abrangentes do processo resolvem as equações de conservação de massa, quantidade de movimento e energia para obter os campos tridimensionais de temperatura e velocidade, a taxa de deformação, a tensão de cisalhamento no pino e o torque, exigindo, contudo, considerável esforço computacional. Simulações desse tipo envolvem o acoplamento de modelos térmicos, de dinâmica dos fluidos computacional (CFD) e termomecânicos, com malhas refinadas que chegam a elementos de 0,05~mm na interface entre ferramenta e peça (LASKA et al., 2023). Como alternativa, Du, Mukherjee e DebRoy (2019) aplicaram aprendizado de máquina a um banco de 108 ensaios da literatura: uma rede neural alimentada apenas pelos parâmetros de soldagem, pela geometria da ferramenta e da chapa e pelas propriedades do material, dados normalmente medidos e registrados no chão de fábrica, atingiu 83,3\% de acurácia na predição de vazios; ao substituir essas entradas por variáveis causais (temperatura, taxa de deformação, torque e tensão de cisalhamento máxima no pino) calculadas por modelos mecanísticos, a acurácia subiu para até 96,6\%, ao custo de exigir simulações prévias para cada condição. Em ambos os casos, o resultado é um classificador sem uma relação explícita entre as variáveis de processo e a formação do defeito. Os próprios autores observam que, em sistemas complexos, o comportamento é frequentemente mais bem descrito por um grupo de variáveis do que pelas variáveis individuais, como no caso do número de Reynolds, que caracteriza o regime de escoamento em um tubo melhor do que o diâmetro, a velocidade, a densidade e a viscosidade tomados isoladamente (DU; MUKHERJEE; DEBROY, 2019). Essa observação motiva a busca por um índice que contemple os parâmetros de processo de forma a capturar a complexidade que induz a formação de vazios de forma mais direta durante a definição dos parâmetros de soldagem.
+
+\pendente{\textbf{TGs anteriores do ITA sobre o tema} (pedido do orientador). Levantar trabalhos de graduação, dissertações e teses do ITA sobre FSW/defeitos/modelagem e posicionar este trabalho em relação a eles (1 parágrafo ou subseção ``Trabalhos anteriores no ITA''). \textbf{Bloqueio:} biblioteca/repositório do ITA fora do ar. Já conhecidos: BEZERRA, Â. C. S. (2025), TG, \textit{Análise da energia efetiva por comprimento e ocorrência de defeitos no processo FSW} (registro DCTA/ITA/TC-065/2025); FILHO, J. A. P. C. (2018), dissertação de mestrado, \textit{Análise de integridade estrutural de uma junta tipo topo soldada em liga de alumínio Alclad AA2024-T3 por FSW na indústria aeroespacial}. Buscar também: ``friction stir'', ``soldagem por fricção e mistura'', ``FSW'' no acervo do ITA; perguntar ao Prof. Lindolfo por outros orientados.}
+
+No ITA, o tema foi abordado recentemente por Bezerra (2025), que desenvolveu um modelo termomecânico analítico para estimar a energia efetiva por unidade de comprimento de solda e correlacioná-la, por regressão logística, com a ocorrência de defeitos em juntas de AA2024-T3 a partir dos ensaios de Filho (2018 \textit{apud} BEZERRA, 2025). O autor concluiu que nenhum patamar único de energia mantém todos os defeitos simultaneamente abaixo de 50\% de probabilidade, indicando que a energia linear isolada não é suficiente e que outros parâmetros, como a força axial, também devem ser considerados. O presente trabalho dá continuidade a essa linha ao propor um índice que combine, de forma explícita, variáveis de naturezas distintas.
+
+\section{Objetivo}
+
+O objetivo deste trabalho consiste no desenvolvimento de um modelo fenomenológico-matemático unificado, expresso na forma de um Coeficiente Analítico de Vazio ($C_{void}$), fundamentado nos princípios de análise dimensional e mecânica dos processos de fabricação. O índice proposto visa agrupar as leis de potência físicas que governam a iniciação de defeitos volumétricos, substituindo a complexidade de simulações pesadas por uma equação explícita direcionada à uma utilização prática em um contexto de operação industrial. A meta estabelecida busca calibrar e validar o índice frente à base de 108 ensaios experimentais das ligas AA2024, AA2219 e AA6061 de Du, Mukherjee e DebRoy (2019), estipulando-se o alvo mínimo de 70\% de acurácia preditiva global na classificação binária de integridade de juntas soldadas. Adicionalmente, busca-se estabelecer uma hierarquia de sensibilidade que indique quais naturezas de parâmetros (cinemática, geométrica, térmica e dinâmica) exercem maior influência na formação de vazios.
+
+% ==============================================================================
+% CAPÍTULO 2 - REVISÃO DA LITERATURA
+% ==============================================================================
+\chapter{Revisão da literatura}
+
+Este capítulo reúne os fundamentos que sustentam a formulação do índice proposto. Parte-se da descrição do processo e de suas variáveis (Seção 2.1), passando pela geração de calor e pela temperatura atingida na junta (Seção 2.2), pelo escoamento do material ao redor da ferramenta (Seção 2.3) e pela microestrutura resultante (Seção 2.4), até chegar aos defeitos de vazio (Seção 2.5) e à influência individual de cada parâmetro de processo sobre eles (Seção 2.6). Em seguida, apresentam-se as abordagens de modelagem e predição de defeitos existentes, com destaque para o estudo de Du, Mukherjee e DebRoy (2019) que fornece a base de dados deste trabalho (Seção 2.7), e os princípios de análise dimensional que fundamentam a construção de índices adimensionais (Seção 2.8). O capítulo se encerra com uma síntese das implicações dessa revisão para a modelagem (Seção 2.9).
+
+% ------------------------------------------------------------------------------
+\section{O Processo FSW: Princípio, Ferramenta e Variáveis}
+
+A soldagem por fricção e mistura mecânica é, em sua essência, um processo de conformação no estado sólido conduzido por uma ferramenta rotativa. Uma ferramenta não consumível, provida de um pino em sua extremidade e de um ombro de diâmetro maior, é posta em rotação e inserida nas bordas adjacentes das chapas até que o ombro toque a superfície da peça; em seguida, a ferramenta é deslocada ao longo da linha de junta. Durante esse percurso, a ferramenta desempenha duas funções: aquecer localmente o material, por atrito e por deformação plástica, e movimentá-lo da frente para a parte de trás do pino, onde a junta é formada sem que haja fusão. Na fase inicial de penetração, o aquecimento vem principalmente do atrito entre o pino e a peça, com alguma contribuição da deformação do material; quando o ombro entra em contato com a peça, o atrito do ombro passa a ser a maior fonte de calor (MISHRA; MA, 2005).
+
+\inseririmagem{Esquema geral do processo FSW (ferramenta, chapas, direção de avanço e de rotação, lados de avanço e de recuo). Opção 1: Mishra e Ma (2005), Fig.~1, p.~2 (``Schematic drawing of friction stir welding''). Opção 2: diagrama próprio. Citar a fonte na legenda.}
+
+A ferramenta é, portanto, o elemento central do processo, e cada uma de suas partes cumpre um papel distinto. O ombro, por sua maior área de contato e maior velocidade periférica, é responsável pela maior parcela do aquecimento e atua também como uma barreira que confina o material aquecido sob a ferramenta, impedindo que ele escape. O pino, por sua vez, é o responsável por cisalhar e movimentar o material ao redor de si, conduzindo-o da frente para a traseira da ferramenta. Do ponto de vista térmico, o tamanho relativo entre pino e ombro é o aspecto mais importante, ao passo que os detalhes do perfil do pino governam principalmente o escoamento do material, a uniformidade da microestrutura e os esforços do processo (MISHRA; MA, 2005).
+
+\inseririmagem{Anatomia da ferramenta (ombro, pino, diâmetros $D$ e $d$). Opções: Mishra e Ma (2005), Fig.~2, p.~3 (``Schematic drawing of the FSW tool''); ou a imagem do slide~5 da apresentação do TG1 (desenho com ``Shoulder'', ``Pin'', $d$ e $D$) e a foto do slide~4 (ferramenta em operação) --- \textbf{identificar a fonte original das imagens dos slides antes de usar}.}
+
+As ferramentas mais difundidas combinam um ombro côncavo com um pino cilíndrico roscado, mas a geometria evoluiu significativamente com o melhor entendimento do escoamento do material. O TWI desenvolveu, por exemplo, os pinos Whorl\texttrademark{} e MX Triflute\texttrademark{}, de formato tronco-cônico, que deslocam cerca de 60\% e 70\% menos material, respectivamente, do que um pino cilíndrico de mesmo diâmetro de raiz. Essas geometrias buscam reduzir a força de soldagem, facilitar o escoamento do material plastificado, favorecer seu transporte para baixo e aumentar a interface entre pino e material, elevando a geração de calor; com elas, chapas de alumínio de até 50~mm de espessura puderam ser soldadas em um único passe. Para juntas sobrepostas, foram desenvolvidos ainda os pinos Flared-Triflute\texttrademark{} e A-skew\texttrademark{}, e os perfis de ombro também passaram a receber ranhuras e cavidades que melhoram o acoplamento com o material (MISHRA; MA, 2005). Revisões mais recentes catalogam uma grande variedade de perfis de pino --- cilíndrico, roscado, cônico, quadrado, triangular, hexagonal ---, com desempenhos que variam conforme a liga e os parâmetros empregados (AHMED; KADHUM; SALLEH, 2024). Apesar dessa evolução, Mishra e Ma (2005) observam que o projeto de ferramentas ainda se baseia em grande parte em conceitos intuitivos e que muitas geometrias são proprietárias, o que dificulta generalizar a influência da ferramenta quando ela não é completamente descrita --- aspecto relevante para este trabalho, cuja base de dados descreve o pino apenas por seus raios na raiz e na ponta.
+
+\inseririmagem{Exemplos de geometrias de ferramenta. Mishra e Ma (2005), Fig.~3, p.~4 (pinos Whorl\texttrademark{} e MX Triflute\texttrademark{}, TWI) e/ou Fig.~6, p.~6 (perfis de ombro vistos por baixo). Opcional: figura de perfis de pino da revisão de Ahmed, Kadhum e Salleh (2024).}
+
+A combinação entre a rotação da ferramenta e seu avanço torna o processo intrinsecamente assimétrico. Define-se como lado de avanço (\textit{advancing side}) aquele em que a velocidade tangencial da ferramenta tem o mesmo sentido da velocidade de avanço, e como lado de recuo (\textit{retreating side}) o lado oposto, em que os dois vetores têm sentidos contrários. Essa assimetria se reflete em praticamente todas as grandezas do processo: a temperatura é ligeiramente maior no lado de avanço (MISHRA; MA, 2005), a zona afetada pelo calor tende a ser mais larga desse lado (LASKA et al., 2023) e, como será discutido adiante, é nele que os vazios costumam se formar.
+
+\inseririmagem{Esquema em vista superior mostrando os lados de avanço e de recuo e o sentido do escoamento ao redor do pino. Opção: imagem do slide~6 da apresentação do TG1 (painéis a--d com linhas de corrente) --- \textbf{identificar a fonte original}; alternativa: diagrama próprio em TikZ.}
+
+Do ponto de vista operacional, os dois parâmetros mais importantes do processo são a rotação da ferramenta, $\omega$, e a velocidade de avanço, $v$. A rotação promove o aquecimento por atrito e a agitação e mistura do material ao redor do pino, enquanto o avanço desloca o material agitado da frente para trás do pino e conduz a solda ao longo da junta. Rotações maiores tendem a gerar temperaturas mais altas e mistura mais intensa, mas esse aumento não é necessariamente monotônico, pois o acoplamento por atrito entre ferramenta e peça varia com a própria temperatura (MISHRA; MA, 2005). A razão entre essas duas velocidades, o avanço por rotação ou \textit{weld pitch} ($v/\omega$), aparece com frequência na literatura como um parâmetro combinado do processo, e será retomada nas próximas seções.
+
+Além das velocidades, três outros parâmetros são decisivos. O primeiro é o ângulo de inclinação da ferramenta (\textit{tilt}), em direção oposta ao avanço, que faz com que o ombro retenha o material agitado pelo pino e o transporte de forma eficiente da frente para trás (MISHRA; MA, 2005) e que gera uma força adicional de forjamento na traseira da ferramenta (MEYGHANI; AWANG, 2022). O segundo é a profundidade de inserção do pino: se for rasa demais, o ombro não toca a superfície original da peça e não consegue movimentar o material, gerando canais internos ou sulcos superficiais; se for funda demais, o ombro afunda na peça, gerando rebarba excessiva e afinamento local da junta (MISHRA; MA, 2005). O terceiro é a força ou pressão axial aplicada, que mantém o contato do ombro com a peça; em máquinas operadas em controle de carga, essa força é ajustada para garantir o contato suficiente do ombro (ALDANONDO et al., 2020). Para materiais de alto ponto de fusão ou alta condutividade, o calor gerado pode ser insuficiente, e recorre-se a pré-aquecimento; para ligas de baixo ponto de fusão, como as de alumínio, pode-se recorrer ao resfriamento para limitar o crescimento de grão e a dissolução de precipitados (MISHRA; MA, 2005).
+
+\inseririmagem{Ângulo de inclinação da ferramenta. Meyghani e Awang (2022), Fig.~1, p.~2 (``exaggeratedly cross-sectional view... while the tilt angle is applied''); ou a imagem do slide~25 da apresentação do TG1 --- \textbf{identificar a fonte original}.}
+
+Quanto à configuração das juntas, as mais usuais são a de topo (\textit{butt}) e a sobreposta (\textit{lap}), a partir das quais se derivam outras, como juntas em T e de canto; em nenhum dos casos é necessária preparação especial das bordas (MISHRA; MA, 2005). Cada configuração apresenta defeitos característicos: em juntas sobrepostas, por exemplo, os defeitos típicos são o \textit{hook} e o \textit{cold lap}, ligados ao escoamento vertical de material na interface entre as chapas, e não vazios volumétricos (ALDANONDO et al., 2020). Existem ainda variantes do processo, como o FSW com ferramenta \textit{bobbin}, que possui dois ombros --- um em cada face da chapa --- e dispensa a placa de apoio, reduzindo drasticamente a força vertical e eliminando defeitos de raiz (AHMED et al., 2021). Este trabalho delimita-se ao FSW convencional de juntas de topo, configuração adotada em todos os ensaios da base de dados utilizada.
+
+\inseririmagem{Configurações de junta. Mishra e Ma (2005), Fig.~7, p.~7 (topo, borda, T, sobreposta, múltipla sobreposta, T sobreposta e filete). Opcional: Ahmed et al. (2021), Fig.~1, p.~4 (esquema do processo com ferramenta \textit{bobbin}).}
+
+% ------------------------------------------------------------------------------
+\section{Geração de Calor e Temperatura}
+
+O calor no FSW provém de duas fontes: o atrito entre a ferramenta e a peça e a deformação plástica do material ao redor da ferramenta. Na fase inicial de penetração, o aquecimento resulta principalmente do atrito entre o pino e a peça; quando o ombro entra em contato com a superfície, o atrito do ombro passa a constituir a maior parcela do aquecimento. Além de gerar calor, o ombro confina o volume de material aquecido sob a ferramenta. Do ponto de vista térmico, o tamanho relativo entre pino e ombro é o aspecto geométrico mais importante (MISHRA; MA, 2005).
+
+A contribuição de cada parte da ferramenta pode ser estimada por modelos analíticos. Schmidt et al., conforme revisado por Mishra e Ma (2005), propõem para o calor total gerado a expressão
+
+\begin{equation}
+Q_{total} = \frac{2}{3}\pi\left[\delta\,\frac{\sigma_{yield}}{\sqrt{3}} + (1-\delta)\,\mu\,p\right]\omega\left[\left(R_{shoulder}^{3}-R_{probe}^{3}\right)(1+\tan\alpha) + R_{probe}^{3} + 3R_{probe}^{2}H_{probe}\right],
+\label{eq:schmidt}
+\end{equation}
+
+\noindent em que $\sigma_{yield}$ é o limite de escoamento, $\omega$ a velocidade angular da ferramenta, $R_{shoulder}$ e $R_{probe}$ os raios do ombro e do pino, $\alpha$ o ângulo de cone do ombro, $H_{probe}$ a altura do pino, $p$ a pressão de contato, $\mu$ o coeficiente de atrito e $\delta$ a variável de estado de contato. Para $\delta = 1$ tem-se a condição de adesão plena (\textit{sticking}), em que o calor é governado pela tensão de escoamento do material cisalhado; para $\delta = 0$, a condição de escorregamento (\textit{sliding}), em que o calor decorre do atrito $\mu p$ (MISHRA; MA, 2005). A dependência com o cubo do raio do ombro explica a predominância desse componente no aporte térmico. Ahmed et al. (2021), ao modelar a geração de calor em FSW com ferramenta \textit{bobbin} e pinos cilíndrico, quadrado e triangular, estimaram que os ombros respondem por aproximadamente 78\% a 88\% do calor total, conforme a geometria do pino, e que o calor gerado cresce com a rotação, o coeficiente de atrito, o raio do ombro, a espessura da chapa e a área superficial do pino, sendo inversamente proporcional à velocidade de avanço. Os mesmos autores destacam que o coeficiente de atrito diminui com o aumento da temperatura na interface, variando tipicamente entre 0,4 e 0,5.
+
+\inseririmagem{Contribuição das partes da ferramenta no calor. Opções: Ahmed et al. (2021), Fig.~6, p.~10 (efeito da rotação e da velocidade de avanço no calor gerado por comprimento) e Fig.~7, p.~11 (efeito do raio do ombro e do raio do pino). Alternativa: imagem do slide~16 da apresentação do TG1 --- mas a equação já está no texto; usar figura só se acrescentar informação.}
+
+Uma estimativa mais simples da potência média foi proposta por Frigaard et al., conforme revisado por Mishra e Ma (2005): $q_0 = \frac{4}{3}\pi^{2}\mu P \nu R^{3}$, em que $\mu$ é o coeficiente de atrito, $P$ a pressão, $\nu$ a rotação da ferramenta (em rotações por segundo) e $R$ o raio da ferramenta. Segundo esses autores, a rotação e o raio do ombro são as principais variáveis do processo, e a pressão não pode exceder a tensão de escoamento do material na temperatura de operação se se deseja obter uma solda sã, sem depressões. Medições com termopares confirmam a predominância do ombro: em soldas de AA6061-T6, Tang et al., também revisados por Mishra e Ma (2005), compararam ferramentas com e sem pino e verificaram que o ombro domina a geração de calor, o que atribuíram à maior área de contato, à maior pressão vertical e à maior velocidade linear do ombro em relação ao pino. Os mesmos ensaios mostraram que a temperatura cresce com a rotação e com a pressão de soldagem, mas com ganhos decrescentes: cerca de 40~°C ao passar de 300 para 650~rpm e apenas cerca de 20~°C de 650 para 1000~rpm.
+
+\inseririmagem{Predominância do ombro e efeito da rotação na temperatura de pico. Mishra e Ma (2005), Fig.~14, p.~16 (temperatura de pico com e sem pino --- é provavelmente o gráfico usado no slide~12 da apresentação do TG1) e Fig.~13, p.~16 (efeito da rotação, 300/650/1000~rpm).}
+
+A temperatura atingida durante o processo é o principal elo entre os parâmetros de soldagem e o comportamento do material. Medições com termopares e estimativas a partir da microestrutura indicam temperaturas de pico de 400~°C a 500~°C na zona de mistura de ligas de alumínio, sempre abaixo do ponto de fusão (MISHRA; MA, 2005). Arbegast e Hartley, conforme revisado por Mishra e Ma (2005), relacionaram a temperatura máxima de soldagem a um pseudoíndice de calor $\omega^{2}/v$ na forma
+
+\begin{equation}
+\frac{T}{T_m} = K\left(\frac{\omega^{2}}{v \cdot 10^{4}}\right)^{\alpha},
+\label{eq:arbegast}
+\end{equation}
+
+\noindent com $K$ entre 0,65 e 0,75 e $\alpha$ entre 0,04 e 0,06, em que $T_m$ é a temperatura de fusão da liga. A temperatura máxima observada em diversas ligas de alumínio situa-se entre $0,6\,T_m$ e $0,9\,T_m$, faixa correspondente ao trabalho a quente e, em geral, à solubilização de ligas endurecíveis por precipitação. Segundo os mesmos autores, para uma dada ferramenta e profundidade de penetração, a temperatura máxima é função forte da rotação, enquanto a taxa de aquecimento é função forte da velocidade de avanço; a temperatura é ligeiramente maior no lado de avanço (MISHRA; MA, 2005). Em síntese, a temperatura máxima aumenta com a rotação a velocidade de avanço constante, diminui com o aumento da velocidade de avanço a rotação constante e cresce com a razão entre rotação e avanço; o aumento com a rotação, porém, tende a saturar, pois o coeficiente de atrito na interface varia com a temperatura (MISHRA; MA, 2005). Os próprios autores ressaltam que os diferentes pseudoíndices de calor propostos na literatura têm verificação experimental limitada e não apresentaram tendência geral quando aplicados a conjuntos de dados distintos.
+
+\inseririmagem{Temperatura de pico em função da razão rotação/avanço. Mishra e Ma (2005), Fig.~15, p.~17 (Hashimoto et al.: 2024Al-T6, 5083Al-O e 7075Al-T6).}
+
+Medições em chapas grossas confirmam esse comportamento e acrescentam a variação ao longo da espessura. Em soldas de AA6082-T6 com 32~mm de penetração, Ahmed et al. (2019) mediram, com termopares embutidos na própria ferramenta, temperaturas entre 560~°C e 634~°C próximo ao topo e entre 530~°C e 577~°C próximo à base do \textit{nugget}, ou seja, maiores junto ao ombro, e verificaram que o calor fornecido por unidade de comprimento e a largura da região amolecida aumentam com a redução da velocidade de avanço.
+
+Os modelos numéricos que resolvem o escoamento e a transferência de calor estimam bem essas temperaturas, mas são complexos e computacionalmente intensivos. Por isso, há interesse em correlações simples, análogas às soluções analíticas de Rosenthal amplamente usadas na soldagem por fusão (ARORA; DEBROY; BHADESHIA, 2011). Nesse sentido, Arora, DebRoy e Bhadeshia (2011) recalibraram uma correlação adimensional, originalmente proposta por Roy, Nandan e DebRoy, entre a temperatura de pico adimensional e o aporte de calor adimensional:
+
+\begin{equation}
+T^{*} = \frac{T_P - T_{in}}{T_S - T_{in}} = 0{,}151\,\log_{10}\left(Q^{*}\right) + 0{,}097, \qquad Q^{*} = \frac{\sigma_{8}\,A\,\omega\,C_P\,\phi}{k\,U^{2}},
+\label{eq:arora}
+\end{equation}
+
+\noindent em que $T_P$ é a temperatura de pico, $T_{in}$ a temperatura inicial, $T_S$ a temperatura \textit{solidus}, $\sigma_8$ a tensão de escoamento do material a $0{,}8\,T_S$, $A$ a área da seção do ombro, $\omega$ a rotação, $C_P$ o calor específico, $k$ a condutividade térmica, $U$ a velocidade de avanço e $\phi$ um fator que representa a partição do calor gerado entre ferramenta e peça. A correlação, válida para $4\times10^{2} < Q^{*} < 3{,}7\times10^{5}$, apresentou desvio-padrão de 0,01 e previu as temperaturas de pico de três ligas de alumínio em diferentes avanços por rotação com diferenças de 3\% a 9\% em relação às medições (ARORA; DEBROY; BHADESHIA, 2011). Trata-se de um exemplo direto de como grupos adimensionais podem condensar a física do processo, aspecto que será aprofundado na Seção 2.8.
+
+\inseririmagem{Correlação adimensional de temperatura de pico. Arora, DebRoy e Bhadeshia (2011), Fig.~4, p.~5 ($T^{*}$ vs.\ $\log_{10} Q^{*}$) e/ou Fig.~5, p.~5 (temperatura de pico vs.\ avanço por rotação para AA2024, 5083 e 7075).}
+
+O limite superior de temperatura é imposto pelo próprio mecanismo do processo. Como a ferramenta transfere esforços de cisalhamento ao material e uma superfície líquida não suporta cisalhamento, uma eventual fusão parcial reduz o acoplamento entre ferramenta e peça e limita o aumento de temperatura. O processo tende, portanto, a ser autorregulado, embora a fusão localizada, indesejável, defina um limite superior para a rotação (MISHRA; MA, 2005).
+
+% ------------------------------------------------------------------------------
+\section{Escoamento do Material}
+
+\pendente{Seção escrita na sessão anterior (antiga 2.2), mantida como está. Será revisada/complementada na próxima etapa (Arbegast 2008, Ahmed et al. 2019, Meyghani velocidade $\omega R_s$; sugestões de imagens).}
+
+O escoamento do material ao redor da ferramenta é complexo e depende fortemente da geometria da ferramenta, dos parâmetros de soldagem e do material soldado. Estudos com marcadores inseridos na linha de junta, conduzidos por Reynolds e colaboradores e revisados por Mishra e Ma (2005), mostraram que o escoamento não é simétrico em relação à linha central da solda: a maior parte do material marcado desloca-se para trás de sua posição original, até cerca de um diâmetro de pino; no lado de avanço, o material é empurrado para baixo, enquanto no lado de recuo move-se para cima; e o deslocamento vertical do material é inversamente proporcional ao avanço por rotação da ferramenta (\textit{weld pitch}, razão entre velocidade de avanço e rotação). Observações com outros traçadores indicaram que grande parte do material não é propriamente misturada, mas simplesmente extrudada ao redor do pino pelo lado de recuo e depositada atrás dele (MISHRA; MA, 2005).
+
+Com base nessas observações, o processo pode ser descrito de forma aproximada como uma extrusão \textit{in situ}, na qual o ombro, o pino, a placa de apoio e o metal de base frio ao redor da região soldada formam uma ``câmara de extrusão'' que se desloca em relação à peça (MISHRA; MA, 2005). Arbegast propôs, nesse sentido, descrever o FSW como um processo de conformação composto por cinco zonas: pré-aquecimento, deformação inicial, extrusão, forjamento e resfriamento. Na zona de forjamento, o material proveniente da frente da ferramenta é forçado, sob pressão hidrostática, para dentro da cavidade deixada pelo avanço do pino, enquanto o ombro restringe esse material e aplica uma força de forjamento descendente. Um balanço de massa na zona de extrusão relaciona a geometria da ferramenta, os parâmetros de operação e a tensão de escoamento do material (MISHRA; MA, 2005). Nessa leitura, o vazio corresponde a uma falha no preenchimento da cavidade posterior ao pino. Mishra e Ma (2005) registram, por exemplo, que uma profundidade de penetração insuficiente impede que o ombro movimente o material da frente para trás do pino, gerando canais internos ou sulcos superficiais, e que, em outros materiais soldados por FSW, a ocorrência de vazios aumenta com o aumento da velocidade de avanço ou com a redução da rotação.
+
+A geometria do pino influencia diretamente esse transporte de material. Thomas et al., conforme revisado por Mishra e Ma (2005), atribuem a superioridade de pinos com perfis especiais em relação ao pino cilíndrico convencional à razão entre o volume varrido durante a rotação e o volume do próprio pino (razão entre volume dinâmico e estático), que vale aproximadamente 1,1 para o pino cilíndrico, 1,8 para o pino Whorl\texttrademark{} e 2,6 para o pino MX Triflute\texttrademark{} em chapas de 25~mm. Na revisão de Ahmed, Kadhum e Salleh (2024) sobre perfis de pino, o pino de seção quadrada apresentou, em geral, as melhores propriedades mecânicas, o que os autores atribuem à maior razão entre volume dinâmico e estático em seus cantos e à ação pulsante das faces planas, que eleva a temperatura e favorece a plastificação do material. Laska et al. (2023), comparando por simulação e experimentalmente um pino cônico liso e um pino hexagonal com ranhuras na liga AA6082, verificaram que o pino hexagonal gerou cerca de 20\% mais calor e temperatura máxima cerca de 5\% maior (406~°C); o pino cônico, embora favoreça o escoamento ao redor do pino, apresentou na superfície do cordão indícios de perdas por cavitação, atribuídas pelos autores à plastificação insuficiente decorrente do menor aporte térmico.
+
+A previsão detalhada desses campos de escoamento exige modelos numéricos. Laska et al. (2023) trataram o material plastificado como um fluido não-Newtoniano, com viscosidade dinâmica dependente da temperatura e da taxa de deformação, resolvendo as equações de continuidade e de Navier-Stokes acopladas a um modelo térmico e a um modelo termomecânico, em malha com elementos de 0,05~mm a 5~mm. Modelos desse tipo calculam os campos tridimensionais de temperatura e velocidade, as taxas de deformação, a tensão de cisalhamento no pino e o torque, mas exigem considerável esforço computacional para cada condição de soldagem (DU; MUKHERJEE; DEBROY, 2019).
+
+% ------------------------------------------------------------------------------
+\section{Microestrutura e Propriedades das Juntas}
+
+\pendente{A expandir (parágrafo abaixo veio da antiga 2.1): incluir as três ligas do dataset (AA2024, AA2219, AA6061), precipitados das séries 2xxx/6xxx, dureza e local de fratura.}
+
+O ciclo termomecânico produz três zonas microestruturais distintas. Na zona de mistura (\textit{nugget}), a deformação plástica intensa e o aquecimento promovem recristalização dinâmica, com grãos finos e equiaxiais e, sob certas condições, o padrão de anéis concêntricos conhecido como \textit{onion rings}; nessa região, os precipitados endurecedores podem ser dissolvidos, coalescidos ou reprecipitados. A zona termomecanicamente afetada (ZTMA), exclusiva do FSW, sofre deformação e aquecimento, mas a deformação é insuficiente para a recristalização, e os grãos do material de base aparecem fortemente deformados em um padrão de fluxo ascendente ao redor do \textit{nugget}. A zona afetada pelo calor (ZAC) sofre apenas o ciclo térmico, sem deformação plástica; mantém a estrutura de grãos do material de base, mas apresenta coalescimento dos precipitados endurecedores quando exposta a temperaturas acima de cerca de 250~°C (MISHRA; MA, 2005). Em ligas da série 6xxx, como a AA6082, a fase endurecedora $\beta''$ ($Mg_5Si_6$) dissolve-se facilmente entre 200~°C e 250~°C, temperaturas atingidas na ZAC, o que faz desta a região de menor dureza da junta e o local típico de fratura em ensaios de tração, em especial no lado de avanço (LASKA et al., 2023).
+
+% ------------------------------------------------------------------------------
+\section{Defeitos em FSW e o Vazio Volumétrico}
+
+\pendente{A redigir. Fontes: Arbegast (2008) --- janela quente/fria e \textit{wormhole}; Du et al. (2019); Mishra e Ma (2005); Meyghani e Awang (2022); Laska et al. (2023); Bezerra (2025).}
+
+% ------------------------------------------------------------------------------
+\section{Influência dos Parâmetros de Processo e da Ferramenta}
+
+\pendente{A redigir. Uma variável do dataset por vez, com o sinal esperado do efeito no risco de vazio.}
+
+% ------------------------------------------------------------------------------
+\section{Modelagem e Predição de Defeitos}
+
+\pendente{A redigir. Fonte principal: Du, Mukherjee e DebRoy (2019); também Laska (2023), Bezerra (2025), Adiga et al. (2024), Arora et al. (2011).}
+
+% ------------------------------------------------------------------------------
+\section{Análise Dimensional e Índices Adimensionais}
+
+\pendente{A redigir. Fontes: Fox, McDonald e Pritchard (2014); Du et al. (2019) --- analogia de Reynolds; Arora et al. (2011) --- $T^{*}$ e $Q^{*}$.}
+
+% ------------------------------------------------------------------------------
+\section{Síntese: Implicações para a Modelagem}
+
+\pendente{A redigir. Tabela: variável do dataset $\rightarrow$ efeito físico $\rightarrow$ sinal/expoente esperado $\rightarrow$ fonte.}
+
+% ==============================================================================
+% CAPÍTULO 3 - METODOLOGIA
+% ==============================================================================
+\chapter{Metodologia}
+
+\pendente{A redigir depois da Revisão de literatura.}
+
+% ==============================================================================
+% CAPÍTULO 4 - RESULTADOS E DISCUSSÕES
+% ==============================================================================
+\chapter{Resultados e discussões}
+
+\pendente{A redigir. Abordagens e análises serão deliberadas pelo Rafael ao chegar nesta seção (ver \texttt{docs/05\_modelagem/}).}
+
+% ==============================================================================
+% CAPÍTULO 5 - CONCLUSÃO
+% ==============================================================================
+\chapter{Conclusão}
+
+\pendente{A redigir ao final.}
+
+\newpage
+
+% ==============================================================================
+% REFERÊNCIAS BIBLIOGRÁFICAS
+% ==============================================================================
+\begin{center}
+    {\fontfamily{lmr}\selectfont\Huge Referências\par}
+\end{center}
+\vspace{0.5cm}
+
+\begin{singlespace}
+\noindent AHMED, M. M. Z. et al. Effect of tool geometry and heat input on the hardness, grain structure, and crystallographic texture of thick-section friction stir-welded aluminium. \textbf{Metallurgical and Materials Transactions A}, v. 50, n. 1, p. 271-284, 2019.\\[0.4cm]
+\noindent AHMED, M. M. Z. et al. Bobbin Tool Friction Stir Welding of Aluminum Using Different Tool Pin Geometries: Mathematical Models for the Heat Generation. \textbf{Metals}, v. 11, n. 3, p. 438, 2021.\\[0.4cm]
+\noindent AHMED, W. H.; KADHUM, A. H.; SALLEH, M. S. A Review on Tool Pin Geometry of Friction Stir Welding. \textbf{Al-Khwarizmi Engineering Journal}, v. 20, n. 2, p. 39-55, 2024.\\[0.4cm]
+\noindent ALDANONDO, E. et al. Effect of Tool Geometry and Welding Parameters on Friction Stir Welded Lap Joint Formation with AA2099-T83 and AA2060-T8E30 Aluminium Alloys. \textbf{Metals}, v. 10, n. 7, p. 872, 2020.\\[0.4cm]
+\noindent ARORA, A.; DEBROY, T.; BHADESHIA, H. K. D. H. Back-of-the-envelope calculations in friction stir welding -- Velocities, peak temperature, torque, and hardness. \textbf{Acta Materialia}, v. 59, n. 5, p. 2020-2028, 2011.\\[0.4cm]
+\noindent BEZERRA, Â. C. S. \textbf{Análise da energia efetiva por comprimento e ocorrência de defeitos no processo FSW (Friction Stir Welding)}. 2025. 56 f. Trabalho de Graduação (Engenharia Mecânica-Aeronáutica) -- Instituto Tecnológico de Aeronáutica, São José dos Campos, 2025.\\[0.4cm]
+\noindent DU, Y.; MUKHERJEE, T.; DEBROY, T. Conditions for void formation in friction stir welding from machine learning. \textbf{npj Computational Materials}, v. 5, n. 68, 2019.\\[0.4cm]
+\noindent LASKA, A. et al. Temperature Evolution, Material Flow, and Resulting Mechanical Properties as a Function of Tool Geometry during Friction Stir Welding of AA6082. \textbf{Journal of Materials Engineering and Performance}, v. 32, p. 10655-10668, 2023.\\[0.4cm]
+\noindent MEYGHANI, B.; AWANG, M. The Influence of the Tool Tilt Angle on the Heat Generation and the Material Behavior in Friction Stir Welding (FSW). \textbf{Metals}, v. 12, n. 11, p. 1837, 2022.\\[0.4cm]
+\noindent MISHRA, R. S.; MA, Z. Y. Friction stir welding and processing. \textbf{Materials Science and Engineering: R: Reports}, v. 50, n. 1-2, p. 1-78, 2005.
+\end{singlespace}
+
+\pendente{Lista de referências será completada conforme as seções forem escritas (só entram as efetivamente citadas).}
+
+\end{document}
