@@ -32,8 +32,9 @@ learning. **npj Computational Materials**, v. 5, n. 68, 2019. DOI: 10.1038/s4152
   composição).
 - Vazio ↔ **T baixa**, **τ_m, M_T, ε_r altos**. Fluxo inadequado/descontínuo ao redor do pino = causa. Fluxo inadequado
   vem de aporte térmico insuficiente (ω baixo para dado v), diâmetro de ombro inadequado, chapa espessa etc.
-- Fig. 2 (dados de Doude et al. 2015, v = 100 mm/min constante): ω = 2,5 rps → vazio grande (T=596,6 K, τ=70,5 MPa);
-  3,33 rps → vazio pequeno (614,1 K; 56,3 MPa); 6,67 rps → sem vazio (654,5 K; 31,9 MPa).
+- Fig. 2 (p. 4; dados de Doude et al. 2015, v = 100 mm/min constante; vazio no lado de avanço) — conferido na figura:
+  2,50 rps → vazio grande (ε_r 2,7; torque 70,5 N·m; T 596,6 K; τ_max 685,5 MPa); 3,33 rps → vazio pequeno (2,2; 56,3 N·m;
+  614,1 K; 663,4 MPa); 6,67 rps → sem vazio (1,5; 31,9 N·m; 654,5 K; 557,3 MPa).
 - Fig. 1: T monitorada 298 → 608 K; τ no pino é senoidal com máximo no lado de retrocesso (θ = 90° da direção de
   soldagem); torque cai com aumento do aporte de calor (v↓ ou ω↑).
 - Literatura citada: pico de temperatura deve estar entre **80–90 % de T_solidus** para evitar vazio (Qian et al. 2013,

@@ -14,7 +14,7 @@
 ## 2. Análise dimensional (Buckingham Π)
 
 Variáveis dimensionais do dataset: v [L T⁻¹], ω [T⁻¹], t, R_s, R_pr, R_pt [L], α [L² T⁻¹], p, σ_y [M L⁻¹ T⁻²];
-θ já é adimensional. São 10 variáveis dimensionais e 3 dimensões (M, L, T) → **7 grupos independentes** + θ.
+θ já é adimensional. São 9 variáveis dimensionais + θ (n = 10) e 3 dimensões (M, L, T) → **n − r = 7 grupos independentes**, sendo θ um deles (6 grupos novos + θ). *(Corrigido em 2026-10-20: antes dizia "10 variáveis dimensionais".)*
 (A liga entra só via α e σ_y — e esses dois são constantes por liga.)
 
 Um conjunto natural (todos realmente adimensionais):
