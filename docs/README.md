@@ -39,7 +39,10 @@ docs/
 │   └── template_latex.md             ← .tex atual × classe ITA; plano de migração
 └── 05_modelagem/
     ├── proposta_modelagem.md         ← análise dimensional, forma do C_void, testes de viabilidade, protocolo
-    └── analises_exploratorias_2026-10-12.md ← verificação dos dados + índices testados (ω·R_s etc.)
+    ├── analises_exploratorias_2026-10-12.md ← verificação dos dados + índices testados (ω·R_s etc.)
+    ├── protocolo_metodologia.md      ← decisões da Metodologia do TG2 (dados, SI, desbalanceamento, validação)
+    ├── plano_capitulos_metodologia_resultados.md ← estrutura dos caps. 3 e 4 + conjuntos de termos do modelo B
+    └── resultados_2026-10-21.md      ← resultados de A, B, C (código em TG2/codigos, saídas em TG2/resultados)
 
 analises_exploratorias/ (na raiz do repo) ← código Python dos testes exploratórios + resultados/ (CSV, PNG)
 ```

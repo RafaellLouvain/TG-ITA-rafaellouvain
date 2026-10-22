@@ -20,6 +20,11 @@ Atualizar este arquivo sempre que algo for decidido com o Rafael. Datas em AAAA-
 | 2026-10-19 | Revisão de literatura com 9 subseções (2.1 processo; 2.2 calor/temperatura; 2.3 escoamento; 2.4 microestrutura; 2.5 defeitos/vazio; 2.6 influência dos parâmetros; 2.7 modelagem/predição; 2.8 análise dimensional; 2.9 síntese com tabela de sinais esperados). Sem limite rígido de páginas (> 25 ok). Avaliação de classificadores vai para a Metodologia | Rafael |
 | 2026-10-20 | Revisão de literatura 2.1–2.9 redigida no `TG2_relatorio.tex` (cap. 2 = p. 7–34), com caixas vermelhas "INSERIR IMAGEM" indicando figura/página exata (artigos ou slides do TG1; imagens dos slides precisam de fonte original identificada) | Rafael pediu |
 | 2026-10-20 | Caixas "INSERIR IMAGEM" viraram `\figura{arquivo}{largura}{legenda}{rótulo}{instrução}`: a figura entra sozinha quando `TG2/Imagens/<arquivo>.png/.jpg/.pdf` existe; senão aparece caixa vermelha. Lista de nomes em `TG2/Imagens/LEIA-ME.md` | Rafael pediu |
+| 2026-10-21 | Terminologia: "acurácia fora da amostra" (CV / splits 78/30 repetidos) passa a se chamar **acurácia de teste**; "in-sample" = acurácia de treino | Rafael |
+| 2026-10-21 | Metodologia: abordagens na ordem B → A → C; **não usar a coluna Alloy** (α e σ_y mantidos); converter tudo para o SI. Protocolo completo em `05_modelagem/protocolo_metodologia.md` | Rafael |
+| 2026-10-21 | Estrutura dos caps. 3 e 4 fechada (resultados por modelo B → A → C; acurácia × balanceada e sensibilidade dentro de cada modelo; sem aplicação prática; B com 2–3 conjuntos de termos com base teórica). Ver `05_modelagem/plano_capitulos_metodologia_resultados.md` | Rafael |
+| 2026-10-21 | Códigos e resultados oficiais de A, B, C rodados (`TG2/codigos`, `TG2/resultados`); resumo em `05_modelagem/resultados_2026-10-21.md`. Aguardando alinhamento com o Rafael antes da escrita | Rafael pediu |
+| 2026-10-22 | Resultados: métrica principal = média dos 500 splits (split oficial secundário); narrativa B → A → C aprovada (A como C_void recomendado pela simplicidade); C_void com unidade aceito; limiar pelos dois critérios. Ver `05_modelagem/resultados_2026-10-21.md` §4–6 | Rafael |
 | 2026-10-12 | Análises exploratórias feitas (não oficiais) — ver `05_modelagem/analises_exploratorias_2026-10-12.md` | pedido do Rafael |
 
 ## Pendências / decisões a tomar (sugeridas pelo assistente)

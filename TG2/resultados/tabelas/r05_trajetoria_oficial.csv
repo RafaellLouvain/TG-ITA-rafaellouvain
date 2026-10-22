@@ -1,0 +1,6 @@
+criterio,passo,termo,nota_cv_interna
+acc,0,ωR_s,0.6798
+bal,0,ωR_s,0.6556
+bal,1,p/σ_y,0.6863
+bal,2,t/R_s,0.7150
+bal,3,R_pr/R_s,0.7331

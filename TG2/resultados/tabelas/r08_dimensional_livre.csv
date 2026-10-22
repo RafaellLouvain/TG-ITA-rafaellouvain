@@ -1,0 +1,5 @@
+modelo,criterio,rep_tr_acc,rep_acc,rep_bal,loso_acc,loso_bal
+"ln ω + ln R_s (dimensional, expoentes livres)",acc,0.7652,0.7176,0.7062,0.6111,0.6100
+"ln ω + ln R_s (dimensional, expoentes livres)",bal,0.7567,0.7102,0.7170,0.5926,0.6143
+"10 variáveis brutas (dimensional, expoentes livres)",acc,0.8569,0.7499,0.7456,0.5370,0.5288
+"10 variáveis brutas (dimensional, expoentes livres)",bal,0.8544,0.7495,0.7531,0.5370,0.5288

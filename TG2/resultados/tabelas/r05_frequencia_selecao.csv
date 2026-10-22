@@ -1,0 +1,19 @@
+criterio,termo,natureza,freq_selecao,posicao_media
+acc,ωR_s/v,"Cinemática, Geométrica",0.010,1.400
+acc,vR_s/α,"Cinemática, Geométrica, Térmica",0.040,1.500
+acc,p/σ_y,"Dinâmica, Metalúrgica",0.304,1.579
+acc,t/R_s,Geométrica,0.146,1.548
+acc,R_pr/R_s,Geométrica,0.038,1.684
+acc,R_pt/R_pr,Geométrica,0.572,1.150
+acc,θ,Dinâmica,0.192,1.917
+acc,(nº médio de termos além do núcleo),,1.302,
+acc,(fração só com o núcleo),,0.148,
+bal,ωR_s/v,"Cinemática, Geométrica",0.034,1.471
+bal,vR_s/α,"Cinemática, Geométrica, Térmica",0.032,1.750
+bal,p/σ_y,"Dinâmica, Metalúrgica",0.344,1.541
+bal,t/R_s,Geométrica,0.158,1.962
+bal,R_pr/R_s,Geométrica,0.060,2.000
+bal,R_pt/R_pr,Geométrica,0.540,1.200
+bal,θ,Dinâmica,0.172,2.407
+bal,(nº médio de termos além do núcleo),,1.340,
+bal,(fração só com o núcleo),,0.236,
