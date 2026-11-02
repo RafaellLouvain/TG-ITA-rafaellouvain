@@ -65,9 +65,9 @@ for vz, cor, rot, mk in [(0, COR_SEM, "Sem vazio", "o"), (1, COR_VAZIO, "Com vaz
     g = d[d["vazio"] == vz]
     ax.scatter(g["estudo"].map(x) + rng.uniform(-0.12, 0.12, len(g)), g["wRs"], c=cor, marker=mk, s=22,
                label=rot, linewidths=1.2)
-ax.axhline(V_acc, color="k", lw=1, label=f"limiar (acurácia) = {V_acc:.2f} m/s".replace(".", ",") + "")
+ax.axhline(V_acc, color="k", lw=1, label=f"limiar de máxima acurácia = {V_acc:.2f} m/s".replace(".", ",") + "")
 if not np.isclose(V_acc, V_bal):
-    ax.axhline(V_bal, color="k", lw=1, ls="--", label=f"limiar (acur. balanceada) = {V_bal:.2f} m/s".replace(".", ",") + "")
+    ax.axhline(V_bal, color="k", lw=1, ls="--", label=f"limiar conservador = {V_bal:.2f} m/s".replace(".", ",") + "")
 ax.set_xticks(range(len(ordem)))
 ax.set_xticklabels([f"{e}\n{d.loc[d.estudo == e, 'liga'].iat[0][2:]}" for e in ordem], fontsize=8)
 ax.set_xlabel("Estudo de origem (numeração de Du et al., 2019) e liga")
