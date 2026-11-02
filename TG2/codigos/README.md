@@ -19,7 +19,8 @@ python3 r04_modelo_A.py                        # seção 4.3: limiar crítico de
 python3 r05_modelo_C.py                        # seção 4.4: seleção dos termos, equação final, tornado
 python3 r06_comparacao.py                      # seções 4.5–4.6: comparação, acc × bal, robustez dos dados
 python3 r07_erros.py                           # seção 4.7: erros por solda e por estudo
-python3 r08_checagens.py                       # diagnóstico: sobreajuste do B (regularização L2)
+python3 r08_checagens.py                       # diagnóstico: sobreajuste do B (L2) e modelo dimensional livre
+python3 r09_dentro_do_estudo.py                # efeito de ω e v só dentro dos estudos (AUC intra, expoente de v)
 ```
 
 ## Módulos

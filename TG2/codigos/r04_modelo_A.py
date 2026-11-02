@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 from dados import SAIDA, carregar
-from estilo import CM, COR_SEM, COR_VAZIO, plt, salvar
+from estilo import CM, COR_SEM, COR_VAZIO, plt, salvar, virgula
 from nucleo import Indice, escolher_limiar, metricas
 from validacao import N_SPLITS, SEMENTE_OFICIAL, split
 
@@ -72,5 +72,6 @@ ax.set_xticks(range(len(ordem)))
 ax.set_xticklabels([f"{e}\n{d.loc[d.estudo == e, 'liga'].iat[0][2:]}" for e in ordem], fontsize=8)
 ax.set_xlabel("Estudo de origem (numeração de Du et al., 2019) e liga")
 ax.set_ylabel(r"$\omega R_s$ (m/s)")
+virgula(ax, "y")
 ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), fontsize=7.5, ncol=2, frameon=False)
 salvar(fig, "fig_r04_indice_wRs_por_estudo")

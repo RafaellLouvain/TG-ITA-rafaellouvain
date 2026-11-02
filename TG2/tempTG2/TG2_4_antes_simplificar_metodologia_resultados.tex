@@ -1,0 +1,1384 @@
+\documentclass[12pt,openany]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,brazilian]{babel}
+\usepackage{geometry}
+\geometry{a4paper, top=3cm, bottom=2cm, left=3cm, right=2cm, headheight=15pt, headsep=1cm}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % coluna de largura fixa alinhada à esquerda
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}  % coluna X alinhada à esquerda
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage{float}
+\usetikzlibrary{positioning,arrows.meta}
+
+% FONTES COMPATÍVEIS COM A REFERÊNCIA
+\usepackage{lmodern}          % Computer Modern (Latin Modern); tamanhos dos títulos seguem o modelo do ITA
+\usepackage{chngcntr}
+
+% MARCAÇÃO DE PENDÊNCIAS (TODOs) DURANTE A REDAÇÃO DO TG2
+% Para a versão final: trocar a opção por [disable] para sumir com todos os TODOs.
+\usepackage[dvipsnames]{xcolor}
+\usepackage[textsize=small]{todonotes}
+\setlength{\marginparwidth}{1.8cm}
+\newcommand{\pendente}[1]{\todo[inline,color=Goldenrod!25,bordercolor=Goldenrod]{\textbf{TODO:} #1}}
+\newcommand{\inseririmagem}[1]{\todo[inline,color=red!12,bordercolor=red!70!black]{\textbf{\color{red!70!black}$\blacktriangleright$ INSERIR IMAGEM:} #1}}
+% FIGURAS: cada figura usa \includegraphics{Imagens/<arquivo>.png} explícito.
+%  Enquanto o arquivo não existir em TG2/Imagens/, aparece uma caixa vermelha com o nome esperado e a instrução;
+%  quando existir, a figura entra automaticamente (basta recompilar).
+\newcommand{\imagempendente}[2]{%
+  \fcolorbox{red!70!black}{red!6}{\parbox{0.93\textwidth}{\small
+    \textbf{\color{red!70!black}$\blacktriangleright$ IMAGEM PENDENTE:} \texttt{\detokenize{#1}}\\[2pt]#2}}}
+
+% CONFIGURAÇÃO DE LINKS INTERATIVOS NO SUMÁRIO
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyphenat}
+\usepackage[hidelinks]{hyperref} % Cria os links clicáveis e remove as caixas coloridas
+
+% Configurações de espaçamento e parágrafos
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+
+% REESTRUTURAÇÃO DOS TÍTULOS
+\titleformat{\chapter}[hang]{\normalfont\fontsize{18}{22}\selectfont\bfseries}{\thechapter}{0.6em}{}
+\titlespacing*{\chapter}{0pt}{0pt}{18pt}
+\titleformat{\section}{\normalfont\fontsize{14}{17}\selectfont\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalfont\fontsize{12}{14.5}\selectfont\bfseries}{\thesubsection}{0.6em}{}
+\captionsetup{labelsep=endash}
+% Numeração de páginas no canto superior direito (modelo de TG do ITA)
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyhead[R]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+\pagestyle{fancy}
+\addto\captionsbrazilian{\renewcommand{\figurename}{FIGURA}\renewcommand{\tablename}{TABELA}}
+\newcommand{\titulonaonumerado}[1]{\begin{center}{\fontsize{18}{22}\selectfont\bfseries #1\par}\end{center}}
+
+\begin{document}
+
+% ==============================================================================
+% PAGINA 1: CAPA (Formatada dentro das margens e bordas do ITA)
+% ==============================================================================
+\pdfbookmark[0]{Capa}{capa}
+\begin{titlepage}
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[line width = 1.2pt]
+            ([shift={(20mm,-20mm)}]current page.north west)
+            rectangle
+            ([shift={(-20mm,20mm)}]current page.south east);
+    \end{tikzpicture}
+
+    \centering
+    \vspace*{0.1cm}
+
+    {\large\bfseries INSTITUTO TECNOLÓGICO DE AERONÁUTICA\par}
+
+    \vspace{2.0cm}
+
+    % Logo: coloque o arquivo em TG2/Imagens/ita-logo.png (enquanto não existir, aparece uma caixa no lugar)
+    \IfFileExists{Imagens/ita-logo.png}{\includegraphics[width=8.2cm]{Imagens/ita-logo.png}}{\fbox{\parbox[c][2.5cm][c]{8.2cm}{\centering [logo ITA: \texttt{Imagens/ita-logo.png}]}}}\par
+
+    \vspace{2.0cm}
+    \begin{singlespace}
+        {\Large Rafael Lucas de Albuquerque Louvain \par}
+    \end{singlespace}
+
+    \vspace{2.0cm}
+
+    \begin{minipage}{\textwidth}
+        \centering
+        {\Large\bfseries
+        ANÁLISE DA INFLUÊNCIA DE PARÂMETROS DE PROCESSO DE FABRICAÇÃO (CINEMÁTICOS, DE GEOMETRIA DA FERRAMENTA, ENTRE OUTROS) NA INTEGRIDADE DE JUNTAS SOLDADAS POR FSW\par}
+    \end{minipage}
+
+    \vspace{2.2cm}
+
+    \begin{singlespace}
+        {\Large Trabalho de Graduação \par}
+        {\Large 2026\par}
+
+        \vspace{2.8cm}
+
+        {\Large\bfseries Curso de Engenharia Mecânica-Aeronáutica\par}
+    \end{singlespace}
+    \vspace*{0.2cm}
+\end{titlepage}
+
+\newpage
+
+% ==============================================================================
+% FOLHA DE ROSTO (contada a partir daqui; número não impresso)
+% ==============================================================================
+\pagenumbering{roman}
+\setcounter{page}{1}
+\thispagestyle{empty}
+\pdfbookmark[0]{Folha de Rosto}{folharosto}
+\begin{center}
+\begin{singlespace}
+\hfill CDU 621.791\par
+\vspace*{1.2cm}
+{\fontsize{16}{20}\selectfont\bfseries Rafael Lucas de Albuquerque Louvain\par}
+\vspace{2.5cm}
+{\fontsize{20}{26}\selectfont\bfseries ANÁLISE DA INFLUÊNCIA DE PARÂMETROS DE PROCESSO DE FABRICAÇÃO (CINEMÁTICOS, DE GEOMETRIA DA FERRAMENTA, ENTRE OUTROS) NA INTEGRIDADE DE JUNTAS SOLDADAS POR FSW\par}
+\vspace{2.5cm}
+\begin{onehalfspace}
+Orientador\par
+Prof. Dr. Lindolfo Araújo Moreira Filho (ITA)\par
+\end{onehalfspace}
+\vspace{2.5cm}
+{\fontsize{16}{20}\selectfont\bfseries ENGENHARIA MECÂNICA-AERONÁUTICA\par}
+\vfill
+SÃO JOSÉ DOS CAMPOS\par
+INSTITUTO TECNOLÓGICO DE AERONÁUTICA\par
+2026\par
+\end{singlespace}
+\end{center}
+\newpage
+
+% ==============================================================================
+% VERSO DA FOLHA DE ROSTO (ficha catalográfica; número não impresso)
+% ==============================================================================
+\thispagestyle{empty}
+\pdfbookmark[0]{Verso da Folha de Rosto}{versorosto}
+\begin{singlespace}
+\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{\footnotesize
+\textbf{Dados Internacionais de Catalogação-na-Publicação (CIP)}\\
+\textbf{Divisão de Informação e Documentação}\\[6pt]
+Louvain, Rafael Lucas de Albuquerque\\
+\hspace*{1em}Análise da influência de parâmetros de processo de fabricação (cinemáticos, de geometria da ferramenta, entre outros) na integridade de juntas soldadas por FSW / Rafael Lucas de Albuquerque Louvain.\\
+\hspace*{1em}São José dos Campos, 2026.\\
+\hspace*{1em}\pageref{LastPage}f.\\[6pt]
+\hspace*{1em}Trabalho de Graduação -- Curso de Engenharia Mecânica-Aeronáutica -- Instituto Tecnológico de Aeronáutica, 2026. Orientador: Prof. Dr. Lindolfo Araújo Moreira Filho.\\[6pt]
+\hspace*{1em}1. \textit{Friction Stir Welding}. 2. Previsão de vazios volumétricos. 3. Parâmetros de processo. I. Instituto Tecnológico de Aeronáutica. II. Título.}}
+\end{singlespace}
+
+\vspace{1cm}
+\begin{singlespace}\small
+\noindent\textbf{REFERÊNCIA BIBLIOGRÁFICA}\\[4pt]
+LOUVAIN, Rafael Lucas de Albuquerque. \textbf{Análise da influência de parâmetros de processo de fabricação (cinemáticos, de geometria da ferramenta, entre outros) na integridade de juntas soldadas por FSW}. 2026. \pageref{LastPage}f. Trabalho de Conclusão de Curso (Graduação em Engenharia Mecânica-Aeronáutica) -- Instituto Tecnológico de Aeronáutica, São José dos Campos, 2026.
+
+\vspace{0.8cm}
+\noindent\textbf{CESSÃO DE DIREITOS}\\[4pt]
+{\footnotesize NOME DO AUTOR:} Rafael Lucas de Albuquerque Louvain\\
+{\footnotesize TÍTULO DO TRABALHO:} Análise da influência de parâmetros de processo de fabricação (cinemáticos, de geometria da ferramenta, entre outros) na integridade de juntas soldadas por FSW\\
+{\footnotesize TIPO DO TRABALHO/ANO:} Trabalho de Conclusão de Curso (Graduação) / 2026\\[6pt]
+É concedida ao Instituto Tecnológico de Aeronáutica permissão para reproduzir cópias deste trabalho de graduação e para emprestar ou vender cópias somente para propósitos acadêmicos e científicos. O autor reserva outros direitos de publicação e nenhuma parte deste trabalho de graduação pode ser reproduzida sem a autorização do autor.
+
+\vspace{1.5cm}
+\noindent\rule{7cm}{0.4pt}\\
+Rafael Lucas de Albuquerque Louvain\\
+Rua H8A, 137\\
+12.228-460 -- São José dos Campos -- SP
+\end{singlespace}
+\newpage
+
+% >>> FOLHA DE APROVAÇÃO DESATIVADA ATÉ A APROVAÇÃO DO TG (reativar removendo os '%' abaixo) <<<
+%% ==============================================================================
+%% FOLHA DE APROVAÇÃO (primeira página com número romano impresso)
+%% ==============================================================================
+%\pdfbookmark[0]{Folha de Aprovação}{aprovacao}
+%\begin{center}
+%\begin{singlespace}
+%\vspace*{1cm}
+%{\fontsize{20}{26}\selectfont\bfseries ANÁLISE DA INFLUÊNCIA DE PARÂMETROS DE PROCESSO DE FABRICAÇÃO (CINEMÁTICOS, DE GEOMETRIA DA FERRAMENTA, ENTRE OUTROS) NA INTEGRIDADE DE JUNTAS SOLDADAS POR FSW\par}
+%\vspace{2cm}
+%Essa publicação foi aceita como Relatório Final de Trabalho de Graduação\par
+%\vspace{2.5cm}
+%\rule{10cm}{0.4pt}\par
+%Rafael Lucas de Albuquerque Louvain\par
+%Autor\par
+%\vspace{2cm}
+%\rule{10cm}{0.4pt}\par
+%Prof. Dr. Lindolfo Araújo Moreira Filho (ITA)\par
+%Orientador\par
+%\vfill
+%São José dos Campos, \rule{1cm}{0.4pt} de \rule{3cm}{0.4pt} de 2026.\par
+%\end{singlespace}
+%\end{center}
+%\newpage
+
+% ==============================================================================
+% DEDICATÓRIA, AGRADECIMENTOS E EPÍGRAFE
+% ==============================================================================
+\pdfbookmark[0]{Dedicatória}{dedicatoria}
+\vspace*{\fill}
+\begin{flushright}
+\begin{minipage}{0.45\textwidth}
+\itshape [Texto da dedicatória.]
+\end{minipage}
+\end{flushright}
+\pendente{Escrever a dedicatória (opcional).}
+\newpage
+
+\pdfbookmark[0]{Agradecimentos}{agradecimentos}
+\vspace*{2.5cm}
+\begin{center}
+    {\fontsize{18}{22}\selectfont\bfseries Agradecimentos\par}
+\end{center}
+\vspace{1.8cm}
+
+[Texto dos agradecimentos.]
+
+\pendente{Escrever os agradecimentos (opcional): orientador, professores, colegas, família.}
+\newpage
+
+\pdfbookmark[0]{Epígrafe}{epigrafe}
+\vspace*{\fill}
+\begin{flushright}
+\begin{minipage}{0.5\textwidth}
+\itshape ``[Texto da epígrafe.]''\par
+\upshape\raggedleft --- [Autor da citação]
+\end{minipage}
+\end{flushright}
+\pendente{Escolher a epígrafe (opcional).}
+\newpage
+
+
+% ==============================================================================
+% PAGINA 2: RESUMO
+% ==============================================================================
+\pdfbookmark[0]{Resumo}{resumo}
+\vspace*{2.5cm}
+
+\begin{center}
+    {\fontsize{18}{22}\selectfont\bfseries Resumo\par}
+\end{center}
+
+\vspace{1.8cm}
+
+Este Trabalho de Graduação propõe um Coeficiente Analítico de Vazio ($C_{void}$), uma expressão simples e explícita para prever a ocorrência de descontinuidades volumétricas (\textit{voids}) no processo de \textit{Friction Stir Welding} (FSW), calibrada e validada sobre os 108 ensaios das ligas aeronáuticas AA2024, AA2219 e AA6061 compilados por Du, Mukherjee e DebRoy (2019), publicados na \textit{npj Computational Materials}, periódico do grupo \textit{Nature}. Foram avaliadas três abordagens: um produto de grupos adimensionais obtidos pelo teorema $\Pi$ de Buckingham, proposta original do trabalho; um índice físico único, a velocidade periférica do ombro ($\omega R_s$), comparada a um valor crítico; e esse mesmo índice complementado por grupos adimensionais selecionados pelos dados. A primeira não atingiu a meta de 70\% de acurácia, resultado explicado pelo regime térmico dominado pela condução, no qual o avanço pouco influencia a temperatura. A segunda atingiu 72,9\% de acurácia média em teste com um único parâmetro, desempenho equivalente ao da terceira, e é a forma recomendada. As naturezas cinemática e geométrica mostraram-se as de maior influência na formação de vazios.
+
+\vspace{1.0cm}
+\noindent \textbf{Palavras-chave:} \textit{Friction Stir Welding}, Previsão de vazios volumétricos, Parâmetros de processo.
+
+\newpage
+
+
+% ==============================================================================
+% ABSTRACT
+% ==============================================================================
+\pdfbookmark[0]{Abstract}{abstract}
+\vspace*{2.5cm}
+
+\begin{center}
+    {\fontsize{18}{22}\selectfont\bfseries Abstract\par}
+\end{center}
+
+\vspace{1.8cm}
+
+\begin{otherlanguage}{english}
+This undergraduate thesis proposes an Analytical Void Coefficient ($C_{void}$), a simple and explicit expression to predict the occurrence of volumetric discontinuities (voids) in Friction Stir Welding (FSW), calibrated and validated on the 108 welds of the aeronautical alloys AA2024, AA2219 and AA6061 compiled by Du, Mukherjee and DebRoy (2019), published in \textit{npj Computational Materials}, a \textit{Nature} portfolio journal. Three approaches were evaluated: a product of dimensionless groups obtained with the Buckingham $\Pi$ theorem, the original proposal of this work; a single physical index, the shoulder peripheral speed ($\omega R_s$), compared with a critical value; and the same index complemented by dimensionless groups selected from the data. The first approach did not reach the 70\% accuracy target, which is explained by the conduction-dominated thermal regime, in which the traverse speed has little influence on temperature. The second reached 72.9\% mean test accuracy with a single parameter, a performance equivalent to that of the third, and is the recommended form. The kinematic and geometric natures proved to be the most influential on void formation.
+
+\vspace{1.0cm}
+\noindent \textbf{Keywords:} Friction Stir Welding, Volumetric void prediction, Process parameters.
+\end{otherlanguage}
+
+\newpage
+
+% ==============================================================================
+% LISTA DE SÍMBOLOS
+% ==============================================================================
+\pdfbookmark[0]{Lista de Símbolos}{simbolos}
+\begin{center}
+    {\fontsize{18}{22}\selectfont\bfseries Lista de Símbolos\par}
+\end{center}
+\vspace{1cm}
+\begin{singlespace}
+\noindent\textbf{Letras latinas}\\[4pt]
+\begin{tabular}{@{}p{2.2cm}p{12.5cm}@{}}
+$A$ & área da seção do ombro \\
+$C_0$ & constante do Coeficiente Analítico de Vazio \\
+$C_P$ & calor específico \\
+$C_{void}$ & Coeficiente Analítico de Vazio \\
+$k$ & condutividade térmica \\
+$N$ & rotação da ferramenta, em rpm \\
+$p$ & pressão axial \\
+$P$ & probabilidade de ocorrência de vazio \\
+$Q$ & calor gerado \\
+$Q^{*}$ & aporte de calor adimensional \\
+$R_s$ & raio do ombro \\
+$R_{pr}$, $R_{pt}$ & raios do pino na raiz e na ponta \\
+$t$ & espessura da chapa \\
+$T^{*}$ & temperatura de pico adimensional \\
+$T_m$, $T_S$ & temperaturas de fusão e \textit{solidus} \\
+$T_P$ & temperatura de pico \\
+$U$, $v$ & velocidade de avanço \\
+$V_{crit}$ & velocidade periférica crítica do ombro \\
+\end{tabular}
+
+\vspace{0.6cm}
+\noindent\textbf{Letras gregas}\\[4pt]
+\begin{tabular}{@{}p{2.2cm}p{12.5cm}@{}}
+$\alpha$ & difusividade térmica (na Eq.~(\ref{eq:schmidt}), ângulo de cone do ombro) \\
+$\beta_i$ & expoente do grupo adimensional $\Pi_i$ \\
+$\delta$ & variável de estado de contato (adesão ou escorregamento) \\
+$\mu$ & coeficiente de atrito \\
+$\Pi_i$ & grupo adimensional \\
+$\rho$ & massa específica \\
+$\sigma_y$ & limite de escoamento \\
+$\tau$ & tensão de cisalhamento na interface \\
+$\theta$ & ângulo de inclinação da ferramenta \\
+$\omega$ & velocidade angular da ferramenta \\
+\end{tabular}
+\end{singlespace}
+\newpage
+
+% ==============================================================================
+% PAGINA 3: SUMÁRIO
+% ==============================================================================
+
+\pdfbookmark[0]{Sumário}{sumario}
+\begin{center}
+    {\fontsize{18}{22}\selectfont\bfseries Sumário\par}
+\end{center}
+\vspace{1.5cm}
+
+\begin{singlespace}
+\makeatletter
+\@starttoc{toc}
+\makeatother
+\end{singlespace}
+
+\newpage
+\newcounter{paginaspre}\setcounter{paginaspre}{\value{page}}
+\pagenumbering{arabic}
+\setcounter{page}{\value{paginaspre}}
+
+% ==============================================================================
+% CAPÍTULO 1 - INTRODUÇÃO E CONTEXTUALIZAÇÃO
+% ==============================================================================
+\chapter{Introdução e contextualização}
+
+A soldagem por fricção e mistura mecânica (\textit{Friction Stir Welding} -- FSW) foi desenvolvida no \textit{The Welding Institute} (TWI), no Reino Unido, em 1991, como uma técnica de união no estado sólido aplicada inicialmente às ligas de alumínio de aplicação aerospacial historicamente classificadas como não-soldáveis por métodos tradicionais de fusão, como as séries 2XXX e 7XXX (MISHRA; MA, 2005). O FSW opera inteiramente abaixo da temperatura de fusão ($T < T_m$), utilizando uma ferramenta rotativa não consumível, composta por um ombro e um pino, inserida na linha de junta entre as chapas e deslocada ao longo dela. A ferramenta desempenha duas funções: aquecer localmente a peça, por atrito entre ferramenta e material e por deformação plástica, e movimentar o material, que atinge o estado viscoplástico, da frente para a parte de trás do pino, onde a junta é consolidada.  A intensa deformação plástica a temperatura elevada produz grãos finos e equiaxiais recristalizados na região soldada, o que confere às juntas boas propriedades mecânicas.
+
+
+A relevância do FSW para a engenharia aeronáutica decorre da sua aplicação na solda de fuselagens, asas e outras estruturas que utilizam ligas de alta resistência, como as séries de liga de alumínio mencionadas. A dificuldade de soldar esses materiais com métodos mais usuais se dá em razão da microestrutura de solidificação deficiente, da porosidade na zona fundida e da perda significativa de propriedades mecânicas em relação ao material de base; por isso, a união de estruturas aeroespaciais tem sido feita tradicionalmente por rebitagem, com maior complexidade e custo de fabricação. O FSW contorna essas limitações ao operar inteiramente no estado sólido e já foi adotado em aplicações como os revestimentos e a estrutura da aeronave Eclipse 500, os tanques do foguete Delta, estruturas internas do C-17, da Boeing (MISHRA; MA, 2005), e em diversas outras aplicações nos setores aerospacial, naval e automotivo. Além disso, uma característica interessante do FSW é o seu caráter substancialmente mais sustentável em relação às soldagens tradicionais. Isso se dá por três razões principais, são elas: a não necessidade de metal de adição altamente utilizado em ligas soldadas por fusão, o que reduz a demanda por metais auxiliares no processo de solda e poupa significativa quantidade da energia demandada, haja vista a alta demanda energética na produção de materiais metálicos semi-processados de um modo geral, como os arames e varetas usados como metais auxiliares; não geração de gases tóxicos proveninetes da vaporização desses elementos da liga; e, por fim, um ganho na economica energética decorrente de não necessitar superar o calor latente dos metais da liga, que acabam sendo dissipados em métodos tradicionais de soldagem por radiação e condução.
+
+
+Apesar dessas vantagens, o sucesso do FSW depende da confluência de diversos fenômenos físicos complexos que governam a distribuição tridimensional de temperatura, as velocidades do material plastificado e as taxas de deformação na região da ferramenta. Alterações nesses campos podem levar à formação de vazios (\textit{voids}) na junta, tipicamente próximos à ponta do pino, que prejudicam tanto as propriedades mecânicas quanto a vida em serviço do componente. Esses defeitos volumétricos são internos e, em geral, identificados por cortes transversais do cordão ou por ensaios não destrutivos, como ultrassom e radiografia. Atribui-se sua origem ao escoamento inadequado e descontínuo do material plastificado ao redor do pino, decorrente, por exemplo, de aporte térmico insuficiente devido a uma rotação baixa para a velocidade de avanço adotada, de um diâmetro de ombro inadequado ou de uma espessura de chapa elevada. A literatura também associa a ausência de vazios a temperaturas de pico entre 80\% e 90\% da temperatura \textit{solidus} da liga (DU; MUKHERJEE; DEBROY, 2019). Ainda assim, apesar dos avanços na identificação das variáveis relevantes, nenhuma explicação mecanística rigorosa nem um critério para a formação de vazios foi estabelecido até o momento (DU; MUKHERJEE; DEBROY, 2019).
+
+Modelos numéricos abrangentes do processo resolvem as equações de conservação de massa, quantidade de movimento e energia para obter os campos tridimensionais de temperatura e velocidade, a taxa de deformação, a tensão de cisalhamento no pino e o torque, exigindo, contudo, considerável esforço computacional. Simulações desse tipo envolvem o acoplamento de modelos térmicos, de dinâmica dos fluidos computacional (CFD) e termomecânicos, com malhas refinadas que chegam a elementos de 0,05~mm na interface entre ferramenta e peça (LASKA et al., 2023). Como alternativa, Du, Mukherjee e DebRoy (2019) aplicaram aprendizado de máquina a um banco de 108 ensaios da literatura: uma rede neural alimentada apenas pelos parâmetros de soldagem, pela geometria da ferramenta e da chapa e pelas propriedades do material, dados normalmente medidos e registrados no chão de fábrica, atingiu 83,3\% de acurácia na predição de vazios; ao substituir essas entradas por variáveis causais (temperatura, taxa de deformação, torque e tensão de cisalhamento máxima no pino) calculadas por modelos mecanísticos, a acurácia subiu para até 96,6\%, ao custo de exigir simulações prévias para cada condição. Em ambos os casos, o resultado é um classificador sem uma relação explícita entre as variáveis de processo e a formação do defeito. Os próprios autores observam que, em sistemas complexos, o comportamento é frequentemente mais bem descrito por um grupo de variáveis do que pelas variáveis individuais, como no caso do número de Reynolds, que caracteriza o regime de escoamento em um tubo melhor do que o diâmetro, a velocidade, a densidade e a viscosidade tomados isoladamente (DU; MUKHERJEE; DEBROY, 2019). Essa observação motiva a busca por um índice que contemple os parâmetros de processo de forma a capturar a complexidade que induz a formação de vazios de forma mais direta durante a definição dos parâmetros de soldagem.
+
+No ITA, o tema vem sendo desenvolvido em uma linha de trabalhos sucessivos. Cintra (2018) estabeleceu sua base experimental: soldou chapas de Alclad AA2024-T3 em 47 condições de processo, registrou os defeitos de soldas quentes, frias e mistas e os interpretou com o auxílio de um modelo termomecânico e de medições de temperatura, destacando a força de forjamento como parâmetro primordial. A partir desses ensaios, Gomes (2019) aprimorou o modelo termomecânico e mostrou que a temperatura máxima de soldagem pode ser prevista a partir da geometria da ferramenta, dos parâmetros de soldagem, da temperatura \textit{solidus} e da difusividade térmica do material. Em paralelo, Batista Filho e Tanaka (2020) e Alcoforado (2021) caracterizaram mecânica e metalograficamente juntas de Alclad AA2024-T3 e de AA2198-T351 em busca de falhas e defeitos, e Esaki (2022) simulou o processo por elementos finitos, comparando as temperaturas calculadas com as medidas. Por fim, Bezerra (2025) usou os ensaios de Cintra (2018) para correlacionar, por regressão logística, a energia efetiva por comprimento de solda com a ocorrência de cada tipo de defeito e concluiu que essa energia isolada não basta para separar soldas sãs e defeituosas, sendo necessário considerar outros parâmetros, como a força axial. O presente trabalho dá continuidade a essa linha em duas direções: combina explicitamente variáveis de naturezas distintas, como sugerem os resultados de Gomes (2019) e de Bezerra (2025), e amplia a análise de uma única liga e ferramenta para uma base que reúne diferentes ligas, ferramentas e espessuras.
+
+\section{Objetivo}
+
+O objetivo deste trabalho consiste no desenvolvimento de um modelo fenomenológico\hyp{}matemático unificado, expresso na forma de um Coeficiente Analítico de Vazio ($C_{void}$), fundamentado nos princípios de análise dimensional e mecânica dos processos de fabricação. O índice proposto visa agrupar as leis de potência físicas que governam a iniciação de defeitos volumétricos, substituindo a complexidade de simulações pesadas por uma equação explícita direcionada à uma utilização prática em um contexto de operação industrial. A meta estabelecida busca calibrar e validar o índice frente à base de 108 ensaios experimentais das ligas AA2024, AA2219 e AA6061 de Du, Mukherjee e DebRoy (2019), estipulando-se o alvo mínimo de 70\% de acurácia preditiva global na classificação binária de integridade de juntas soldadas. Adicionalmente, busca-se estabelecer uma hierarquia de sensibilidade que indique quais naturezas de parâmetros (cinemática, geométrica, térmica, dinâmica e metalúrgica) exercem maior influência na formação de vazios.
+
+% ==============================================================================
+% CAPÍTULO 2 - REVISÃO DA LITERATURA
+% ==============================================================================
+\chapter{Revisão da literatura}
+
+Este capítulo reúne os fundamentos que sustentam a formulação do índice proposto. Parte-se da descrição do processo e de suas variáveis (Seção 2.1), passando pela geração de calor e pela temperatura atingida na junta (Seção 2.2), pelo escoamento do material ao redor da ferramenta (Seção 2.3) e pela microestrutura resultante (Seção 2.4), até chegar aos defeitos de vazio (Seção 2.5) e à influência individual de cada parâmetro de processo sobre eles (Seção 2.6). Em seguida, apresentam-se as abordagens de modelagem e predição de defeitos existentes, com destaque para o estudo de Du, Mukherjee e DebRoy (2019) que fornece a base de dados deste trabalho (Seção 2.7), e os princípios de análise dimensional que fundamentam a construção de índices adimensionais (Seção 2.8). O capítulo se encerra com uma síntese das implicações dessa revisão para a modelagem (Seção 2.9).
+
+% ------------------------------------------------------------------------------
+\section{O Processo FSW: Princípio, Ferramenta e Variáveis}
+
+A soldagem por fricção e mistura mecânica é, em sua essência, um processo de conformação no estado sólido conduzido por uma ferramenta rotativa. Uma ferramenta não consumível, provida de um pino em sua extremidade e de um ombro de diâmetro maior, é posta em rotação e inserida nas bordas adjacentes das chapas até que o ombro toque a superfície da peça; em seguida, a ferramenta é deslocada ao longo da linha de junta. Durante esse percurso, a ferramenta desempenha duas funções: aquecer localmente o material, por atrito e por deformação plástica, e movimentá-lo da frente para a parte de trás do pino, onde a junta é formada sem que haja fusão (MISHRA; MA, 2005).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-esquema-processo-fsw.png}{\includegraphics[width=0.7\textwidth]{Imagens/fig-esquema-processo-fsw.png}}{\imagempendente{Imagens/fig-esquema-processo-fsw.png}{Esquema geral do processo FSW (ferramenta, chapas, direção de avanço e de rotação, lados de avanço e de recuo). Opção 1: Mishra e Ma (2005), Fig.~1, p.~2 (``Schematic drawing of friction stir welding''). Opção 2: diagrama próprio. Citar a fonte na legenda.}}
+  \caption{Representação esquemática do processo de soldagem por fricção e mistura mecânica (FSW) (MISHRA; MA, 2005).}
+  \label{fig:esquema-fsw}
+\end{figure}
+
+A ferramenta é, portanto, o elemento central do processo, e cada uma de suas partes cumpre um papel distinto. O ombro é responsável pela maior parcela do aquecimento e atua também como uma barreira que confina o material aquecido sob a ferramenta, impedindo que ele escape. O pino, por sua vez, é o responsável por cisalhar e movimentar o material ao redor de si, conduzindo-o da frente para a traseira da ferramenta. Do ponto de vista térmico, o tamanho relativo entre pino e ombro é o aspecto mais importante, ao passo que os detalhes do perfil do pino governam principalmente o escoamento do material e os esforços do processo (MISHRA; MA, 2005).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-ferramenta-ombro-pino.png}{\includegraphics[width=0.45\textwidth]{Imagens/fig-ferramenta-ombro-pino.png}}{\imagempendente{Imagens/fig-ferramenta-ombro-pino.png}{Anatomia da ferramenta (ombro, pino, diâmetros $D$ e $d$). Opções: Mishra e Ma (2005), Fig.~2, p.~3 (``Schematic drawing of the FSW tool''); ou a imagem do slide~5 da apresentação do TG1 (desenho com ``Shoulder'', ``Pin'', $d$ e $D$) e a foto do slide~4 (ferramenta em operação); \textbf{identificar a fonte original das imagens dos slides antes de usar}.}}
+  \caption{Representação esquemática da ferramenta de FSW, composta por ombro e pino.}
+  \label{fig:ferramenta}
+\end{figure}
+
+As ferramentas mais difundidas combinam um ombro côncavo com um pino cilíndrico roscado, mas a geometria ganhou diversas variantes, como pinos tronco-cônicos e com flautas, que deslocam menos material, reduzem a força de soldagem e favorecem o transporte do material para baixo (MISHRA; MA, 2005; AHMED; KADHUM; SALLEH, 2024), conforme a Figura~\ref{fig:tipos-pinos}. Apesar dessa evolução, Mishra e Ma (2005) observam que o projeto de ferramentas ainda se baseia em grande parte em conceitos intuitivos e que muitas geometrias são proprietárias, o que dificulta generalizar a influência da ferramenta quando ela não é completamente descrita, aspecto relevante para este trabalho, cuja base de dados descreve o pino apenas por seus raios na raiz e na ponta.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-tipos-pinos-ahmed.png}{\includegraphics[width=0.95\textwidth]{Imagens/fig-tipos-pinos-ahmed.png}}{\imagempendente{Imagens/fig-tipos-pinos-ahmed.png}{Ahmed, Kadhum e Salleh (2024), Fig.~2, p.~41 (tabela de geometrias de ferramenta: cilíndrico, Whorl, MX Triflute, Flared Triflute, A-skew e Re-stir).}}
+  \caption{Geometrias de ferramenta para FSW: forma do pino, razão entre o volume do pino e o de um pino cilíndrico, razão entre volume varrido e volume do pino e aplicação típica (AHMED; KADHUM; SALLEH, 2024).}
+  \label{fig:tipos-pinos}
+\end{figure}
+
+A combinação entre a rotação da ferramenta e seu avanço torna o processo intrinsecamente assimétrico. Define-se como lado de avanço (\textit{advancing side}) aquele em que a velocidade tangencial da ferramenta tem o mesmo sentido da velocidade de avanço, e como lado de recuo (\textit{retreating side}) o lado oposto, em que os dois vetores têm sentidos contrários. Essa assimetria se reflete em praticamente todas as grandezas do processo: a temperatura é ligeiramente maior no lado de avanço (MISHRA; MA, 2005), a zona afetada pelo calor tende a ser mais larga desse lado (LASKA et al., 2023) e, como será discutido adiante, é nele que os vazios costumam se formar.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-lados-avanco-recuo.png}{\includegraphics[width=0.55\textwidth]{Imagens/fig-lados-avanco-recuo.png}}{\imagempendente{Imagens/fig-lados-avanco-recuo.png}{Esquema em vista superior mostrando os lados de avanço e de recuo e o sentido do escoamento ao redor do pino. Opção: imagem do slide~6 da apresentação do TG1 (painéis a--d com linhas de corrente); \textbf{identificar a fonte original}; alternativa: diagrama próprio em TikZ.}}
+  \caption{Lados de avanço e de recuo e escoamento do material ao redor do pino, em vista superior.}
+  \label{fig:lados-avanco-recuo}
+\end{figure}
+
+Do ponto de vista operacional, os dois parâmetros mais importantes do processo são a rotação da ferramenta, $\omega$, e a velocidade de avanço, $v$. A rotação promove o aquecimento por atrito e a agitação e mistura do material ao redor do pino, enquanto o avanço desloca o material agitado da frente para trás do pino e conduz a solda ao longo da junta. A razão entre essas duas velocidades, o avanço por rotação ou \textit{weld pitch} ($v/\omega$), aparece com frequência na literatura como um parâmetro combinado do processo, e será retomada nas próximas seções.
+
+Além das velocidades, três outros parâmetros são decisivos. O primeiro é o ângulo de inclinação da ferramenta (\textit{tilt}), em direção oposta ao avanço, cujo efeito é discutido na Seção~2.6 (MEYGHANI; AWANG, 2022). O segundo é a profundidade de inserção do pino: se for rasa demais, o ombro não toca a superfície original da peça e não consegue movimentar o material, gerando canais internos ou sulcos superficiais; se for funda demais, o ombro afunda na peça, gerando rebarba excessiva e afinamento local da junta (MISHRA; MA, 2005). O terceiro é a força ou pressão axial aplicada, que mantém o contato do ombro com a peça (ALDANONDO et al., 2020). Quanto à configuração das juntas, as mais usuais são a de topo e a sobreposta, a partir das quais se derivam outras (MISHRA; MA, 2005); este trabalho delimita-se ao FSW convencional de juntas de topo, configuração adotada em todos os ensaios da base de dados utilizada.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-angulo-inclinacao.png}{\includegraphics[width=0.7\textwidth]{Imagens/fig-angulo-inclinacao.png}}{\imagempendente{Imagens/fig-angulo-inclinacao.png}{Ângulo de inclinação da ferramenta. Meyghani e Awang (2022), Fig.~1, p.~2 (``exaggeratedly cross-sectional view... while the tilt angle is applied''); ou a imagem do slide~25 da apresentação do TG1; \textbf{identificar a fonte original}.}}
+  \caption{Vista em corte longitudinal da ferramenta inclinada em relação à peça (ângulo de inclinação representado de forma exagerada) (MEYGHANI; AWANG, 2022).}
+  \label{fig:inclinacao}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\section{Geração de Calor e Temperatura}
+
+O calor no FSW provém de duas fontes: o atrito entre a ferramenta e a peça e a deformação plástica do material ao redor da ferramenta. Na fase inicial de penetração, o aquecimento resulta principalmente do atrito entre o pino e a peça; quando o ombro entra em contato com a superfície, o atrito do ombro passa a constituir a maior parcela do aquecimento (MISHRA; MA, 2005). A contribuição de cada parte da ferramenta pode ser estimada por modelos analíticos. Mishra e Ma (2005) apresentam, a partir do modelo de Schmidt, Hattel e Wert, a seguinte expressão para o calor total gerado:
+
+\begin{equation}
+\begin{split}
+Q_{total} = {}& \frac{2}{3}\pi\left[\delta\,\frac{\sigma_{yield}}{\sqrt{3}} + (1-\delta)\,\mu\,p\right]\omega \\
+& \times \left[\left(R_{shoulder}^{3}-R_{probe}^{3}\right)(1+\tan\alpha) + R_{probe}^{3} + 3R_{probe}^{2}H_{probe}\right],
+\end{split}
+\label{eq:schmidt}
+\end{equation}
+
+\noindent em que $\sigma_{yield}$ é o limite de escoamento, $\omega$ a velocidade angular da ferramenta, $R_{shoulder}$ e $R_{probe}$ os raios do ombro e do pino, $\alpha$ o ângulo de cone do ombro, $H_{probe}$ a altura do pino, $p$ a pressão de contato, $\mu$ o coeficiente de atrito e $\delta$ a variável de estado de contato. Para $\delta = 1$ tem-se a condição de adesão plena (\textit{sticking}), em que o calor é governado pela tensão de escoamento do material cisalhado; para $\delta = 0$, a condição de escorregamento (\textit{sliding}), em que o calor decorre do atrito $\mu p$ (MISHRA; MA, 2005). A dependência com o cubo do raio do ombro explica a predominância desse componente no aporte térmico. Ahmed et al. (2021), ao modelar a geração de calor com pinos cilíndrico, quadrado e triangular, estimaram que os ombros respondem por aproximadamente 78\% a 88\% do calor total, e que o calor gerado cresce com a rotação, o coeficiente de atrito, o raio do ombro, a espessura da chapa e a área superficial do pino, sendo inversamente proporcional à velocidade de avanço.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-calor-rotacao-avanco-ahmed.png}{\includegraphics[width=0.95\textwidth]{Imagens/fig-calor-rotacao-avanco-ahmed.png}}{\imagempendente{Imagens/fig-calor-rotacao-avanco-ahmed.png}{Contribuição das partes da ferramenta no calor. Opções: Ahmed et al. (2021), Fig.~6, p.~10 (efeito da rotação e da velocidade de avanço no calor gerado por comprimento) e Fig.~7, p.~11 (efeito do raio do ombro e do raio do pino). Alternativa: imagem do slide~16 da apresentação do TG1, mas a equação já está no texto; usar figura só se acrescentar informação.}}
+  \caption{Efeito da rotação e da velocidade de avanço sobre o calor gerado por unidade de comprimento em FSW com ferramenta \textit{bobbin} (AHMED et al., 2021).}
+  \label{fig:calor-rotacao-avanco}
+\end{figure}
+
+Uma estimativa mais simples da potência média é apresentada por Mishra e Ma (2005), com base no modelo de Frigaard, Grong e Midling: $q_0 = \frac{4}{3}\pi^{2}\mu P \nu R^{3}$, em que $\mu$ é o coeficiente de atrito, $P$ a pressão, $\nu$ a rotação da ferramenta (em rotações por segundo) e $R$ o raio da ferramenta. Segundo esses autores, a rotação e o raio do ombro são as principais variáveis do processo, e a pressão não pode exceder a tensão de escoamento do material na temperatura de operação se se deseja obter uma solda sã, sem depressões. Medições com termopares confirmam a predominância do ombro: em soldas de AA6061-T6, Tang et al., conforme descrito por Mishra e Ma (2005), compararam ferramentas com e sem pino e verificaram que o ombro domina a geração de calor, o que atribuíram à maior área de contato, à maior pressão vertical e à maior velocidade linear do ombro em relação ao pino. Os mesmos ensaios mostraram que a temperatura cresce com a rotação e com a pressão de soldagem, mas com ganhos decrescentes: cerca de 40~°C ao passar de 300 para 650~rpm e apenas cerca de 20~°C de 650 para 1000~rpm.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-temperatura-com-sem-pino.png}{\includegraphics[width=0.6\textwidth]{Imagens/fig-temperatura-com-sem-pino.png}}{\imagempendente{Imagens/fig-temperatura-com-sem-pino.png}{Predominância do ombro e efeito da rotação na temperatura de pico. Mishra e Ma (2005), Fig.~14, p.~16 (temperatura de pico com e sem pino, provavelmente o gráfico usado no slide~12 da apresentação do TG1) e Fig.~13, p.~16 (efeito da rotação, 300/650/1000~rpm).}}
+  \caption{Temperatura de pico em função da distância à linha central da solda, para ferramentas com e sem pino (AA6061-T6, 400~rpm e 120~mm/min) (MISHRA; MA, 2005).}
+  \label{fig:temperatura-pino}
+\end{figure}
+
+A temperatura atingida durante o processo é o principal elo entre os parâmetros de soldagem e o comportamento do material. Medições com termopares e estimativas a partir da microestrutura indicam temperaturas de pico de 400~°C a 500~°C na zona de mistura de ligas de alumínio, sempre abaixo do ponto de fusão (MISHRA; MA, 2005). Mishra e Ma (2005) apresentam ainda a relação proposta por Arbegast e Hartley entre a temperatura máxima de soldagem e um pseudoíndice de calor $\omega^{2}/v$ na forma
+
+\begin{equation}
+\frac{T}{T_m} = K\left(\frac{\omega^{2}}{v \cdot 10^{4}}\right)^{\alpha},
+\label{eq:arbegast}
+\end{equation}
+
+\noindent com $K$ entre 0,65 e 0,75 e $\alpha$ entre 0,04 e 0,06, em que $T_m$ é a temperatura de fusão da liga. A temperatura máxima observada em diversas ligas de alumínio situa-se entre $0,6\,T_m$ e $0,9\,T_m$. Segundo os mesmos autores, para uma dada ferramenta e profundidade de penetração, a temperatura máxima é função forte da rotação, enquanto a taxa de aquecimento é função forte da velocidade de avanço: a temperatura máxima aumenta com a rotação, diminui com o aumento do avanço e cresce com a razão entre rotação e avanço, mas o aumento com a rotação tende a saturar, pois o coeficiente de atrito na interface varia com a temperatura (MISHRA; MA, 2005). Em chapas grossas, a temperatura também varia ao longo da espessura: em soldas de AA6082-T6 com 32~mm de penetração, Ahmed et al. (2019) mediram, com termopares embutidos na própria ferramenta, temperaturas entre 560~°C e 634~°C próximo ao topo e entre 530~°C e 577~°C próximo à base do \textit{nugget}, ou seja, maiores junto ao ombro.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-temperatura-razao-rotacao-avanco.png}{\includegraphics[width=0.6\textwidth]{Imagens/fig-temperatura-razao-rotacao-avanco.png}}{\imagempendente{Imagens/fig-temperatura-razao-rotacao-avanco.png}{Temperatura de pico em função da razão rotação/avanço. Mishra e Ma (2005), Fig.~15, p.~17 (Hashimoto et al.: 2024Al-T6, 5083Al-O e 7075Al-T6).}}
+  \caption{Efeito da razão entre rotação e velocidade de avanço sobre a temperatura de pico em FSW de 2024Al-T6, 5083Al-O e 7075Al-T6 (MISHRA; MA, 2005).}
+  \label{fig:temperatura-razao}
+\end{figure}
+
+Os modelos numéricos que resolvem o escoamento e a transferência de calor estimam bem essas temperaturas, mas são complexos e computacionalmente intensivos. Por isso, há interesse em correlações simples, análogas às soluções analíticas de Rosenthal amplamente usadas na soldagem por fusão (ARORA; DEBROY; BHADESHIA, 2011). Nesse sentido, Arora, DebRoy e Bhadeshia (2011) recalibraram uma correlação adimensional, originalmente proposta por Roy, Nandan e DebRoy, entre a temperatura de pico adimensional e o aporte de calor adimensional:
+
+\begin{equation}
+T^{*} = \frac{T_P - T_{in}}{T_S - T_{in}} = 0{,}151\,\log_{10}\left(Q^{*}\right) + 0{,}097, \qquad Q^{*} = \frac{\sigma_{8}\,A\,\omega\,C_P\,\phi}{k\,U^{2}},
+\label{eq:arora}
+\end{equation}
+
+\noindent em que $T_P$ é a temperatura de pico, $T_{in}$ a temperatura inicial, $T_S$ a temperatura \textit{solidus}, $\sigma_8$ a tensão de escoamento do material a $0{,}8\,T_S$, $A$ a área da seção do ombro, $\omega$ a rotação, $C_P$ o calor específico, $k$ a condutividade térmica, $U$ a velocidade de avanço e $\phi$ um fator que representa a partição do calor gerado entre ferramenta e peça. A correlação, válida para $4\times10^{2} < Q^{*} < 3{,}7\times10^{5}$, apresentou desvio-padrão de 0,01 e previu as temperaturas de pico de três ligas de alumínio em diferentes avanços por rotação com diferenças de 3\% a 9\% em relação às medições (ARORA; DEBROY; BHADESHIA, 2011). Trata-se de um exemplo direto de como grupos adimensionais podem condensar a física do processo, aspecto que será aprofundado na Seção 2.8.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-correlacao-adimensional-temperatura.png}{\includegraphics[width=0.55\textwidth]{Imagens/fig-correlacao-adimensional-temperatura.png}}{\imagempendente{Imagens/fig-correlacao-adimensional-temperatura.png}{Correlação adimensional de temperatura de pico. Arora, DebRoy e Bhadeshia (2011), Fig.~4, p.~5 ($T^{*}$ vs.\ $\log_{10} Q^{*}$) e/ou Fig.~5, p.~5 (temperatura de pico vs.\ avanço por rotação para AA2024, 5083 e 7075).}}
+  \caption{Relação linear entre a temperatura de pico adimensional e o logaritmo do aporte de calor adimensional (ARORA; DEBROY; BHADESHIA, 2011).}
+  \label{fig:correlacao-adimensional}
+\end{figure}
+
+O limite superior de temperatura é imposto pelo próprio mecanismo do processo. Como a ferramenta transfere esforços de cisalhamento ao material e uma superfície líquida não suporta cisalhamento, uma eventual fusão parcial reduz o acoplamento entre ferramenta e peça e limita o aumento de temperatura. O processo tende, portanto, a ser autorregulado, embora a fusão localizada, indesejável, defina um limite superior para a rotação (MISHRA; MA, 2005).
+
+% ------------------------------------------------------------------------------
+\section{Escoamento do Material}
+\label{sec:escoamento}
+
+O escoamento do material ao redor da ferramenta é um dos aspectos mais complexos do FSW e depende fortemente da geometria da ferramenta, dos parâmetros de soldagem e do material soldado (MISHRA; MA, 2005). Ainda assim, alguns padrões se repetem de forma consistente nos experimentos com marcadores, em que um material distinto do metal de base é inserido na trajetória da ferramenta e sua posição final é revelada após a soldagem. Segundo Mishra e Ma (2005), esses experimentos, conduzidos com insertos de outra liga, folhas de cobre e esferas de aço, mostraram que o escoamento não é simétrico em relação à linha central da solda: existe uma interface bem definida entre os lados de avanço e de recuo, através da qual o material praticamente não se mistura em escala macroscópica; no lado de avanço o material é empurrado para baixo, enquanto no lado de recuo ele sobe; e nem todo o material no caminho da ferramenta é de fato misturado, sendo grande parte simplesmente extrudada ao redor do pino pelo lado de recuo e depositada atrás dele, enquanto o terço superior da solda é movimentado principalmente pelo ombro. Com base nessas observações, Reynolds e colaboradores sugeriram descrever o processo, de forma aproximada, como uma extrusão \textit{in situ}: o ombro, o pino, a placa de apoio e o metal de base frio ao redor da região soldada formam uma ``câmara de extrusão'' que se desloca em relação à peça (MISHRA; MA, 2005).
+
+Arbegast (2008) formalizou essa visão ao descrever o FSW como um processo de conformação metálica no qual o material atravessa, em sequência, zonas de pré-aquecimento, deformação inicial, extrusão, forjamento e resfriamento. Segundo o autor, o volume inicial de material que entra no processo corresponde à área projetada do pino; na zona de extrusão, esse volume recebe um ``material em excesso'', cuja quantidade depende do projeto da ferramenta, da tensão de escoamento do material, da temperatura e dos parâmetros de processo. A uma certa distância da ferramenta, uma ``isoterma crítica'' marca a fronteira além da qual as tensões já não superam a tensão de escoamento do material, delimitando a zona termomecanicamente afetada. Dentro da zona de extrusão, Arbegast distingue regiões de escoamento com volumes, velocidades e direções distintos: uma no lado de avanço (zona~I); outra no lado de recuo (zona~II), em que o material desce, contorna o pino e converge com o da zona~I; uma sob o ombro (zona~III), em que o material é arrastado do lado de recuo para o de avanço e bombeado para baixo para preencher a zona~I a partir do topo; e uma sob a ponta do pino (zona~IV). A rotação altera essa partição: com rotações baixas predominam condições de escorregamento e um volume maior passa pelo lado de recuo; com rotações maiores, mais calor é gerado sob o ombro, surgem condições de adesão e escorregamento alternados (\textit{stick--slip}) e o volume que escoa sob o ombro e mergulha para preencher a zona~I aumenta (ARBEGAST, 2008).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-zonas-escoamento-arbegast.png}{\includegraphics[width=1.0\textwidth]{Imagens/fig-zonas-escoamento-arbegast.png}}{\imagempendente{Imagens/fig-zonas-escoamento-arbegast.png}{Zonas de escoamento. Arbegast (2008), Fig.~1, p.~2 (geometrias das zonas de deformação na zona de extrusão) e Fig.~3, p.~3 (efeito do aumento da rotação na geometria das zonas, a avanço constante). Alternativa: Mishra e Ma (2005), Fig.~10, p.~13 (padrões de escoamento e zonas metalúrgicas, segundo Arbegast).}}
+  \caption{Geometrias das zonas de deformação formadas na zona de extrusão, segundo o modelo de partição do escoamento (ARBEGAST, 2008).}
+  \label{fig:zonas-arbegast}
+\end{figure}
+
+A contribuição mais relevante desse modelo para o presente trabalho é tratar a formação de vazios como um problema de balanço de massa. Para que a solda seja sã, uma quantidade crítica de material deve ser transportada, a cada revolução, da borda de ataque para a borda de fuga através da seção da zona de extrusão. Arbegast (2008) propõe, para uma geometria de ferramenta fixa, que essa massa crítica seja dada por
+
+\begin{equation}
+M_{T}^{cr} = \rho\left(a \cdot b \cdot \varphi^{2}\right)^{-1}, \qquad \varphi = \frac{\omega}{v},
+\label{eq:arbegast_massa}
+\end{equation}
+
+\noindent em que $\rho$ é a densidade do material, $a$ e $b$ são fatores de forma do pino e do ombro, respectivamente, e $\varphi$ é a razão entre a rotação e a velocidade de avanço. Quando a massa que efetivamente chega à zona de forjamento é inferior a essa massa crítica, a diferença corresponde a uma ``deficiência de massa'' que se manifesta como um vazio (\textit{wormhole}). É importante notar que o trabalho apresenta apenas o conceito do modelo, cuja validação experimental estava em andamento à época da publicação (ARBEGAST, 2008). Seu valor, para os fins deste trabalho, está em indicar quais grandezas devem aparecer em um critério de formação de vazios: a geometria do pino e do ombro, a razão entre rotação e avanço e as propriedades do material que definem a isoterma crítica e a tensão de escoamento.
+
+A geometria do pino influencia diretamente esse transporte de material. Segundo Mishra e Ma (2005), Thomas, Nicholas e Smith atribuem a superioridade de pinos com perfis especiais em relação ao pino cilíndrico convencional à razão entre o volume varrido durante a rotação e o volume do próprio pino, que vale aproximadamente 1,1 para o pino cilíndrico, 1,8 para o pino Whorl\texttrademark{} e 2,6 para o pino MX Triflute\texttrademark{}. Laska et al. (2023), comparando um pino cônico liso e um pino hexagonal com ranhuras na liga AA6082, verificaram que o pino hexagonal gerou cerca de 20\% mais calor, mas ``aprisionou'' parte do material e reduziu o escoamento ao seu redor, de modo que a zona de mistura resultou mais estreita do que a obtida com o pino cônico, cuja inclinação facilita o escoamento. A conicidade também afeta a distribuição da deformação ao longo da espessura: Ahmed et al. (2019) mostraram que um pino cônico produz taxas de deformação e tamanhos de grão que variam do topo à base do \textit{nugget}, ao passo que um pino de faces paralelas produz uma estrutura praticamente uniforme.
+
+Quanto ao campo de velocidades, a velocidade do material na periferia do ombro é dada, em primeira aproximação, pelo produto entre a velocidade angular da ferramenta e o raio do ombro, $\omega R_{s}$, e a inclinação da ferramenta redistribui essa velocidade nas três direções (MEYGHANI; AWANG, 2022). As simulações desses autores mostram que, fora da região do ombro, o transporte de material ocorre principalmente pelo lado de recuo, enquanto no lado de avanço se observam reversão de escoamento e uma zona de estagnação. Em concordância, Laska et al. (2023) obtiveram as maiores velocidades de escoamento logo abaixo do ombro, onde a temperatura e as tensões de cisalhamento são mais altas e a viscosidade do material, consequentemente, menor. Arora, DebRoy e Bhadeshia (2011), por sua vez, propuseram uma solução analítica aproximada para o campo de velocidades, tratando o material como um fluido posto em movimento por um disco rotativo, hipótese justificada pelo fato de o escoamento ser governado principalmente pela rotação do ombro; a solução prevê velocidades máximas na interface entre ombro e peça, decrescentes com a profundidade, e reproduziu os resultados de um modelo numérico completo com diferenças de 10\% a 17\%.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-campo-velocidades-laska.png}{\includegraphics[width=0.75\textwidth]{Imagens/fig-campo-velocidades-laska.png}}{\imagempendente{Imagens/fig-campo-velocidades-laska.png}{Campo de velocidades. Laska et al. (2023), Fig.~6 e Fig.~7, p.~6 (velocidade do material com pino hexagonal e com pino cônico); ou Meyghani e Awang (2022), Fig.~16, p.~16 (linhas de corrente com e sem inclinação); ou Arora, DebRoy e Bhadeshia (2011), Fig.~2, p.~4 (campo de velocidades numérico vs.\ analítico).}}
+  \caption{Velocidade do material durante o FSW de AA6082 com pino hexagonal ranhurado: (a) vista 3D, (b) seção 2D e contornos nas seções em torno das partes (c) circular e (d) hexagonal do pino (LASKA et al., 2023).}
+  \label{fig:velocidades}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\section{Microestrutura e Propriedades das Juntas}
+\label{sec:microestrutura}
+
+A deformação plástica intensa e a elevação de temperatura dentro e ao redor da zona de mistura provocam uma evolução microestrutural significativa, com base na qual se distinguem três zonas na junta soldada (MISHRA; MA, 2005). Na zona de mistura (\textit{nugget}), a combinação de deformação intensa e aquecimento por atrito gera uma microestrutura recristalizada de grãos finos e equiaxiais, cujo tamanho é governado principalmente pela temperatura de pico e tende, por isso, a aumentar com a rotação ou com a razão entre rotação e avanço. A zona termomecanicamente afetada (ZTMA), exclusiva do FSW, é submetida tanto a temperatura quanto a deformação, mas esta é insuficiente para promover recristalização; sua fronteira externa corresponde à isoterma crítica do modelo de Arbegast (2008). Mais afastada, a zona afetada pelo calor (ZAC) sofre apenas o ciclo térmico, que, em ligas tratáveis termicamente, provoca o coalescimento e a dissolução dos precipitados endurecedores (MISHRA; MA, 2005).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-zonas-microestruturais.png}{\includegraphics[width=0.75\textwidth]{Imagens/fig-zonas-microestruturais.png}}{\imagempendente{Imagens/fig-zonas-microestruturais.png}{Zonas microestruturais. Mishra e Ma (2005), Fig.~17, p.~19 (macrografia de 7075Al-T651 indicando \textit{nugget}, ZTMA e ZAC). Opcional: macrografias dos slides~17 e~18 da apresentação do TG1; \textbf{identificar a fonte original}; ou Ahmed et al. (2019), Fig.~3, p.~3.}}
+  \caption{Macrografia típica mostrando as zonas microestruturais em 7075Al-T651 processada por fricção (pino roscado, 400~rpm e 51~mm/min) (MISHRA; MA, 2005).}
+  \label{fig:zonas-microestruturais}
+\end{figure}
+
+Essas alterações se refletem nas propriedades mecânicas. Nas ligas tratáveis termicamente, como as três ligas da base de dados deste trabalho, o FSW produz uma região amolecida ao redor do centro da solda, e a fratura de juntas sãs tende a ocorrer na ZAC, a região de menor resistência, como observado por Laska et al. (2023) e Ahmed et al. (2019) em soldas de AA6082. Ainda assim, a eficiência de juntas soldadas por FSW, medida em ensaios de tração transversais, varia de 65\% a 96\% para ligas tratáveis termicamente, valores significativamente superiores aos da soldagem por fusão (MISHRA; MA, 2005). Esse desempenho, contudo, pressupõe juntas isentas de defeitos, tema da seção seguinte.
+
+% ------------------------------------------------------------------------------
+\section{Defeitos em FSW e o Vazio Volumétrico}
+\label{sec:defeitos}
+
+Embora o FSW elimine os defeitos típicos da solidificação, como trincas a quente e porosidade, o processo é sensível à combinação de parâmetros, e juntas produzidas fora das condições adequadas apresentam descontinuidades características. Arbegast (2008) as classifica em dois grupos. O primeiro reúne os defeitos geométricos, como a falta de penetração, causada por uma profundidade de inserção inadequada do pino ou por desalinhamento entre a ferramenta e a junta. O segundo reúne os defeitos relacionados ao escoamento, que surgem quando o processo é conduzido fora da janela operacional adequada, em condições excessivamente quentes ou excessivamente frias. Sob processamento quente, com predomínio de adesão, o escoamento de material é excessivo, resultando em rebarba (\textit{flash}), arrancamento superficial (\textit{galling}) e colapso do \textit{nugget}. Sob processamento frio, com predomínio de escorregamento, a quantidade de material que escoa é insuficiente, resultando em falta de preenchimento superficial, vazios (\textit{wormholes}) ou falta de consolidação no lado de avanço, defeitos listados pelo autor em ordem crescente da força de forjamento empregada. As condições ótimas ocorreriam, segundo Arbegast (2008), em uma temperatura na qual o escoamento se dá em regime de adesão e escorregamento alternados e o material que sai da frente do pino é exatamente igual ao que retorna para a região deixada atrás da ferramenta.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-tipos-defeitos-arbegast.png}{\includegraphics[width=0.95\textwidth]{Imagens/fig-tipos-defeitos-arbegast.png}}{\imagempendente{Imagens/fig-tipos-defeitos-arbegast.png}{Tipos característicos de defeitos. Arbegast (2008), Fig.~2, p.~2 (``Characteristic defect types in friction stir welds'').}}
+  \caption{Tipos característicos de defeitos em juntas soldadas por FSW (ARBEGAST, 2008).}
+  \label{fig:defeitos-arbegast}
+\end{figure}
+
+Essa mesma leitura em termos de uma janela de processo é apresentada por Bezerra (2025), com base na revisão de Threadgill et al.: para uma dada liga, espessura e ferramenta, a janela no plano rotação--avanço é limitada, de um lado, pelas soldas ``quentes'', produzidas com rotação alta e avanço baixo e marcadas pelo excesso de calor e de rebarba, e, de outro, pelas soldas ``frias'', produzidas com rotação baixa e avanço alto e marcadas pela mistura insuficiente; o aumento da força axial tende a ampliar essa janela, em particular na direção de rotações mais baixas e avanços mais altos, ao promover contato e forjamento mais eficazes sob o ombro.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-janela-processo.png}{\includegraphics[width=0.6\textwidth]{Imagens/fig-janela-processo.png}}{\imagempendente{Imagens/fig-janela-processo.png}{Janela de processo. Bezerra (2025), Figura~2.7, p.~26 do PDF (efeito da força axial na janela de processo, adaptada de Threadgill et al., 2009). O gráfico do slide~23 da apresentação do TG1 (rotação $\times$ velocidade de avanço com regiões quente/fria) parece ser a mesma figura; \textbf{identificar a fonte original}.}}
+  \caption{Efeito da força axial sobre a janela de processo do FSW de ligas de alumínio (BEZERRA, 2025).}
+  \label{fig:janela-processo}
+\end{figure}
+
+O vazio volumétrico, foco deste trabalho, pertence ao grupo dos defeitos de escoamento e está associado, na maior parte dos casos, ao lado frio da janela. No modelo de Arbegast (2008), ele corresponde à deficiência de massa discutida na Seção~2.3 (Eq.~\ref{eq:arbegast_massa}): quando material das zonas II, III ou IV é perdido, seja por rebarba, pelo levantamento ou pela separação das chapas, a quantidade de material que chega à zona~I é insuficiente para preencher a cavidade deixada pelo pino, e, conforme a força de forjamento, essa deficiência se manifesta como falta de preenchimento superficial, como vazio ou como microvazios de falta de consolidação.
+
+Du, Mukherjee e DebRoy (2019) chegam a conclusões semelhantes a partir de uma perspectiva complementar. Segundo os autores, os vazios formam-se tipicamente próximos à ponta do pino, no lado de avanço, e atribui-se sua origem ao escoamento inadequado e descontínuo do material plastificado ao redor do pino. Esse escoamento inadequado decorre de aporte térmico insuficiente, devido a uma rotação baixa para a velocidade de avanço adotada, a um diâmetro de ombro inadequado, a uma espessura de chapa elevada ou a outros parâmetros impróprios; a baixa força de atrito e a tensão de escoamento insuficiente na região atrás do pino e próxima à sua ponta, onde a velocidade e a temperatura são menores, dificultam o transporte de material do lado de recuo para o lado de avanço. Assim, os vazios desaparecem em temperaturas mais altas e em valores mais baixos de taxa de deformação, torque e tensão de cisalhamento no pino. A Figura 2 dos autores ilustra esse comportamento para soldas realizadas com velocidade de avanço constante de 100~mm/min: com 2,50~rps, formou-se um vazio grande, com temperatura local estimada de 596,6~K e torque de 70,5~N$\cdot$m; com 3,33~rps, um vazio pequeno (614,1~K e 56,3~N$\cdot$m); e com 6,67~rps a junta resultou livre de vazios (654,5~K e 31,9~N$\cdot$m). Na mesma linha, a literatura associa a ausência de vazios a temperaturas de pico entre 80\% e 90\% da temperatura \textit{solidus} da liga (DU; MUKHERJEE; DEBROY, 2019).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-vazio-variaveis-causais-du.png}{\includegraphics[width=0.8\textwidth]{Imagens/fig-vazio-variaveis-causais-du.png}}{\imagempendente{Imagens/fig-vazio-variaveis-causais-du.png}{Exemplo de vazio grande, vazio pequeno e solda sã com as variáveis causais. Du, Mukherjee e DebRoy (2019), Fig.~2, p.~4 (macrografias transversais com o vazio no lado de avanço e gráfico de barras de rotação, taxa de deformação relativa, torque, temperatura e tensão de cisalhamento máxima); \textbf{figura muito recomendada}.}}
+  \caption{Variação das variáveis causais para juntas com vazio grande, com vazio pequeno e sem vazio, com velocidade de avanço constante de 100~mm/min (DU; MUKHERJEE; DEBROY, 2019).}
+  \label{fig:vazio-du}
+\end{figure}
+
+Outras evidências experimentais e numéricas apontam na mesma direção. Em latão e em ligas de magnésio soldadas por FSW, a ocorrência de vazios aumentou com o aumento da velocidade de avanço ou com a redução da rotação (MISHRA; MA, 2005). Na ausência de inclinação da ferramenta, a deformação do material junto à raiz do pino não se completa, o que pode levar à formação de vazios (MEYGHANI; AWANG, 2022). Com um pino cônico liso, de menor aporte térmico, Laska et al. (2023) observaram indícios de perdas por cavitação na superfície do cordão, atribuídas à plastificação insuficiente do material, e destacaram que os fatores determinantes da qualidade da solda são um aporte térmico adequado e a mistura apropriada do material plastificado. A Tabela~\ref{tab:defeitos} sintetiza as principais descontinuidades de juntas de topo, sua localização típica e suas causas.
+
+\begin{table}[htbp]
+\centering
+\caption{Principais descontinuidades em juntas de topo soldadas por FSW.}
+\label{tab:defeitos}
+\small
+\begin{tabularx}{\textwidth}{L{3.3cm} L{3.3cm} Y}
+\toprule
+\textbf{Descontinuidade} & \textbf{Localização típica} & \textbf{Causas principais} \\ \midrule
+Vazio (\textit{wormhole}) & Lado de avanço, na borda da zona de mistura, próximo à ponta do pino & Processamento frio: rotação baixa para o avanço adotado, avanço elevado; pressão ou força de forjamento insuficiente; perda de material por rebarba; chapas mal fixadas ou folga excessiva$^{a,b,c}$ \\
+Vazio raso & Abaixo da superfície superior & Velocidade de avanço muito alta$^{a}$ \\
+Falta de preenchimento superficial / sulco & Superfície, sob o ombro & Processamento frio; profundidade de inserção insuficiente$^{b,d}$ \\
+Rebarba (\textit{flash}) e colapso do \textit{nugget} & Superfície e zona de mistura & Processamento quente; profundidade de inserção excessiva$^{b,d}$ \\
+Falta de penetração (falha de raiz) & Raiz da junta & Pino curto, profundidade de inserção incorreta, desalinhamento entre ferramenta e junta$^{a,b}$ \\
+Resquício da linha de junta (\textit{kissing bond}) & Zona de mistura, a partir da raiz & Remoção ou dispersão insuficiente do óxido das superfícies originais$^{a}$ \\ \bottomrule
+\end{tabularx}
+
+\vspace{0.1cm}
+\raggedright\footnotesize Fontes: $^{a}$Bezerra (2025); $^{b}$Arbegast (2008); $^{c}$Du, Mukherjee e DebRoy (2019); $^{d}$Mishra e Ma (2005).
+\end{table}
+
+Por serem internos, os vazios em geral não são detectáveis por inspeção visual: sua presença é confirmada por cortes transversais do cordão ou por ensaios não destrutivos, como ultrassom e radiografia. Seu impacto é significativo, haja vista que prejudicam tanto as propriedades mecânicas quanto a vida em serviço do componente (DU; MUKHERJEE; DEBROY, 2019). Por outro lado, em soldas bem-sucedidas não há defeitos internos inerentes ao processo. Em outras palavras, o FSW é capaz de produzir juntas de elevado desempenho, desde que os parâmetros sejam escolhidos de forma a evitar defeitos, o que reforça a utilidade de um critério simples para esse fim.
+
+% ------------------------------------------------------------------------------
+\section{Influência dos Parâmetros de Processo e da Ferramenta}
+\label{sec:parametros}
+
+As seções anteriores mostraram que a formação de vazios resulta, essencialmente, de um desequilíbrio entre o calor gerado, a capacidade de escoamento do material e o confinamento imposto pela ferramenta. Esta seção examina como cada variável da base de dados utilizada neste trabalho atua sobre esses mecanismos, indicando, sempre que a literatura permite, o sentido esperado do seu efeito sobre o risco de vazio. Antes, porém, cabe uma ressalva importante feita por Du, Mukherjee e DebRoy (2019): ao analisar os 108 ensaios, os autores verificaram que, mantido constante qualquer um dos parâmetros, o ajuste dos demais pode resultar tanto em juntas com vazio quanto em juntas sãs, de modo que nenhum parâmetro isolado decide a formação do defeito. É justamente essa interdependência que motiva a busca por combinações de variáveis.
+
+\textbf{Rotação da ferramenta ($\omega$).} A rotação é o principal motor do aquecimento e da agitação do material: a temperatura máxima é função forte da rotação, embora com ganhos decrescentes (Seção~2.2), e o aumento da rotação eleva o volume de material que escoa sob o ombro e ao redor do pino (Seção~2.3). Com o material mais quente e mais macio, o torque necessário diminui com o aumento da rotação (ALDANONDO et al., 2020; ARORA; DEBROY; BHADESHIA, 2011). Coerentemente, a rotação aparece de forma recorrente como o parâmetro que separa soldas com e sem vazio, como nos exemplos de Du, Mukherjee e DebRoy (2019) discutidos na Seção~2.5. O efeito esperado é, portanto, de redução do risco de vazio com o aumento da rotação, até o limite superior imposto pelo processamento quente.
+
+\textbf{Velocidade de avanço ($v$).} A velocidade de avanço define o tempo durante o qual cada região da junta é aquecida. O calor gerado por unidade de comprimento de solda é inversamente proporcional à velocidade de avanço, e a redução do avanço aumenta o calor fornecido e a largura da região amolecida (AHMED et al., 2019); ainda assim, como visto na Seção~2.2, o avanço governa sobretudo a taxa de aquecimento, e não a temperatura máxima. Com o material mais frio à frente da ferramenta, os esforços aumentam: o torque e as forças no plano da chapa cresceram, em geral, com o aumento da velocidade de avanço (ALDANONDO et al., 2020). Velocidades de avanço muito altas estão entre as causas de vazios e de vazios rasos (BEZERRA, 2025). Espera-se, assim, aumento do risco de vazio com o aumento do avanço, mas com influência menor que a da rotação, como sugere o expoente da rotação, duas vezes maior que o do avanço, no pseudoíndice de calor da Eq.~(\ref{eq:arbegast}).
+
+\textbf{Combinações entre rotação e avanço.} Como rotação e avanço atuam em sentidos opostos sobre o aporte térmico, a literatura frequentemente os combina: o avanço por rotação ($v/\omega$) controla o deslocamento vertical do material (MISHRA; MA, 2005); a temperatura de pico cresce com a razão $\omega/v$ (Figura~\ref{fig:temperatura-razao}); o pseudoíndice $\omega^{2}/v$ correlaciona-se com a temperatura máxima (Eq.~\ref{eq:arbegast}); e a razão $\varphi = \omega/v$ aparece, ao quadrado, na massa crítica do modelo de Arbegast (Eq.~\ref{eq:arbegast_massa}).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-torque-avanco-aldanondo.png}{\includegraphics[width=0.7\textwidth]{Imagens/fig-torque-avanco-aldanondo.png}}{\imagempendente{Imagens/fig-torque-avanco-aldanondo.png}{Efeito da rotação e do avanço. Aldanondo et al. (2020), Fig.~10, p.~10 (torque em função da velocidade de avanço para duas rotações) e/ou Arora, DebRoy e Bhadeshia (2011), Fig.~6, p.~6 (torque estimado e medido em função da rotação).}}
+  \caption{Torque em função da velocidade de avanço para as geometrias de ferramenta e rotações estudadas (ALDANONDO et al., 2020).}
+  \label{fig:torque-avanco}
+\end{figure}
+
+\textbf{Raio do ombro ($R_s$).} O ombro é a principal fonte de calor e de confinamento. O calor gerado cresce com o cubo do raio do ombro (Eq.~\ref{eq:schmidt}), e o torque é proporcional a $R_{s}^{3}$, sendo o tamanho do ombro o principal fator a afetá-lo (ARORA; DEBROY; BHADESHIA, 2011). Nas simulações de Ahmed et al. (2021), o calor gerado por unidade de comprimento passou de menos de 200~J/mm para cerca de 2300~J/mm quando o diâmetro do ombro foi aumentado de zero (apenas o pino) para 20~mm. Como um diâmetro de ombro inadequado está entre as causas de escoamento insuficiente (DU; MUKHERJEE; DEBROY, 2019), espera-se redução do risco de vazio com o aumento do raio do ombro, dentro da faixa usual de projeto.
+
+\textbf{Raios do pino na raiz ($R_{pr}$) e na ponta ($R_{pt}$).} A contribuição térmica do pino é secundária: nas mesmas simulações, o aumento do diâmetro do pino de zero para 8~mm elevou o calor gerado de cerca de 540~J/mm para cerca de 650~J/mm (AHMED et al., 2021). O papel principal do pino é mecânico: o pino deve ser suficientemente grande para resistir aos esforços de soldagem, mas suficientemente pequeno para permitir a agitação do material, com razões ótimas entre os diâmetros do ombro e do pino reportadas entre 2,5:1 e 3:1 (AHMED et al., 2021), e a conicidade altera a distribuição da deformação ao longo da espessura e facilita o escoamento ao redor do pino (Seção~2.3). O sentido do efeito dessas variáveis sobre o risco de vazio é, portanto, incerto e dependente das demais, sendo mais provável que atuem por meio de razões geométricas, como $R_{pr}/R_{s}$ e $R_{pt}/R_{pr}$.
+
+\textbf{Espessura da chapa ($t$).} Em ferramentas cujo pino acompanha a espessura, chapas mais grossas aumentam a área de contato e, portanto, o calor gerado (AHMED et al., 2021); por outro lado, o calor precisa atravessar uma espessura maior, e a temperatura é menor junto à base do \textit{nugget} do que junto ao ombro (Seção~2.2). Uma espessura de chapa elevada está entre as causas de escoamento insuficiente apontadas por Du, Mukherjee e DebRoy (2019), e Ahmed et al. (2019) associaram juntas sem defeitos, em chapa grossa, a uma razão entre a profundidade do pino e a largura do ombro superior a 0,8. Para uma mesma ferramenta, espera-se aumento do risco de vazio com o aumento da espessura, sobretudo na raiz da junta.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-calor-geometria-ahmed.png}{\includegraphics[width=0.9\textwidth]{Imagens/fig-calor-geometria-ahmed.png}}{\imagempendente{Imagens/fig-calor-geometria-ahmed.png}{Efeito da geometria no calor gerado. Ahmed et al. (2021), Fig.~7, p.~11 (efeito do raio do ombro e do raio do pino) e Fig.~8, p.~11 (efeito da espessura da chapa).}}
+  \caption{Efeito do raio do ombro e do raio do pino sobre o calor gerado em FSW com ferramenta \textit{bobbin} (AHMED et al., 2021).}
+  \label{fig:calor-geometria}
+\end{figure}
+
+\textbf{Pressão axial ($p$).} A pressão axial atua de duas formas. Em primeiro lugar, ela participa da geração de calor por atrito, proporcional a $\mu p$ na condição de escorregamento (Eq.~\ref{eq:schmidt}), e a temperatura cresce com o aumento da pressão de soldagem (MISHRA; MA, 2005). Em segundo lugar, ela garante o confinamento e o forjamento do material na traseira da ferramenta: pressão ou forjamento insuficientes estão entre as principais causas de vazios, e o aumento da força axial amplia a janela de processo (BEZERRA, 2025). Por outro lado, a pressão não deve exceder a tensão de escoamento do material na temperatura de operação (Seção~2.2), o que sugere que a razão entre a pressão e a tensão de escoamento seja uma grandeza relevante. Espera-se redução do risco de vazio com o aumento da pressão. Cabe registrar, contudo, que, na base de dados utilizada, a pressão axial não foi reportada em parte dos estudos de origem e foi estimada por Du, Mukherjee e DebRoy (2019) a partir de valores usuais.
+
+\textbf{Ângulo de inclinação ($\theta$).} A inclinação da ferramenta para trás faz com que o ombro retenha o material agitado e o transporte da frente para trás do pino e gera uma força adicional de forjamento na traseira, razão pela qual sua aplicação é considerada obrigatória na prática; ângulos inadequados causam defeitos, com valores ótimos de 1° a 2° reportados para a AA2219 (MEYGHANI; AWANG, 2022). Nas simulações desses autores, a inclinação elevou a temperatura máxima, deslocou o pico de temperatura para a traseira da ferramenta e ampliou a deformação plástica junto à base do pino. Espera-se redução do risco de vazio com a aplicação de inclinação, dentro da faixa usual. Na base de dados, porém, o ângulo varia apenas entre 2° e 2,5° e também foi estimado em parte dos estudos de origem, o que limita a possibilidade de identificar seu efeito.
+
+\textbf{Propriedades do material ($\alpha$ e $\sigma_y$).} Na base de dados, cada liga é descrita apenas por duas propriedades à temperatura ambiente: a difusividade térmica, $\alpha = k/(\rho C_P)$, e o limite de escoamento. A difusividade determina a rapidez com que o calor gerado se espalha para longe da zona de mistura; na correlação de Arora, DebRoy e Bhadeshia (2011), a condutividade térmica aparece no denominador do aporte de calor adimensional (Eq.~\ref{eq:arora}), de modo que, para um mesmo calor gerado, uma liga de maior condutividade tende a atingir uma temperatura adimensional menor, o que sugere aumento do risco de vazio com o aumento da difusividade. O limite de escoamento atua em dois sentidos: por um lado, aumenta o calor gerado na condição de adesão, em que a tensão na interface vale $\sigma_y/\sqrt{3}$ (Eq.~\ref{eq:schmidt}); por outro, aumenta a resistência do material ao escoamento e o torque necessário (ARORA; DEBROY; BHADESHIA, 2011). O efeito do limite de escoamento é, portanto, incerto. Como ambas as propriedades são constantes para cada liga, elas funcionam, na prática, como rótulos com significado físico, capazes de distinguir as ligas entre si, mas não de representar variações dentro de uma mesma liga.
+
+% ------------------------------------------------------------------------------
+\section{Modelagem e Predição de Defeitos}
+\label{sec:modelagem}
+
+As abordagens para prever o comportamento do FSW e a ocorrência de defeitos podem ser agrupadas em três famílias: os modelos numéricos, que resolvem as equações de conservação no domínio tridimensional da solda; os modelos analíticos ou de ordem reduzida, que estimam grandezas de interesse por expressões fechadas; e, mais recentemente, os modelos orientados a dados, baseados em aprendizado de máquina. Esta seção apresenta cada uma delas, com destaque para o estudo de Du, Mukherjee e DebRoy (2019), cuja base de dados é utilizada neste trabalho.
+
+Os modelos numéricos abrangentes resolvem as equações de conservação de massa, quantidade de movimento e energia para obter os campos tridimensionais de temperatura e velocidade, a taxa de deformação, a tensão de cisalhamento no pino e o torque (DU; MUKHERJEE; DEBROY, 2019). Na abordagem de dinâmica dos fluidos computacional, o material plastificado é tratado como um fluido não-Newtoniano, com viscosidade dependente da temperatura e da taxa de deformação, como no modelo de Laska et al. (2023); abordagens de mecânica dos sólidos também são empregadas, como no modelo euleriano de Meyghani e Awang (2022). Em geral, esses modelos reproduzem bem os padrões de escoamento e os perfis de temperatura medidos, mas exigem a solução conjunta das equações de Navier--Stokes, da energia e das equações constitutivas do material, sendo complexos e computacionalmente intensivos, e precisam ser executados para cada condição de soldagem de interesse (ARORA; DEBROY; BHADESHIA, 2011).
+
+Em contraste, os modelos analíticos buscam estimativas rápidas a partir de expressões fechadas. Arora, DebRoy e Bhadeshia (2011) observam que, na soldagem por fusão, ao lado dos modelos numéricos complexos, existem ferramentas simples amplamente usadas como base para decisões práticas, e que um cenário semelhante ainda não existia para o FSW. Para preencher essa lacuna, os autores propuseram soluções aproximadas para o campo de velocidades, para a temperatura de pico (Eq.~\ref{eq:arora}), para o torque e para a dureza da ZTMA, disponibilizando-as inclusive na forma de planilhas. O próprio estudo de Du, Mukherjee e DebRoy (2019) utilizou um modelo de ordem reduzida para estimar as variáveis causais, calculando a temperatura local próxima ao vazio pela equação de condução de calor para chapa grossa com fonte pontual,
+
+\begin{equation}
+T - T_{0} = \frac{Q}{\rho C_{P}\left(4\pi\alpha t\right)^{1{,}5}}\exp\left(-\frac{R^{2}}{4\alpha t}\right), \qquad \alpha = \frac{k}{\rho C_{P}},
+\label{eq:du_conducao}
+\end{equation}
+
+\noindent em que $Q$ é o calor total gerado, estimado por uma expressão análoga à Eq.~(\ref{eq:schmidt}) que incorpora o ângulo de inclinação, $R$ é a distância entre o eixo do pino e o ponto de interesse e $t$ é o tempo necessário para atingir o regime de soldagem; nesse modelo simplificado, as propriedades do material e os coeficientes de atrito e de escorregamento foram admitidos independentes da temperatura.
+
+No ITA, Bezerra (2025) seguiu uma linha analítica semelhante para correlacionar diretamente um índice energético com a ocorrência de defeitos. A partir de um balanço de torque e potência nas superfícies do ombro e do pino, o autor estimou a energia por unidade de comprimento de solda e uma energia efetiva, ponderada pela razão entre a penetração do pino e a espessura da chapa, e ajustou, para cada tipo de defeito observado nos ensaios de Cintra (2018) em juntas de AA2024-T3, uma regressão logística da probabilidade de ocorrência em função do logaritmo dessa energia. Os limiares de 50\% de probabilidade obtidos permitiram regras operacionais por tipo de defeito, com acurácias entre 63,8\% e 87,2\% (83,0\% no caso do túnel), mas a interseção das faixas seguras de todos os defeitos resultou vazia, levando o autor a concluir que a energia linear isolada não é suficiente e que a incorporação de variáveis complementares, como a força axial e o torque, deve ampliar a capacidade de separação do modelo (BEZERRA, 2025).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-probabilidade-tunel-bezerra.png}{\includegraphics[width=0.85\textwidth]{Imagens/fig-probabilidade-tunel-bezerra.png}}{\imagempendente{Imagens/fig-probabilidade-tunel-bezerra.png}{Correlação energia--defeito. Bezerra (2025), Figura~4.1, p.~54 do PDF (probabilidade de túnel em função de $\log_{10} Q_{eff}$).}}
+  \caption{Probabilidade de ocorrência de túnel em função do logaritmo da energia efetiva por comprimento de solda (BEZERRA, 2025).}
+  \label{fig:probabilidade-tunel}
+\end{figure}
+
+A terceira família, a dos modelos orientados a dados, é representada neste trabalho pelo estudo de Du, Mukherjee e DebRoy (2019), que investigou as condições de formação de vazios por meio de aprendizado de máquina supervisionado, a partir de 108 ensaios independentes de FSW das ligas AA2024, AA2219 e AA6061 compilados da literatura, base descrita em detalhe na Seção~\ref{sec:base_dados}. Os autores justificam o uso conjunto de dados de máquinas diferentes pela ausência de evidências de que a marca ou o modelo do equipamento afete a formação de vazios, e destacam que os parâmetros utilizados são normalmente medidos e registrados no chão de fábrica (DU; MUKHERJEE; DEBROY, 2019).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-variaveis-causais-du.png}{\includegraphics[width=0.62\textwidth]{Imagens/fig-variaveis-causais-du.png}}{\imagempendente{Imagens/fig-variaveis-causais-du.png}{Visão geral do estudo de Du et al. Du, Mukherjee e DebRoy (2019), Fig.~1, p.~3 (processo, modelos mecanísticos e aprendizado de máquina; a mesma figura usada no TG1). Opcional: Fig.~4, p.~6 (árvores de decisão com os limiares $T^{*}$ e $\tau_m^{*}$).}}
+  \caption{Variáveis causais da formação de vazio: (a) taxa de deformação ao redor do pino, (b) temperatura, (c) tensão de cisalhamento no pino e (d) torque da ferramenta. Adaptado de (DU; MUKHERJEE; DEBROY, 2019).}
+  \label{fig:visao-geral-du}
+\end{figure}
+
+Foram avaliados cinco métodos, combinando dois algoritmos, uma rede neural bayesiana e uma árvore de decisão, com três tipos de entrada: os parâmetros brutos de soldagem e as quatro variáveis causais (temperatura local, taxa de deformação relativa, torque total no pino e tensão de cisalhamento máxima no pino) calculadas por um modelo analítico de ordem reduzida ou por um modelo numérico rigoroso. Para remover o efeito das diferenças de composição química entre as ligas, cada variável causal foi normalizada pelo seu valor máximo dentro da respectiva liga. Os dados foram divididos aleatoriamente, mantendo a proporção de soldas com vazio em cada grupo, em 63 ensaios de treinamento (25 com vazio), 15 de validação (6 com vazio) e 30 de teste. Os resultados estão resumidos na Tabela~\ref{tab:du}.
+
+\begin{table}[htbp]
+\centering
+\caption{Métodos e acurácias obtidos por Du, Mukherjee e DebRoy (2019).}
+\label{tab:du}
+\small
+\begin{tabularx}{\textwidth}{c L{2.4cm} Y c c c}
+\toprule
+\textbf{Método} & \textbf{Algoritmo} & \textbf{Entradas} & \textbf{Treino} & \textbf{Validação} & \textbf{Teste} \\ \midrule
+1 & Rede neural & 10 parâmetros brutos de processo, geometria e material & 98,4\% & 86,6\% & 83,3\% \\
+2 & Rede neural & Variáveis causais (modelo analítico) & 92,0\% & 86,6\% & 93,3\% \\
+3 & Árvore de decisão & Variáveis causais (modelo analítico) & 88,8\% & 80,0\% & 90,0\% \\
+4 & Rede neural & Variáveis causais (modelo numérico) & 95,2\% & 93,3\% & 96,6\% \\
+5 & Árvore de decisão & Variáveis causais (modelo numérico) & 92,0\% & 86,6\% & 96,6\% \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+Alguns aspectos desses resultados são particularmente relevantes para o presente trabalho. Com os parâmetros brutos, a rede neural atingiu 83,3\% de acurácia no teste, valor que os autores consideram modesto, mas significativamente superior a uma escolha aleatória, indicando que os parâmetros de soldagem têm uma ``conexão oculta'' com a formação de vazios, ainda que nenhuma relação explícita entre eles tenha sido revelada; nesse caso, dos 12 ensaios de teste com vazio, 3 foram classificados como sãos. Os autores também não construíram uma árvore de decisão sobre os parâmetros brutos, porque todos eles mostraram praticamente a mesma influência sobre a formação de vazios, o que inviabilizou hierarquizá-los. Com as variáveis causais, a acurácia subiu para 90\% a 93,3\% com o modelo analítico e para 96,6\% com o modelo numérico, à custa de considerável esforço computacional neste último caso. As árvores de decisão revelaram que cada variável causal possui um valor limite que decide a formação de vazios (soldas com temperatura local normalizada inferior a 0,93, por exemplo, mostraram-se suscetíveis a vazios) e permitiram hierarquizar a influência das variáveis: temperatura e tensão de cisalhamento máxima no pino exercem a maior influência, seguidas do torque e da taxa de deformação (DU; MUKHERJEE; DEBROY, 2019).
+
+Em síntese, a literatura oferece, de um lado, modelos mecanísticos fiéis, porém custosos, e, de outro, modelos orientados a dados que alcançam boa acurácia, mas na forma de classificadores sem relação explícita entre as variáveis de processo e o defeito. Entre esses extremos, há espaço para expressões analíticas simples que condensem a física do processo em poucos grupos de variáveis, como fazem a correlação adimensional de temperatura de Arora, DebRoy e Bhadeshia (2011) e o índice energético de Bezerra (2025). É esse espaço que o presente trabalho busca ocupar.
+
+% ------------------------------------------------------------------------------
+\section{Análise Dimensional e Índices Adimensionais}
+\label{sec:analise_dimensional}
+
+A análise dimensional parte de um princípio simples: toda equação que descreve corretamente um fenômeno físico deve ser dimensionalmente homogênea, isto é, todos os seus termos devem ter as mesmas dimensões (FOX; MCDONALD; PRITCHARD, 2014). Desse princípio decorre uma consequência poderosa: a relação entre as variáveis de um fenômeno pode ser reescrita em termos de grupos adimensionais, cujo número é menor que o de variáveis originais. Esse resultado é formalizado pelo teorema $\Pi$ de Buckingham: se um fenômeno depende de $n$ variáveis dimensionais envolvendo $r$ dimensões fundamentais, como massa ($M$), comprimento ($L$) e tempo ($T$), ele pode ser descrito por $n - r$ grupos adimensionais independentes, $\Pi_1, \Pi_2, \ldots, \Pi_{n-r}$ (FOX; MCDONALD; PRITCHARD, 2014). Além de reduzir o número de variáveis a considerar, essa reformulação torna os resultados independentes do sistema de unidades e permite comparar sistemas de escalas diferentes.
+
+Os grupos podem ser obtidos de forma sistemática pelo método das variáveis repetidas, que consiste em: listar todas as variáveis relevantes do fenômeno; escolher as dimensões fundamentais e expressar cada variável em termos delas; selecionar, entre as variáveis, um número de variáveis repetidas igual ao número de dimensões fundamentais, que juntas contenham todas essas dimensões; combinar cada uma das demais variáveis com as variáveis repetidas, elevadas a expoentes escolhidos de modo a anular as dimensões, formando os grupos $\Pi$; e, por fim, verificar que cada grupo obtido é de fato adimensional (FOX; MCDONALD; PRITCHARD, 2014). Os grupos assim obtidos não são únicos, já que produtos e potências de grupos adimensionais continuam adimensionais, o que permite escolher as combinações de maior significado físico.
+
+Esse significado físico é o que torna os grupos adimensionais tão úteis. Em geral, cada grupo pode ser interpretado como a razão entre dois efeitos que competem no fenômeno; o número de Reynolds, por exemplo, expressa a razão entre as forças de inércia e as forças viscosas de um escoamento, e dois escoamentos geometricamente semelhantes com o mesmo número de Reynolds apresentam comportamento dinamicamente semelhante (FOX; MCDONALD; PRITCHARD, 2014). É exatamente essa a analogia invocada por Du, Mukherjee e DebRoy (2019) para o FSW: assim como o regime de escoamento em um tubo é mais bem descrito pelo número de Reynolds do que pelo diâmetro, pela velocidade, pela densidade e pela viscosidade tomados isoladamente, a formação de vazios tende a ser mais bem descrita por grupos de variáveis do que pelos parâmetros brutos de soldagem.
+
+A literatura de FSW já recorre a grandezas normalizadas, como a temperatura relativa à de fusão ou à \textit{solidus} e as variáveis causais normalizadas de Du, Mukherjee e DebRoy (2019), discutidas nas seções anteriores. O pseudoíndice de calor $\omega^{2}/v$, por outro lado, ilustra as limitações de um índice dimensional: seu valor numérico depende das unidades adotadas, daí o fator $10^{4}$ na Eq.~(\ref{eq:arbegast}), e os diferentes pseudoíndices propostos na literatura têm verificação experimental limitada e não apresentaram tendência geral quando aplicados a conjuntos de dados distintos (MISHRA; MA, 2005). Já a correlação de Arora, DebRoy e Bhadeshia (2011), Eq.~(\ref{eq:arora}), é inteiramente adimensional: tanto a temperatura de pico quanto o aporte de calor são normalizados, e a relação obtida, linear em escala logarítmica, mostrou-se válida para diferentes ligas de alumínio e aços em uma ampla faixa de condições.
+
+Para o presente trabalho, a análise dimensional oferece, portanto, duas grandes contribuições. A primeira é um caminho sistemático para reduzir as variáveis da base de dados a um conjunto menor de grupos com significado físico. A segunda, talvez a mais importante diante de uma base compilada a partir de estudos com ferramentas, chapas, ligas e máquinas diferentes, é a perspectiva de semelhança: se a formação de vazios depender de fato de poucos grupos adimensionais, ensaios realizados em condições distintas, mas com os mesmos valores desses grupos, devem apresentar comportamento semelhante. A aplicação do teorema $\Pi$ às variáveis da base de dados é apresentada no Capítulo~3.
+
+% ------------------------------------------------------------------------------
+\section{Síntese: Implicações para a Modelagem}
+\label{sec:sintese}
+
+A revisão apresentada permite reunir os elementos que orientarão a formulação do índice proposto. O mecanismo dominante de formação de vazios é o do lado frio da janela de processo: aporte térmico insuficiente, escoamento inadequado e falta de material para preencher a cavidade deixada pelo pino, com o vazio localizado tipicamente no lado de avanço e próximo à ponta do pino (ARBEGAST, 2008; DU; MUKHERJEE; DEBROY, 2019). As variáveis não atuam de forma isolada, e a literatura sugere combinações naturais: a razão entre rotação e avanço, isoladamente ou com a rotação elevada ao quadrado; a velocidade periférica do ombro, $\omega R_s$; o calor gerado, proporcional a $\omega R_{s}^{3}$; a razão entre a pressão axial e a tensão de escoamento; e a temperatura adimensional. Essa influência, porém, não é simétrica: a temperatura depende mais fortemente da rotação do que do avanço, e o ombro domina a geração de calor sobre o pino. Por fim, a análise dimensional sugere que os termos do índice sejam, idealmente, adimensionais e oferece um caminho para construí-los.
+
+A Tabela~\ref{tab:sintese} resume, para cada variável da base de dados, o mecanismo físico pelo qual ela atua e o efeito esperado de um aumento seu sobre o risco de vazio. Esses sentidos servirão como referência para avaliar a coerência física dos expoentes obtidos na calibração: um termo cujo sinal ajustado contrarie a física esperada deverá ser examinado com cautela, pois pode refletir mais as particularidades da base de dados do que o fenômeno.
+
+\begin{table}[htbp]
+\centering
+\caption{Efeito esperado de cada variável sobre o risco de formação de vazios.}
+\label{tab:sintese}
+\small
+\begin{tabularx}{\textwidth}{L{2.3cm} Y L{2.4cm} L{3.7cm}}
+\toprule
+\textbf{Variável} & \textbf{Mecanismo principal} & \textbf{Efeito do aumento sobre o risco} & \textbf{Fontes} \\ \midrule
+Rotação, $\omega$ & Aumenta calor, temperatura e volume de material que escoa; reduz o torque & Reduz (até o limite quente) & Mishra e Ma (2005); Arbegast (2008); Du et al. (2019) \\
+Avanço, $v$ & Reduz o calor por comprimento; aumenta forças e torque & Aumenta (efeito menor que o de $\omega$) & Ahmed et al. (2021); Aldanondo et al. (2020); Bezerra (2025) \\
+Raio do ombro, $R_s$ & Calor e torque $\propto R_{s}^{3}$; confinamento do material & Reduz & Mishra e Ma (2005); Arora et al. (2011); Du et al. (2019) \\
+Raios do pino, $R_{pr}$ e $R_{pt}$ & Volume varrido; calor secundário; conicidade altera a deformação ao longo da espessura & Incerto & Mishra e Ma (2005); Ahmed et al. (2019, 2021); Laska et al. (2023) \\
+Espessura, $t$ & Calor precisa atravessar a chapa; raiz mais fria & Aumenta & Du et al. (2019); Ahmed et al. (2019) \\
+Pressão axial, $p$ & Calor por atrito ($\mu p$); confinamento e forjamento & Reduz & Arbegast (2008); Bezerra (2025) \\
+Inclinação, $\theta$ & Forjamento na traseira; eleva a temperatura & Reduz (na faixa usual) & Mishra e Ma (2005); Meyghani e Awang (2022) \\
+Difusividade, $\alpha$ & Dissipação do calor gerado & Aumenta & Arora et al. (2011); Du et al. (2019) \\
+Limite de escoamento, $\sigma_y$ & Calor por adesão; resistência ao escoamento e torque & Incerto & Mishra e Ma (2005); Arora et al. (2011) \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+% ==============================================================================
+% CAPÍTULO 3 - METODOLOGIA
+% ==============================================================================
+\chapter{Metodologia}
+\label{cap:metodologia}
+
+% ------------------------------------------------------------------------------
+\section{Visão Geral}
+\label{sec:visao_geral}
+
+O trabalho consiste em propor, calibrar e validar uma expressão analítica simples, o Coeficiente Analítico de Vazio ($C_{void}$), capaz de prever a formação de vazios volumétricos em juntas soldadas por FSW a partir dos parâmetros de processo, da geometria da ferramenta e das propriedades do material, sem recorrer a simulações numéricas ou a modelos de aprendizado de máquina do tipo caixa-preta. Não foram realizados experimentos: toda a calibração e a validação foram feitas sobre a base de dados secundária compilada por Du, Mukherjee e DebRoy (2019), apresentada na Seção~\ref{sec:modelagem}, o que permite, adicionalmente, comparar diretamente o desempenho do índice proposto com o dos classificadores daqueles autores.
+
+A Figura~\ref{fig:fluxograma} resume as etapas da metodologia. A base de dados foi inicialmente auditada e tratada, com a conversão de todas as grandezas para o Sistema Internacional, o descarte de informações inconsistentes e a identificação dos valores que não foram medidos, mas assumidos pelos autores da base. Em seguida, as variáveis foram classificadas segundo a sua natureza (cinemática, geométrica, térmica, dinâmica ou metalúrgica) e reduzidas, pelo teorema $\Pi$ de Buckingham, a um conjunto de grupos adimensionais com significado físico. Sobre esses grupos foram construídas três abordagens de modelagem, desenvolvidas na seguinte ordem: a abordagem 1, que corresponde à proposta original do TG1, em que o $C_{void}$ é um produto de grupos adimensionais com expoentes calibrados; a abordagem 2, em que o $C_{void}$ se reduz a um único índice físico comparado a um valor crítico; e a abordagem 3, híbrida, em que o índice da abordagem 2 é complementado por grupos adimensionais apenas quando estes melhoram, comprovadamente, a capacidade de previsão. As três abordagens foram calibradas e avaliadas por um mesmo protocolo de validação e, por fim, submetidas a análises de sensibilidade, para estabelecer a hierarquia entre as naturezas das variáveis, e de robustez, para verificar se as conclusões dependem dos dados mais incertos da base.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=0.45cm,
+  etapa/.style={draw, rounded corners=2pt, fill=gray!8, align=center, text width=14.2cm, minimum height=0.8cm, font=\small},
+  modelo/.style={draw, rounded corners=2pt, fill=blue!6, align=center, text width=4.1cm, minimum height=1.3cm, font=\small},
+  seta/.style={-{Stealth[length=2.2mm]}, thick}]
+\node[etapa] (dados) {\textbf{Base de dados}\\ 108 soldas de 14 estudos (Du; Mukherjee; DebRoy, 2019)};
+\node[etapa, below=of dados] (trat) {\textbf{Tratamento}\\ conversão para o SI; descarte da coluna de liga; marcação dos valores assumidos};
+\node[etapa, below=of trat] (pi) {\textbf{Análise dimensional}\\ naturezas das variáveis; 7 grupos adimensionais (teorema $\Pi$)};
+\node[modelo, below=0.9cm of pi] (A) {\textbf{Abordagem 2}\\ índice físico único e valor crítico};
+\node[modelo, left=0.45cm of A] (B) {\textbf{Abordagem 1}\\ produto de grupos adimensionais (proposta do TG1)};
+\node[modelo, right=0.45cm of A] (C) {\textbf{Abordagem 3}\\ núcleo da abordagem 2 com termos aceitos por ganho de previsão};
+\node[etapa, below=0.9cm of A] (cal) {\textbf{Calibração}\\ regressão logística em logaritmos; limiar pela acurácia e pela acurácia balanceada};
+\node[etapa, below=of cal] (val) {\textbf{Validação}\\ split 78/30 oficial; 500 splits 78/30; validação cruzada por estudo};
+\node[etapa, below=of val] (sens) {\textbf{Sensibilidade e robustez}\\ hierarquia das naturezas; dados assumidos e duvidosos};
+\draw[seta] (dados) -- (trat);
+\draw[seta] (trat) -- (pi);
+\draw[seta] (pi.south) -- ++(0,-0.45) -| (B.north);
+\draw[seta] (pi.south) -- (A.north);
+\draw[seta] (pi.south) -- ++(0,-0.45) -| (C.north);
+\draw[seta] (B.south) -- ++(0,-0.45) -| (cal.north);
+\draw[seta] (A.south) -- (cal.north);
+\draw[seta] (C.south) -- ++(0,-0.45) -| (cal.north);
+\draw[seta] (cal) -- (val);
+\draw[seta] (val) -- (sens);
+\draw[seta, dashed, gray] (B.east) -- node[above, font=\scriptsize, black]{1º} (A.west);
+\draw[seta, dashed, gray] (A.east) -- node[above, font=\scriptsize, black]{2º} (C.west);
+\end{tikzpicture}
+\caption{Etapas da metodologia. As setas tracejadas indicam a ordem em que as abordagens de modelagem foram desenvolvidas.}
+\label{fig:fluxograma}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\section{Base de Dados}
+\label{sec:base_dados}
+
+A base de dados utilizada é a compilada por Du, Mukherjee e DebRoy (2019), obtida em sua versão disponibilizada publicamente na plataforma Kaggle (BARUAH, [2023?]), que reúne 108 ensaios independentes de FSW das ligas AA2024, AA2219 e AA6061 extraídos de artigos revisados por pares. Cada ensaio é descrito por dez variáveis de entrada (a velocidade de avanço, a rotação, a espessura da chapa, o raio do ombro, a pressão axial, os raios do pino na raiz e na ponta, o ângulo de inclinação, a difusividade térmica e o limite de escoamento do material) e por uma variável de saída binária, que indica a presença (1) ou a ausência (0) de vazio, determinada pelos autores originais a partir da inspeção da seção transversal da solda. Ao todo, 43 soldas apresentam vazio e 65 são isentas, o que corresponde a uma proporção de 39,8\% e 60,2\%, respectivamente. As faixas de cada variável são apresentadas na Tabela~\ref{tab:variaveis}.
+
+\begin{table}[htbp]
+\centering
+\caption{Variáveis da base de dados, unidades no SI, faixas observadas e natureza.}
+\label{tab:variaveis}
+\small
+\begin{tabularx}{\textwidth}{c Y c L{3.6cm} L{2.0cm}}
+\toprule
+\textbf{Símbolo} & \textbf{Variável} & \textbf{Unidade} & \textbf{Faixa} & \textbf{Natureza} \\ \midrule
+$v$ & Velocidade de avanço & m/s & $2{,}5\times10^{-4}$ a $1{,}78\times10^{-2}$ (15 a 1068~mm/min) & Cinemática \\
+$\omega$ & Rotação da ferramenta & rad/s & 15,7 a 261,8 (150 a 2500~rpm) & Cinemática \\
+$R_s$ & Raio do ombro & m & 5 a 14~mm & Geométrica \\
+$R_{pr}$ & Raio do pino na raiz & m & 1,5 a 5,5~mm & Geométrica \\
+$R_{pt}$ & Raio do pino na ponta & m & 0,9 a 4,2~mm & Geométrica \\
+$t$ & Espessura da chapa & m & 2,1 a 17,5~mm & Geométrica \\
+$\alpha$ & Difusividade térmica & m$^2$/s & $4{,}89\times10^{-5}$ a $6{,}90\times10^{-5}$ & Térmica \\
+$p$ & Pressão axial & Pa & 7,86 a 26,5~MPa & Dinâmica \\
+$\theta$ & Ângulo de inclinação & grau & 2 a 2,5 & Dinâmica \\
+$\sigma_y$ & Limite de escoamento & Pa & 276 a 352~MPa & Metalúrgica \\ \midrule
+$y$ & Presença de vazio & binária & 0 (65 soldas) ou 1 (43 soldas) & Resposta \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+A natureza atribuída a cada variável segue a classificação que distingue as variáveis cinemáticas (movimento da ferramenta), geométricas (dimensões da ferramenta e da chapa), térmicas (transporte de calor no material), dinâmicas (esforços aplicados) e metalúrgicas (resistência do material). Essa classificação é a base da análise de sensibilidade descrita na Seção~\ref{sec:sensibilidade}, cujo objetivo é hierarquizar a influência de cada natureza sobre a formação de vazios.
+
+Duas características da base condicionam todo o restante da metodologia. A primeira é que ela é uma compilação de 14 estudos independentes, cada um realizado com sua própria máquina, ferramenta, chapa e critério de inspeção; em cada estudo, os autores variaram principalmente os parâmetros de processo, mantendo a ferramenta, a chapa e o material fixos. A segunda é que as propriedades térmica e mecânica entram na base como valores tabelados por liga, de modo que a difusividade térmica e o limite de escoamento assumem apenas três valores distintos, um para cada liga. Ambas as características limitam o que um modelo calibrado sobre essa base pode aprender a respeito das variáveis que não variam dentro dos estudos e são retomadas na discussão dos resultados.
+
+% ------------------------------------------------------------------------------
+\section{Tratamento dos Dados}
+\label{sec:tratamento}
+
+Antes de qualquer modelagem, a base de dados foi auditada, o que revelou alguns pontos que exigiram tratamento. O primeiro diz respeito à identificação da liga. A coluna que nomeia a liga de cada ensaio diverge das propriedades informadas na mesma linha em 33 dos 108 ensaios (linhas 21 a 38 e 56 a 70), ao passo que a difusividade térmica e o limite de escoamento são inteiramente consistentes tanto com os valores de referência de cada liga quanto com o estudo de origem indicado na própria base. Optou-se, por isso, por descartar a coluna de liga: ela não é utilizada em nenhum modelo, e, quando foi necessário agrupar os ensaios por liga, por exemplo na caracterização da base, a liga foi identificada pelo par de propriedades, que corresponde de forma unívoca a cada uma delas ($\alpha = 4{,}97\times10^{-5}$~m$^2$/s e $\sigma_y = 324$~MPa para a AA2024; $4{,}89\times10^{-5}$~m$^2$/s e 352~MPa para a AA2219; e $6{,}90\times10^{-5}$~m$^2$/s e 276~MPa para a AA6061). As propriedades, que de fato entram nos modelos, foram mantidas.
+
+O segundo ponto diz respeito aos valores assumidos. Nos casos em que a pressão axial e o ângulo de inclinação não foram reportados nos estudos de origem, Du, Mukherjee e DebRoy (2019) adotaram valores comumente empregados, identificados na base por um asterisco. Esses valores correspondem a 72 das 108 pressões e a 71 dos 108 ângulos de inclinação. O asterisco foi convertido em um indicador associado a cada ensaio, preservando a informação de que o valor é suposto e não medido, o que permitiu a análise de robustez descrita na Seção~\ref{sec:sensibilidade}. Vale notar que o ângulo de inclinação assume apenas os valores de 2° e 2,5° em toda a base, de modo que, além de majoritariamente assumido, ele carrega pouca informação.
+
+O terceiro ponto diz respeito a dois casos duvidosos que não puderam ser resolvidos a partir da própria base. As linhas 84 a 89 são atribuídas a um estudo realizado com a liga AA2024, mas apresentam as propriedades da AA6061; como não é possível determinar qual das duas informações está correta, essas linhas foram tratadas como um grupo à parte nas análises por estudo e foram objeto de uma análise de robustez específica. Já as velocidades de avanço de um dos estudos (508 a 1068~mm/min) são muito superiores às dos demais, o que sugere um possível erro de unidade; como o artigo original não pôde ser consultado, os valores foram mantidos como informados.
+
+Por fim, todas as grandezas foram convertidas para o Sistema Internacional: a rotação, informada em rotações por segundo, foi convertida para velocidade angular em rad/s ($\omega = 2\pi N$); a pressão axial e o limite de escoamento, informados em MPa, foram convertidos para Pa; e os comprimentos, a velocidade de avanço e a difusividade térmica já estavam em unidades do SI. O ângulo de inclinação, adimensional, foi mantido em graus. Essa conversão é condição para a análise dimensional da seção seguinte, já que os grupos adimensionais só são de fato independentes de unidades quando todas as variáveis estão expressas em um sistema coerente.
+
+% ------------------------------------------------------------------------------
+\section{Análise Dimensional e Grupos Adimensionais}
+\label{sec:grupos}
+
+A aplicação do teorema $\Pi$ de Buckingham, apresentado na Seção~\ref{sec:analise_dimensional}, parte das dimensões de cada variável. Das dez variáveis de entrada, nove são dimensionais e envolvem as três dimensões fundamentais da mecânica: a velocidade de avanço tem dimensão $[L\,T^{-1}]$; a rotação, $[T^{-1}]$; os quatro comprimentos ($R_s$, $R_{pr}$, $R_{pt}$ e $t$), $[L]$; a difusividade térmica, $[L^{2}\,T^{-1}]$; e a pressão axial e o limite de escoamento, ambos $[M\,L^{-1}\,T^{-2}]$. O ângulo de inclinação já é adimensional. Com $n = 10$ variáveis e $r = 3$ dimensões fundamentais, o fenômeno pode ser descrito por $n - r = 7$ grupos adimensionais independentes.
+
+Pelo método das variáveis repetidas, escolheram-se como repetidas o raio do ombro, a rotação e o limite de escoamento, que, juntos, contêm as três dimensões fundamentais e representam, respectivamente, a escala geométrica da ferramenta, a escala de tempo do processo e a escala de tensão do material. Combinando cada uma das demais variáveis com as repetidas, obtêm-se os grupos $v/(\omega R_s)$, $t/R_s$, $R_{pr}/R_s$, $R_{pt}/R_s$, $\alpha/(\omega R_{s}^{2})$, $p/\sigma_y$ e o próprio $\theta$. Como produtos e potências de grupos adimensionais continuam adimensionais, esses grupos foram recombinados nas formas de maior significado físico apresentadas na Tabela~\ref{tab:grupos}, que constituem o conjunto de referência deste trabalho.
+
+\begin{table}[htbp]
+\centering
+\caption{Grupos adimensionais independentes formados com as variáveis da base de dados.}
+\label{tab:grupos}
+\small
+\begin{tabularx}{\textwidth}{c c L{2.3cm} Y L{1.9cm}}
+\toprule
+\textbf{Grupo} & \textbf{Expressão} & \textbf{Natureza} & \textbf{Interpretação física} & \textbf{Efeito esperado no risco} \\ \midrule
+$\Pi_1$ & $\omega R_s/v$ & Cinemática e geométrica & Razão entre a velocidade periférica do ombro e a velocidade de avanço; proporcional ao número de rotações por comprimento de solda & Reduz \\
+$\Pi_2$ & $v R_s/\alpha$ & Cinemática, geométrica e térmica & Número de Péclet: razão entre o transporte de calor pelo avanço da ferramenta e a condução no material & Aumenta \\
+$\Pi_3$ & $p/\sigma_y$ & Dinâmica e metalúrgica & Pressão axial relativa à resistência do material & Reduz \\
+$\Pi_4$ & $t/R_s$ & Geométrica & Espessura relativa ao ombro; distância que o calor do ombro precisa vencer até a raiz & Aumenta \\
+$\Pi_5$ & $R_{pr}/R_s$ & Geométrica & Razão entre os raios do pino e do ombro & Incerto \\
+$\Pi_6$ & $R_{pt}/R_{pr}$ & Geométrica & Conicidade do pino ($\Pi_6 = 1$ para pino cilíndrico) & Incerto \\
+$\Pi_7$ & $\theta$ & Dinâmica & Inclinação da ferramenta & Reduz \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+Alguns aspectos dessa redução merecem destaque, pois condicionam as abordagens de modelagem. O primeiro é que a rotação só pode entrar em um grupo adimensional acompanhada de uma velocidade de referência: no conjunto da Tabela~\ref{tab:grupos}, essa referência é a velocidade de avanço, em $\Pi_1$, mas a recombinação $\Pi_1\Pi_2 = \omega R_{s}^{2}/\alpha$ mostra que a rotação também pode ser referida à velocidade característica de difusão do calor, $\alpha/R_s$; esse grupo, um número de Péclet rotacional, é precisamente o fator do aporte de calor adimensional de Arora, DebRoy e Bhadeshia (2011) que contém a rotação e o raio do ombro, já que, com $A = \pi R_{s}^{2}$ e $k = \rho C_P \alpha$, a Eq.~(\ref{eq:arora}) pode ser reescrita como $Q^{*} = \pi\phi\,(\omega R_{s}^{2}/\alpha)\,[\sigma_{8}/(\rho U^{2})]$. O segundo é que a pressão axial e o limite de escoamento são as únicas variáveis que contêm a dimensão de massa, de modo que só podem entrar no índice na forma da razão $p/\sigma_y$: em um modelo dimensionalmente homogêneo, as naturezas dinâmica e metalúrgica não podem ser separadas, exceto pela inclinação. O terceiro é que a difusividade térmica só aparece no número de Péclet, sempre acompanhada da velocidade de avanço ou da rotação.
+
+% ------------------------------------------------------------------------------
+\section{Abordagens de Modelagem}
+\label{sec:abordagens}
+
+\subsection{Abordagem 1: produto de grupos adimensionais}
+\label{sec:abordagem_b}
+
+A primeira abordagem desenvolvida corresponde à proposta do TG1: o $C_{void}$ é escrito como um produto de grupos adimensionais elevados a expoentes a calibrar,
+
+\begin{equation}
+C_{void} = C_0 \prod_{i} \Pi_{i}^{\,\beta_i}, \qquad \text{vazio previsto se } C_{void} > 1,
+\label{eq:cvoid_b}
+\end{equation}
+
+\noindent em que $C_0$ é uma constante e $\beta_i$ é o expoente do grupo $\Pi_i$. Essa forma, análoga às correlações adimensionais clássicas da mecânica dos fluidos e da transferência de calor, unifica as duas versões do índice apresentadas no TG1: tomando o logaritmo, $\ln C_{void} = \ln C_0 + \sum_i \beta_i \ln \Pi_i$, isto é, a forma multiplicativa nos grupos é uma forma aditiva nos seus logaritmos. Além disso, cada expoente tem interpretação direta: ele indica de quantos por cento o $C_{void}$ varia para cada 1\% de variação do grupo correspondente.
+
+A escolha dos grupos que compõem o índice é a principal decisão de modelagem. Com apenas 43 soldas com vazio, a regra prática de cerca de dez eventos por parâmetro estimado sugere que o índice não deveria conter muito mais do que quatro ou cinco termos. Por isso, além do conjunto completo de sete grupos, foram propostos dois conjuntos reduzidos, cada um fundamentado em um mecanismo físico de formação de vazios descrito na revisão de literatura, conforme a Tabela~\ref{tab:conjuntos_b}.
+
+\begin{table}[htbp]
+\centering
+\caption{Conjuntos de grupos adimensionais avaliados na abordagem 1.}
+\label{tab:conjuntos_b}
+\small
+\begin{tabularx}{\textwidth}{L{2.4cm} L{3.6cm} Y}
+\toprule
+\textbf{Conjunto} & \textbf{Grupos} & \textbf{Fundamentação} \\ \midrule
+1a (Buckingham completo) & $\omega R_s/v$, $vR_s/\alpha$, $p/\sigma_y$, $t/R_s$, $R_{pr}/R_s$, $R_{pt}/R_{pr}$, $\theta$ & Os sete grupos independentes da análise dimensional, um para cada efeito; analogia com o número de Reynolds proposta por Du, Mukherjee e DebRoy (2019) \\
+1b (térmico) & $\omega R_{s}^{2}/\alpha$, $vR_s/\alpha$, $p/\sigma_y$, $t/R_s$ & Vazio como consequência de aporte térmico insuficiente: geração de calor no ombro proporcional a $\omega R_{s}^{3}$ e à tensão na interface, Eq.~(\ref{eq:schmidt}); condução do calor no material, como na correlação de Arora, DebRoy e Bhadeshia (2011); peso do avanço pelo número de Péclet; parcela de atrito e de adesão por $p/\sigma_y$; resfriamento da raiz por $t/R_s$ \\
+1c (escoamento) & $\omega R_s/v$, $R_{pr}/R_s$, $R_{pt}/R_{pr}$, $t/R_{pr}$, $p/\sigma_y$ & Vazio como consequência de material insuficiente transportado e forjado ao redor do pino: zonas de escoamento e massa crítica dependentes da razão entre rotação e avanço (ARBEGAST, 2008), Eq.~(\ref{eq:arbegast_massa}); geometria do pino e conicidade (AHMED et al., 2019; 2021); forjamento pela pressão axial \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+O ângulo de inclinação foi mantido apenas no conjunto completo, por assumir somente dois valores e ser majoritariamente assumido. Os três conjuntos foram calibrados e avaliados separadamente e, para a escolha do melhor deles, foi adotado um procedimento que utiliza exclusivamente os dados de treinamento, descrito na Seção~\ref{sec:validacao}, de modo que a própria escolha do conjunto faça parte do modelo avaliado.
+
+\subsection{Abordagem 2: índice físico único}
+\label{sec:abordagem_a}
+
+A segunda abordagem leva a simplicidade ao limite: o $C_{void}$ é a razão entre um valor crítico e um único índice físico, sem nenhum expoente ajustado. O índice escolhido foi a velocidade periférica do ombro, $\omega R_s$, de modo que
+
+\begin{equation}
+C_{void} = \frac{V_{crit}}{\omega R_s}, \qquad \text{vazio previsto se } C_{void} > 1, \text{ isto é, se } \omega R_s < V_{crit},
+\label{eq:cvoid_a}
+\end{equation}
+
+\noindent em que $V_{crit}$ é a velocidade periférica crítica, único parâmetro a calibrar. A escolha desse índice decorre de três elementos da revisão. O primeiro é a própria origem do calor: como a potência dissipada por atrito em um anel de raio $r$ da interface é proporcional ao produto entre a tensão na interface e a velocidade local de deslizamento, $\omega r$, a geração de calor por unidade de área é máxima na borda do ombro, onde a velocidade de deslizamento vale $\omega R_s$; foi justamente à maior velocidade linear do ombro, além da maior área de contato e da maior pressão, que Tang et al., conforme descrito por Mishra e Ma (2005), atribuíram a predominância do ombro na geração de calor. O segundo é o escoamento: a velocidade do material na periferia do ombro é, em primeira aproximação, igual a $\omega R_s$ (MEYGHANI; AWANG, 2022). O terceiro é a assimetria entre rotação e avanço: a temperatura máxima depende fortemente da rotação, enquanto o avanço governa principalmente a taxa de aquecimento (MISHRA; MA, 2005), o que sugere um índice construído a partir da rotação e da geometria do ombro, e não da razão entre rotação e avanço.
+
+Diferentemente dos grupos da abordagem 1, o índice $\omega R_s$ tem dimensão de velocidade, e o valor crítico $V_{crit}$ é expresso em m/s. Para avaliar o efeito de exigir a adimensionalidade, foram testadas também duas versões adimensionais do mesmo índice, obtidas ao dividir a velocidade periférica pelas duas velocidades de referência disponíveis na base: a velocidade de avanço, resultando em $\Pi_1 = \omega R_s/v$, e a velocidade característica de difusão do calor, $\alpha/R_s$, resultando no número de Péclet rotacional $\omega R_{s}^{2}/\alpha$. Como referências de comparação, avaliou-se ainda o índice formado apenas pela rotação.
+
+\subsection{Abordagem 3: núcleo físico com termos complementares}
+\label{sec:abordagem_c}
+
+A terceira abordagem combina as duas anteriores: o índice da abordagem 2 é tomado como núcleo do $C_{void}$, e grupos adimensionais são acrescentados apenas quando aumentam, de forma comprovada, a capacidade de previsão,
+
+\begin{equation}
+C_{void} = C_0\,(\omega R_s)^{\beta_0} \prod_{j \in S} \Pi_{j}^{\,\beta_j},
+\label{eq:cvoid_c}
+\end{equation}
+
+\noindent em que $S$ é o conjunto de grupos selecionados. Os candidatos são os sete grupos da Tabela~\ref{tab:grupos}. A seleção é progressiva: partindo do núcleo, testa-se a inclusão de cada candidato e incorpora-se aquele que proporciona o maior aumento da acurácia estimada por validação cruzada interna, descrita na Seção~\ref{sec:validacao}; o processo se repete até que nenhum candidato aumente essa acurácia em pelo menos um ponto percentual. Desse modo, cada termo do índice final precisa justificar a sua presença pela melhora da previsão, e a ordem em que os termos entram fornece, por si só, uma hierarquia entre eles.
+
+% ------------------------------------------------------------------------------
+\section{Calibração}
+\label{sec:calibracao}
+
+Os expoentes das abordagens 1 e 3 foram calibrados por regressão logística sobre os logaritmos dos grupos. A escolha não representa a adoção de um modelo de aprendizado de máquina, mas decorre da própria forma do índice: a regressão logística admite que o logaritmo da razão de chances de vazio é uma função linear das entradas,
+
+\begin{equation}
+\ln\left(\frac{P}{1-P}\right) = b_0 + \sum_i \beta_i \ln \Pi_i \quad \Longleftrightarrow \quad \frac{P}{1-P} = e^{b_0}\prod_i \Pi_{i}^{\,\beta_i},
+\label{eq:logistica}
+\end{equation}
+
+\noindent em que $P$ é a probabilidade de vazio. A razão de chances $P/(1-P)$ tem, portanto, exatamente a forma de lei de potência da Eq.~(\ref{eq:cvoid_b}), e a regressão logística é simplesmente o método estatístico adequado para estimar os seus expoentes quando a resposta é binária, da mesma forma que as correlações adimensionais clássicas são ajustadas por regressão sobre os logaritmos das variáveis. O método dos mínimos quadrados, que fora pensado inicialmente, não é apropriado nesse caso, pois pressupõe uma resposta contínua e pode prever probabilidades fora do intervalo entre zero e um. Os coeficientes foram estimados por máxima verossimilhança, resolvida pelo método de Newton--Raphson. A regressão logística sobre o logaritmo de um índice energético foi empregada também por Bezerra (2025), em trabalho anterior do mesmo grupo de pesquisa, para estimar a probabilidade de túneis em função do aporte de calor.
+
+O desbalanceamento entre as classes, com 43 soldas com vazio contra 65 sem vazio, foi tratado de três formas. Primeiro, todas as divisões entre dados de treinamento e de teste foram estratificadas, preservando em cada grupo a proporção de 40\% de soldas com vazio. Segundo, na regressão logística, cada solda recebeu um peso inversamente proporcional à frequência da sua classe ($w_i = n/(2\,n_{c})$, em que $n_{c}$ é o número de soldas da classe da solda $i$), de modo que as duas classes contribuam igualmente para a estimação dos expoentes; para verificar o efeito dessa escolha, todos os modelos da abordagem 1 foram calibrados também sem os pesos. Terceiro, o limiar de decisão foi escolhido por dois critérios alternativos, apresentados a seguir. Não foram utilizadas técnicas de reamostragem sintética, que criariam soldas artificiais em uma base pequena e agrupada por estudos.
+
+Em todas as abordagens, o limiar foi escolhido exclusivamente com os dados de treinamento. Para as abordagens 1 e 3, o escore da Eq.~(\ref{eq:logistica}) é comparado a um limiar $s^{*}$, e a constante do índice é redefinida como $C_0 = e^{b_0 - s^{*}}$, de modo que o vazio é previsto sempre que $C_{void} > 1$; para a abordagem 2, o limiar é o próprio $V_{crit}$. Foram adotados dois critérios para essa escolha: maximizar a acurácia, isto é, a fração de soldas corretamente classificadas, ou maximizar a acurácia balanceada, isto é, a média entre a sensibilidade e a especificidade,
+
+\begin{equation}
+\begin{gathered}
+\text{Acurácia} = \frac{VP + VN}{n}, \qquad \text{Sensibilidade} = \frac{VP}{VP + FN}, \\[4pt]
+\text{Especificidade} = \frac{VN}{VN + FP}, \qquad \text{Acurácia balanceada} = \frac{\text{Sensibilidade} + \text{Especificidade}}{2},
+\end{gathered}
+\label{eq:metricas}
+\end{equation}
+
+\noindent em que $VP$ e $FN$ são as soldas com vazio classificadas corretamente e incorretamente, e $VN$ e $FP$, as soldas sem vazio classificadas corretamente e incorretamente. Enquanto a acurácia favorece o acerto da classe mais numerosa, a acurácia balanceada pondera igualmente as duas classes, o que tende a deslocar o limiar no sentido de detectar mais vazios. Como o erro de maior consequência na indústria é aprovar uma solda com vazio, os dois critérios foram aplicados a todas as abordagens, e seus resultados são comparados no Capítulo~4.
+
+% ------------------------------------------------------------------------------
+\section{Protocolo de Validação}
+\label{sec:validacao}
+
+Uma base de 108 soldas é pequena o bastante para que a acurácia medida em um único conjunto de teste dependa fortemente do sorteio: com 30 soldas de teste, cada erro altera a acurácia em 3,3 pontos percentuais. Por esse motivo, a validação combinou três esquemas complementares, aplicados de forma idêntica a todas as abordagens.
+
+O primeiro reproduz o esquema de Du, Mukherjee e DebRoy (2019): uma divisão estratificada da base em 78 soldas de treinamento (31 com vazio) e 30 de teste (12 com vazio), sorteada com uma semente fixada antes da execução de qualquer modelo. Esse resultado, denominado acurácia de teste no split oficial, é acompanhado do respectivo intervalo de confiança de 95\%. O segundo repete o mesmo procedimento para 500 divisões 78/30 estratificadas diferentes; a média das acurácias de teste nesses 500 sorteios, denominada acurácia de teste média, é a medida principal de desempenho deste trabalho, acompanhada da dispersão entre os sorteios. O terceiro, mais exigente, avalia a capacidade de generalização para condições não vistas: cada um dos 14 estudos é retirado por vez, o modelo é calibrado com os demais e testado nas soldas do estudo retirado. Esse procedimento, denominado validação cruzada por estudo, simula a aplicação do índice a uma ferramenta, a uma chapa e a uma máquina inéditas, situação típica do uso industrial.
+
+Em todos os esquemas, toda decisão de modelagem foi tomada exclusivamente com os dados de treinamento de cada divisão: os expoentes, o limiar e, quando aplicável, a escolha do conjunto de grupos da abordagem 1 e dos termos da abordagem 3. Essas duas escolhas foram feitas por validação cruzada interna ao conjunto de treinamento, dividido estratificadamente em cinco partes, com quatro repetições; a cada repetição, o modelo é calibrado em quatro partes e avaliado na quinta, e a média dessas avaliações orienta a escolha. Dessa forma, a etapa de seleção faz parte do modelo avaliado e não contamina a medida de desempenho.
+
+As acurácias obtidas foram comparadas com três referências. A primeira é a classe majoritária, que corresponde a classificar todas as soldas como isentas de vazio e acerta 60,2\% delas; qualquer modelo útil deve superar esse valor. A segunda é o índice formado apenas pela rotação, a variável mais citada na literatura como determinante da temperatura. A terceira são os resultados de Du, Mukherjee e DebRoy (2019), em particular os 83,3\% obtidos pela rede neural com os mesmos dez parâmetros brutos, que constituem a comparação mais direta, já que os resultados obtidos com as variáveis causais dependem de modelos mecanísticos prévios.
+
+Cabe, por fim, uma declaração quanto à independência entre a escolha dos modelos e os dados de teste. Antes da definição deste protocolo, foram realizadas análises exploratórias sobre as 108 soldas, que, entre outros resultados, indicaram o bom desempenho do índice $\omega R_s$. Embora esse índice tenha sido justificado fisicamente a partir da literatura e não envolva nenhum expoente ajustado, sua escolha não é, a rigor, independente da base, o que pode conferir algum otimismo aos resultados da abordagem 2. Por isso, a acurácia de teste média e a validação cruzada por estudo, que medem a estabilidade do desempenho, são privilegiados em relação ao resultado de um único sorteio.
+
+% ------------------------------------------------------------------------------
+\section{Análise de Sensibilidade e de Robustez}
+\label{sec:sensibilidade}
+
+A análise de sensibilidade tem por objetivo estabelecer a hierarquia de influência entre as naturezas das variáveis, conforme o segundo objetivo específico deste trabalho. Ela foi realizada de forma completa para a abordagem 1, a única em que todas as naturezas entram com expoentes livres. Como cada grupo adimensional mistura variáveis de naturezas diferentes, a hierarquia foi calculada por variável física e, em seguida, agregada por natureza. Para isso, os expoentes efetivos de cada variável foram obtidos somando-se, para todos os grupos em que ela aparece, o produto entre o expoente do grupo e o expoente da variável no grupo; a rotação, por exemplo, tem expoente efetivo igual a $\beta_1$ no conjunto 1a, por aparecer apenas em $\Pi_1$, enquanto o raio do ombro acumula contribuições de vários grupos. A partir desses expoentes, foram realizadas quatro análises:
+
+\begin{enumerate}
+\item \textbf{Expoentes e sinais:} os expoentes efetivos foram comparados com os sentidos esperados da Tabela~\ref{tab:sintese}, como verificação da coerência física do índice calibrado;
+\item \textbf{Contribuição por natureza:} para cada natureza, calculou-se o desvio-padrão, sobre as 108 soldas, da sua contribuição ao logaritmo do $C_{void}$, medida que combina a intensidade do expoente com a faixa de variação real das variáveis na base;
+\item \textbf{Retirada de natureza:} cada natureza foi retirada do índice, impondo expoentes efetivos nulos às suas variáveis, e o modelo resultante foi recalibrado e avaliado pelo protocolo de validação, sendo a queda de acurácia de teste a medida de importância da natureza;
+\item \textbf{Estabilidade:} as análises foram repetidas em 1000 reamostragens \textit{bootstrap} por estudo, em que os 14 estudos são sorteados com reposição, fornecendo intervalos de confiança para os expoentes e a frequência com que cada natureza ocupa cada posição da hierarquia.
+\end{enumerate}
+
+Para as demais abordagens, uma análise de sensibilidade completa não se justifica. Na abordagem 2, a hierarquia é trivial, pois o índice tem expoentes fixos e não contém as demais variáveis; analisou-se, em seu lugar, a robustez do valor crítico $V_{crit}$, por meio do seu intervalo de confiança \textit{bootstrap} e da variação da acurácia de teste quando o valor calibrado é alterado em $\pm10\%$. Na abordagem 3, a hierarquia decorre da própria construção do índice, e foram analisadas a ordem de entrada dos termos e a frequência com que cada termo é selecionado nos 500 sorteios.
+
+Como os grupos adimensionais e as propriedades das ligas são constantes dentro de cada estudo, e apenas a rotação e o avanço variam dentro deles, foi realizada também uma análise restrita a comparações entre soldas de um mesmo estudo, livre das diferenças de máquina, ferramenta e critério de inspeção entre estudos. Para isso, utilizou-se a área sob a curva ROC calculada apenas sobre pares de soldas do mesmo estudo, uma com e outra sem vazio, que mede a probabilidade de um índice ordenar corretamente esses pares, e determinou-se o expoente relativo do avanço que maximiza essa medida em um índice da forma $\omega\,v^{c}$.
+
+Por fim, foram realizadas duas análises de robustez, aplicadas a todas as abordagens. Na primeira, os grupos que envolvem a pressão axial e o ângulo de inclinação, majoritariamente assumidos, foram retirados dos modelos, mantendo-se todas as soldas; na segunda, as seis soldas de atribuição duvidosa (linhas 84 a 89) foram excluídas da base. Em ambos os casos, todo o protocolo de validação foi repetido, e as conclusões foram consideradas robustas se não se alterassem.
+
+% ------------------------------------------------------------------------------
+\section{Ferramentas Computacionais}
+\label{sec:ferramentas}
+
+Todas as etapas foram implementadas em Python 3.11, com as bibliotecas NumPy e pandas para o tratamento dos dados, SciPy para o cálculo do espaço nulo utilizado na retirada de naturezas, scikit-learn apenas para as divisões estratificadas da base e para o cálculo da área sob a curva ROC, e Matplotlib para os gráficos. A regressão logística foi implementada diretamente pelo método de Newton--Raphson, para manter o controle sobre a forma do índice, e seus resultados foram conferidos com os de uma implementação de referência, com coincidência até a quarta casa decimal. Os códigos, os resultados intermediários de cada sorteio e as tabelas e figuras apresentadas no Capítulo~4 encontram-se no repositório público do trabalho (\url{https://github.com/RafaellLouvain/TG-ITA-rafaellouvain}), organizados de modo a permitir a reprodução integral dos resultados.
+
+
+% ==============================================================================
+% CAPÍTULO 4 - RESULTADOS E DISCUSSÕES
+% ==============================================================================
+\chapter{Resultados e discussões}
+\label{cap:resultados}
+
+Os resultados são apresentados nesta seção na ordem em que as abordagens foram desenvolvidas. Inicialmente, a base de dados é caracterizada, com destaque para aspectos que condicionam a interpretação de todos os resultados seguintes. Em seguida, são apresentados os resultados da abordagem 1, e a investigação das razões de seu desempenho, que motivou as abordagens 2 e 3. Por fim, as três abordagens são comparadas entre si e com a literatura, e são discutidas a robustez das conclusões e as limitações impostas pela base de dados. Salvo indicação contrária, as acurácias apresentadas são acurácias de teste médias nos 500 sorteios 78/30, medida principal definida na Seção~\ref{sec:validacao}.
+
+% ------------------------------------------------------------------------------
+\section{Caracterização da Base de Dados}
+\label{sec:caracterizacao}
+
+A Tabela~\ref{tab:estudos} resume os 14 estudos que compõem a base de dados. Os estudos diferem amplamente entre si: a espessura da chapa varia de 2,1~mm a 17,5~mm, o raio do ombro de 5~mm a 14~mm, e as faixas de rotação de cada estudo vão de 150--800~rpm, no caso das chapas de AA2219, a 1000--2500~rpm, no caso das chapas finas de AA6061. A proporção de soldas com vazio também varia entre as ligas: 53\% das soldas de AA2024 apresentam vazio, contra 34\% das de AA2219 e 32\% das de AA6061.
+
+\begin{table}[htbp]
+\centering
+\caption{Estudos que compõem a base de dados, com a numeração adotada por Du, Mukherjee e DebRoy (2019).}
+\label{tab:estudos}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\textwidth}{!}{\begin{tabular}{cccccccc}
+\toprule
+\textbf{Estudo} & \textbf{Liga} & \textbf{Soldas (vazio)} & \textbf{$t$ (mm)} & \textbf{$R_s$ (mm)} & \textbf{$R_{pr}/R_{pt}$ (mm)} & \textbf{Rotação (rpm)} & \textbf{Avanço (mm/min)} \\ \midrule
+6 & AA2024 & 15 (9) & 4,0 & 10,0 & 3,1/0,9 & 800--1600 & 35--140 \\
+7 & AA2024 & 7 (3) & 6,0 & 9,0 & 3,0/3,0 & 1001--1401 & 45--100 \\
+7b$^{a}$ & AA6061 & 6 (3) & 6,0 & 9,0 & 3,0/3,0 & 800--1200 & 75--135 \\
+8 & AA2024 & 3 (1) & 3,0 & 10,0 & 3,1/0,9 & 300--500 & 40--55 \\
+9 & AA2024 & 13 (7) & 4,0 & 9,0 & 3,0/3,0 & 700--1120 & 80--250 \\
+10 & AA2219 & 6 (3) & 6,3 & 7,5 & 3,0/3,0 & 150--800 & 100 \\
+11 & AA2219 & 15 (3) & 8,0 & 12,0 & 3,7/2,7 & 500--1301 & 30--150 \\
+12 & AA2219 & 5 (3) & 17,5 & 14,0 & 5,0/3,5 & 210--300 & 78--150 \\
+13 & AA2219 & 6 (2) & 7,5 & 11,2 & 5,0/2,5 & 400--800 & 100--400 \\
+14 & AA6061 & 13 (2) & 4,0 & 6,5 & 2,0/1,3 & 1001--2500 & 100--400 \\
+15 & AA6061 & 6 (2) & 12,7 & 10,8 & 5,5/4,2 & 500--1500 & 508--1068 \\
+16 & AA6061 & 8 (2) & 2,1 & 9,0 & 3,0/2,0 & 900--1400 & 80--120 \\
+17 & AA6061 & 2 (1) & 6,3 & 13,0 & 2,9/2,9 & 450--650 & 60 \\
+18 & AA6061 & 3 (2) & 3,0 & 5,0 & 1,5/1,5 & 1000--2000 & 15--20 \\ \bottomrule
+\end{tabular}}
+
+\vspace{0.1cm}
+\raggedright\footnotesize $^{a}$Linhas 84 a 89, atribuídas ao estudo 7, mas com as propriedades da AA6061 (Seção~\ref{sec:tratamento}).
+\end{table}
+
+Dois aspectos da base são decisivos para a interpretação dos resultados. O primeiro é que, dentro de cada estudo, apenas a rotação e o avanço variam: a rotação varia em todos os 14 estudos e o avanço em 12 deles, enquanto os raios do ombro e do pino, a espessura, a pressão, a inclinação e as propriedades do material são constantes dentro de cada um. Consequentemente, o efeito dessas oito variáveis só pode ser estimado por comparação entre estudos, isto é, a partir de 14 condições distintas, que diferem também em máquina, perfil do pino, critério de inspeção e outros fatores não registrados na base. O segundo aspecto, evidenciado na Figura~\ref{fig:r-rotacao}, é que, dentro de cada estudo, a rotação separa quase perfeitamente as soldas com e sem vazio: em praticamente todos os estudos, as soldas com vazio ocupam as rotações mais baixas e as soldas sãs, as mais altas, em concordância com o mecanismo de aporte térmico insuficiente descrito na Seção~\ref{sec:defeitos}. O nível de rotação a partir do qual os vazios desaparecem, entretanto, muda de estudo para estudo, de cerca de 300~rpm nas chapas grossas de AA2219 a cerca de 1300~rpm em alguns estudos de AA2024. O desafio da modelagem é, portanto, encontrar a combinação de variáveis que alinhe esses níveis críticos entre estudos diferentes.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-r-rotacao-por-estudo.png}{\includegraphics[width=0.95\textwidth]{Imagens/fig-r-rotacao-por-estudo.png}}{\imagempendente{Imagens/fig-r-rotacao-por-estudo.png}{Gerada por TG2/codigos/r01\_caracterizacao.py.}}
+  \caption{Rotação das soldas com e sem vazio em cada estudo da base de dados.}
+  \label{fig:r-rotacao}
+\end{figure}
+
+% ------------------------------------------------------------------------------
+\section{Abordagem 1: Produto de Grupos Adimensionais}
+\label{sec:res_abordagem1}
+
+\subsection{Desempenho dos conjuntos de grupos}
+
+A Tabela~\ref{tab:res_abord1} apresenta o desempenho dos três conjuntos de grupos adimensionais da Tabela~\ref{tab:conjuntos_b} e do modelo em que a escolha do conjunto é feita, a cada sorteio, apenas com os dados de treinamento. Nenhum deles atingiu a meta de 70\%: as acurácias de teste médias ficaram entre 60,7\% e 64,0\%, pouco acima da classe majoritária (60,2\%) e abaixo até do índice formado apenas pela rotação (66,7\%). Na validação por estudo, o desempenho foi ainda inferior, entre 54,6\% e 59,3\%, isto é, abaixo da classe majoritária. O conjunto térmico (1b) foi o de melhor desempenho e foi o escolhido pelo procedimento de seleção no split oficial, mas a diferença em relação aos demais é pequena diante da variação entre sorteios. A calibração sem pesos de classe produziu resultados praticamente idênticos (diferenças de até 0,5 ponto percentual), de modo que apenas a versão com pesos é apresentada.
+
+\begin{table}[htbp]
+\centering
+\caption{Desempenho da abordagem 1 (limiar escolhido pela acurácia; acurácias em \%).}
+\label{tab:res_abord1}
+\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Conjunto} & \textbf{Treino} & \textbf{\shortstack{Teste\\médio}} & \textbf{Sens.} & \textbf{Espec.} & \textbf{\shortstack{Validação\\por estudo}} \\ \midrule
+1a (Buckingham completo) & 74,4 & 63,2 & 54,6 & 68,8 & 54,6 \\
+1b (térmico) & 72,1 & 64,0 & 38,8 & 80,8 & 59,3 \\
+1c (escoamento) & 70,6 & 60,7 & 37,1 & 76,4 & 58,3 \\
+Seleção entre 1a--1c & 73,0 & 62,7 & 40,1 & 77,7 & 54,6 \\ \midrule
+Classe majoritária & 60,3 & 60,0 & 0,0 & 100,0 & 60,2 \\
+Apenas a rotação & 70,8 & 66,7 & 75,4 & 60,9 & 63,0 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Chama a atenção que a própria acurácia de treinamento seja baixa, entre 70,6\% e 74,4\%, valor inferior ao obtido, também no treinamento, por um único índice físico com um único limiar (76,8\% na abordagem 2). Isso indica que o problema não é apenas de sobreajuste, isto é, de excesso de parâmetros diante de poucos dados. De fato, a regularização dos expoentes, que reduz o sobreajuste ao penalizar coeficientes grandes, não melhorou o desempenho: no conjunto 1b, a acurácia de teste média passou de 64,0\% para 63,5\% e 62,1\% com penalizações crescentes. O conjunto de grupos, e não apenas o número de termos, parece estar inadequado à base de dados.
+
+\subsection{Análise dos resultados}
+\label{sec:por_que}
+
+A análise dimensional da Seção~\ref{sec:grupos} mostrou que, em um índice adimensional, a rotação só pode aparecer acompanhada de uma velocidade de referência. Com as variáveis disponíveis na base, há apenas duas: a velocidade de avanço, que forma o grupo $\omega R_s/v$, e a velocidade característica de difusão do calor, $\alpha/R_s$, que forma o número de Péclet rotacional $\omega R_{s}^{2}/\alpha$. A hipótese implícita na abordagem 1 é, portanto, a de que o risco de vazio depende da velocidade periférica do ombro relativa a uma dessas duas escalas. A Tabela~\ref{tab:diagnostico} testa essa hipótese diretamente: a velocidade periférica do ombro, $\omega R_s$, usada isoladamente com um único limiar, atinge 72,9\% de acurácia de teste média, mas, quando dividida pelo avanço ou pela escala de difusão, cai para 60,9\% e 63,7\%, respectivamente. Ou seja, normalizar a velocidade periférica por qualquer das duas escalas disponíveis destrói a informação que ela carrega. Na mesma linha, a regressão logística com expoentes livres nas variáveis dimensionais, sem a exigência de adimensionalidade, atinge 71,8\% apenas com a rotação e o raio do ombro e 75,0\% com as dez variáveis, embora, neste último caso, com uma queda acentuada na validação por estudo (53,7\%), sinal de que o modelo aprende as particularidades de cada estudo.
+
+\begin{table}[htbp]
+\centering
+\caption{Efeito da exigência de adimensionalidade sobre o desempenho (limiar escolhido pela acurácia; acurácias em \%).}
+\label{tab:diagnostico}
+\small
+\begin{tabularx}{\textwidth}{Y ccc}
+\toprule
+\textbf{Índice ou modelo} & \textbf{Treino} & \textbf{\shortstack{Teste\\médio}} & \textbf{\shortstack{Validação\\por estudo}} \\ \midrule
+Velocidade periférica do ombro, $\omega R_s$ (dimensional) & 76,8 & 72,9 & 66,7 \\
+$\omega R_s$ dividida pelo avanço, $\omega R_s/v$ & 66,3 & 60,9 & 59,3 \\
+$\omega R_s$ dividida pela escala de difusão, $\omega R_{s}^{2}/\alpha$ & 69,2 & 63,7 & 59,3 \\
+Logística em $\ln\omega$ e $\ln R_s$, expoentes livres (dimensional) & 76,5 & 71,8 & 61,1 \\
+Logística nas 10 variáveis, expoentes livres (dimensional) & 85,7 & 75,0 & 53,7 \\
+Conjunto 1b (adimensional) & 72,1 & 64,0 & 59,3 \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+A explicação física para esse comportamento está no regime térmico das soldas da base. O número de Péclet, $vR_s/\alpha$, compara a velocidade com que a ferramenta avança com a velocidade com que o calor se difunde à frente dela. Nas soldas da base, ele tem mediana de 0,30 e é inferior a 1 em 93\% dos casos: o calor gerado sob o ombro se difunde para a frente mais depressa do que a ferramenta avança, de modo que o campo de temperatura ao redor da ferramenta é praticamente estacionário em relação a ela e dominado pela condução. Nesse regime, a temperatura atingida junto ao ombro depende essencialmente da potência gerada, e não da energia depositada por unidade de comprimento de solda. Ora, a potência gerada é proporcional à rotação e ao cubo do raio do ombro, Eq.~(\ref{eq:schmidt}), e não depende do avanço; a energia por comprimento, por sua vez, é a potência dividida pelo avanço. Um índice construído sobre a razão entre rotação e avanço, como $\omega R_s/v$, ou sobre o aporte de calor adimensional de Arora, DebRoy e Bhadeshia (2011), Eq.~(\ref{eq:arora}), que contém o quadrado do avanço no denominador, atribui ao avanço um peso que ele não tem nesse regime.
+
+Essa interpretação é coerente com o que a literatura reporta sobre o efeito relativo das duas velocidades. Segundo Mishra e Ma (2005), para uma dada ferramenta, a temperatura máxima é função forte da rotação, enquanto o avanço governa principalmente a taxa de aquecimento; na correlação de Arbegast e Hartley (MISHRA; MA, 2005), Eq.~(\ref{eq:arbegast}), a rotação aparece elevada ao quadrado e o avanço à primeira potência, e o conjunto, a um expoente pequeno. Bezerra (2025), ao correlacionar a ocorrência de defeitos com a energia efetiva por unidade de comprimento, concluiu que essa grandeza isolada não é suficiente para separar soldas boas de defeituosas. A análise restrita a comparações dentro de cada estudo, livre das diferenças de ferramenta, máquina e inspeção, quantifica esse efeito (Figura~\ref{fig:r-auc-intra}). Dentro dos estudos, a rotação ordena corretamente 96\% dos pares de soldas com e sem vazio, enquanto o avanço, sozinho, acerta apenas 54\% dos pares, praticamente o mesmo que um sorteio. No índice $\omega\,v^{c}$, o expoente relativo do avanço que melhor separa as soldas é $c = -0{,}10$, com intervalo de confiança de 95\% entre $-0{,}30$ e $+0{,}05$: o avanço atua no sentido esperado, aumentando o risco, mas com peso cerca de dez vezes menor que o da rotação. O intervalo exclui tanto o avanço por rotação, $\omega/v$ ($c = -1$), quanto o pseudoíndice de calor $\omega^{2}/v$ ($c = -0{,}5$).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-r-auc-intra-avanco.png}{\includegraphics[width=0.8\textwidth]{Imagens/fig-r-auc-intra-avanco.png}}{\imagempendente{Imagens/fig-r-auc-intra-avanco.png}{Gerada por TG2/codigos/r10\_figura\_dentro\_do\_estudo.py.}}
+  \caption{Área sob a curva ROC calculada apenas sobre pares de soldas do mesmo estudo para o índice $\omega\,v^{c}$, em função do expoente relativo do avanço.}
+  \label{fig:r-auc-intra}
+\end{figure}
+
+A escala de difusão, por sua vez, falha por outra razão. Como a difusividade térmica assume apenas três valores, um para cada liga, o termo $\alpha$ funciona, na prática, como um rótulo de liga, e o modelo passa a usá-lo para distinguir ligas, e não um mecanismo físico. O efeito é visível na validação por estudo: o modelo selecionado da abordagem 1 classificou corretamente apenas 15\% das soldas do estudo 14, de AA6061, liga de maior difusividade, enquanto o índice $\omega R_s$ acertou todas elas.
+
+\subsection{Expoentes e hierarquia de sensibilidade}
+
+Apesar do desempenho insuficiente para a previsão, os expoentes calibrados do conjunto 1b, o de melhor desempenho, são em sua maioria fisicamente coerentes (Tabela~\ref{tab:expoentes_1b}). O índice calibrado no treinamento do split oficial é
+
+\begin{equation}
+C_{void}^{(1b)} = C_0 \left(\frac{\omega R_{s}^{2}}{\alpha}\right)^{-1{,}07}\left(\frac{vR_s}{\alpha}\right)^{0{,}26}\left(\frac{p}{\sigma_y}\right)^{-1{,}32}\left(\frac{t}{R_s}\right)^{-0{,}74},
+\label{eq:cvoid_1b}
+\end{equation}
+
+\noindent e, expandindo os grupos, os expoentes efetivos da rotação, do raio do ombro, da pressão e da difusividade têm o sinal esperado pela Tabela~\ref{tab:sintese}, com estabilidade elevada nas reamostragens \textit{bootstrap} por estudo. O avanço também tem o sinal esperado, mas com expoente pequeno, de 0,26, coerente com a análise anterior. A exceção é a espessura da chapa: seu expoente efetivo é negativo, indicando menor risco em chapas mais grossas, ao contrário do esperado, e esse sinal se mantém em 88\% das reamostragens. Como a espessura é constante dentro de cada estudo, esse resultado reflete uma associação entre estudos, e não um efeito físico isolado: os estudos com chapas grossas empregaram também ombros maiores, rotações mais baixas e outras condições próprias, e o modelo não tem como separar esses efeitos.
+
+\begin{table}[htbp]
+\centering
+\caption{Expoentes efetivos das variáveis no conjunto 1b e coerência com a Tabela~\ref{tab:sintese}.}
+\label{tab:expoentes_1b}
+\small
+\begin{tabularx}{\textwidth}{l l c >{\centering\arraybackslash}X c >{\centering\arraybackslash}X}
+\toprule
+\textbf{Variável} & \textbf{Natureza} & \textbf{Expoente} & \textbf{Sinal esperado} & \textbf{Confere} & \textbf{Reamostragens com o sinal esperado} \\ \midrule
+$\omega$ & Cinemática & $-1{,}07$ & $-$ & Sim & 100\% \\
+$v$ & Cinemática & $+0{,}26$ & $+$ & Sim & 88\% \\
+$R_s$ & Geométrica & $-1{,}13$ & $-$ & Sim & 95\% \\
+$t$ & Geométrica & $-0{,}74$ & $+$ & Não & 12\% \\
+$\alpha$ & Térmica & $+0{,}81$ & $+$ & Sim & 100\% \\
+$p$ & Dinâmica & $-1{,}32$ & $-$ & Sim & 80\% \\
+$\sigma_y$ & Metalúrgica & $+1{,}32$ & Incerto & n/a & n/a \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+A hierarquia entre as naturezas foi avaliada pelas medidas descritas na Seção~\ref{sec:sensibilidade} e está resumida na Tabela~\ref{tab:naturezas}. Pela contribuição de cada natureza à variação do $C_{void}$ nas 108 soldas, a natureza cinemática é a de maior influência, seguida de perto pela geométrica e, depois, pela dinâmica; as naturezas térmica e metalúrgica têm contribuição cerca de quatro vezes menor. Essa ordem é estável: nas reamostragens por estudo, a natureza cinemática ou a geométrica ocupa o primeiro lugar em 98\% dos casos, e as naturezas térmica e metalúrgica ocupam sempre as duas últimas posições. A retirada de cada natureza do índice confirma o quadro: a retirada da natureza geométrica é a que mais reduz a acurácia de teste (5,2 pontos percentuais), seguida da dinâmica e da cinemática, enquanto a retirada da natureza térmica praticamente não altera o desempenho. Note-se que, como a pressão e o limite de escoamento só entram no índice pela razão $p/\sigma_y$, a retirada das naturezas dinâmica e metalúrgica produz o mesmo modelo.
+
+\begin{table}[htbp]
+\centering
+\caption{Hierarquia das naturezas no conjunto 1b.}
+\label{tab:naturezas}
+\small
+\begin{tabularx}{\textwidth}{l *{3}{>{\centering\arraybackslash}X}}
+\toprule
+\textbf{Natureza} & \textbf{Contribuição ao $\ln C_{void}$} & \textbf{1º lugar nas reamostragens} & \textbf{Queda de acurácia sem a natureza} \\ \midrule
+Cinemática & 0,62 & 60\% & 1,7 p.p. \\
+Geométrica & 0,57 & 37\% & 5,2 p.p. \\
+Dinâmica & 0,49 & 2\% & 2,4 p.p. \\
+Térmica & 0,13 & 0\% & 0,4 p.p. \\
+Metalúrgica & 0,13 & 0\% & 2,4 p.p.$^{a}$ \\ \bottomrule
+\end{tabularx}
+
+\vspace{0.1cm}
+\raggedright\footnotesize Contribuição: desvio-padrão, nas 108 soldas, da parcela do $\ln C_{void}$ devida à natureza. Queda de acurácia: diferença na acurácia de teste média (limiar pela acurácia balanceada). $^{a}$Mesmo modelo da retirada da natureza dinâmica, pois $p$ e $\sigma_y$ só aparecem na razão $p/\sigma_y$.
+\end{table}
+
+A posição da natureza dinâmica, terceira na hierarquia, deve ser lida com cautela, pois ela é representada sobretudo pela pressão axial, que é constante dentro dos estudos e foi assumida, e não medida, em 72 das 108 soldas. A análise de robustez da Seção~\ref{sec:robustez} mostra, de fato, que a retirada da pressão e da inclinação altera pouco o desempenho do índice.
+
+Quanto ao critério de escolha do limiar, a escolha pela acurácia balanceada aumentou a sensibilidade de todos os conjuntos, à custa da especificidade, sem melhorar a acurácia balanceada de teste: no modelo selecionado, a sensibilidade passou de 40,1\% para 58,9\%, a especificidade caiu de 77,7\% para 61,2\% e a acurácia de teste média caiu de 62,7\% para 60,3\%. Esse comportamento, comum às três abordagens, é discutido na Seção~\ref{sec:comparacao}.
+
+% ------------------------------------------------------------------------------
+\section{Abordagem 2: Velocidade Periférica Crítica do Ombro}
+\label{sec:res_abordagem2}
+
+Os resultados da abordagem 1 indicam que a informação relevante da base está concentrada na rotação e no raio do ombro, combinados na forma de uma velocidade, e não em grupos que os normalizem pelo avanço ou pela difusividade. É exatamente o índice da abordagem 2. Calibrado no treinamento do split oficial, o índice é
+
+\begin{equation}
+\begin{gathered}
+C_{void} = \frac{0{,}84~\text{m/s}}{\omega R_s} \quad \text{(limiar pela acurácia)}, \\
+C_{void} = \frac{1{,}05~\text{m/s}}{\omega R_s} \quad \text{(limiar pela acurácia balanceada)},
+\end{gathered}
+\label{eq:cvoid_a_final}
+\end{equation}
+
+\noindent com o vazio previsto quando $C_{void} > 1$. Em unidades usuais de chão de fábrica, a velocidade periférica crítica de 0,84~m/s corresponde a um produto entre a rotação, em rpm, e o raio do ombro, em mm, de aproximadamente 8.050; com o limiar balanceado, a cerca de 10.040. A calibração com as 108 soldas produz exatamente os mesmos valores. A Figura~\ref{fig:r-indice-wrs} mostra a posição das soldas de cada estudo em relação a esses limiares.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-r-indice-wrs.png}{\includegraphics[width=0.95\textwidth]{Imagens/fig-r-indice-wrs.png}}{\imagempendente{Imagens/fig-r-indice-wrs.png}{Gerada por TG2/codigos/r04\_modelo\_A.py.}}
+  \caption{Velocidade periférica do ombro das soldas com e sem vazio em cada estudo e limiares calibrados da abordagem 2.}
+  \label{fig:r-indice-wrs}
+\end{figure}
+
+Com um único parâmetro, a abordagem 2 atingiu a meta: 72,9\% de acurácia de teste média com o limiar pela acurácia, e 70,3\% com o limiar pela acurácia balanceada (Tabela~\ref{tab:res_abord2}). Na validação por estudo, o índice acertou 66,7\% das soldas, o melhor resultado entre todas as abordagens, empatado com a abordagem 3. O índice formado apenas pela rotação ficou cerca de 6 pontos percentuais abaixo, o que mostra que o raio do ombro é o elemento que alinha, em parte, os níveis críticos de rotação entre estudos: um ombro maior atinge a mesma velocidade periférica com rotação menor, o que é coerente com os estudos de chapas grossas, de ombros grandes, que produzem soldas sãs a rotações baixas.
+
+\begin{table}[htbp]
+\centering
+\caption{Desempenho da abordagem 2 (acurácias em \%).}
+\label{tab:res_abord2}
+\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{\shortstack{Critério\\do limiar}} & \textbf{$V_{crit}$ (m/s)} & \textbf{\shortstack{Teste\\médio}} & \textbf{Sens.} & \textbf{Espec.} & \textbf{\shortstack{Validação\\por estudo}} \\ \midrule
+Acurácia & 0,84 & 72,9 & 63,0 & 79,4 & 66,7 \\
+Acurácia balanceada & 1,05 & 70,3 & 74,9 & 67,2 & 64,8 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+O valor crítico é razoavelmente estável. Nas reamostragens \textit{bootstrap} das soldas, o limiar pela acurácia variou entre 0,69~m/s e 1,05~m/s, faixa que contém os dois valores calibrados e ao longo da qual a acurácia nas 108 soldas varia pouco, entre 69\% e 76\%; nas reamostragens por estudo, o intervalo é mais largo, porque a retirada de estudos inteiros altera os níveis críticos disponíveis. Com o limiar pela acurácia, uma variação de $\pm10\%$ no valor calibrado reduz a acurácia de teste média em até 3,6 pontos percentuais; com o limiar pela acurácia balanceada, a redução de 10\% é praticamente indiferente, mas o aumento de 10\% custa 6,2 pontos percentuais. O índice tolera, portanto, alguma imprecisão na sua aplicação, sobretudo no sentido de um limiar menor.
+
+A física por trás do índice foi apresentada na Seção~\ref{sec:abordagem_a}: a velocidade periférica é a velocidade máxima de deslizamento na interface, onde a geração de calor por unidade de área é máxima, e, em primeira aproximação, a velocidade do material arrastado pelo ombro (MEYGHANI; AWANG, 2022). O resultado obtido reforça essa interpretação de forma independente: quando os expoentes da rotação e do raio do ombro são deixados livres na regressão logística, o expoente ajustado do raio resulta muito próximo do da rotação (razão de 1,08), isto é, a combinação preferida pelos dados é justamente o produto $\omega R_s$, e não $\omega R_{s}^{2}$ ou $\omega R_{s}^{3}$, como sugeriria uma proporcionalidade direta com o calor total. A interpretação mais simples é a de que o risco de vazio é governado por uma condição local, junto à borda do ombro, e não pelo calor total gerado.
+
+O índice tem, entretanto, dimensão de velocidade, ao contrário dos grupos adimensionais discutidos na Seção~\ref{sec:analise_dimensional}. Do ponto de vista da análise dimensional, $V_{crit}$ desempenha o papel da velocidade de referência que torna o índice adimensional; os resultados desta seção e da anterior mostram apenas que, nesta base, essa velocidade de referência não é nem o avanço nem a escala de difusão do calor, e se comporta como aproximadamente constante para as três ligas de alumínio estudadas. Uma velocidade de referência física, possivelmente dependente do material, poderia ser identificada com uma base mais ampla, o que é discutido entre as sugestões de trabalhos futuros.
+
+Por fim, os erros da abordagem 2 concentram-se em poucos estudos. As maiores taxas de erro ocorrem nos estudos 8, 10, 12 e 13: nos estudos 10, 12 e 13, de AA2219, há soldas sãs com velocidade periférica abaixo do limiar, e no estudo 8 há soldas sãs a 0,52~m/s, enquanto no estudo 6 ocorrem vazios até cerca de 1,26~m/s, embora os dois estudos usem a mesma liga e ferramentas praticamente iguais. Erros desse tipo não podem ser corrigidos por nenhum índice construído com as variáveis da base, como discutido na Seção~\ref{sec:limitacoes}, e motivaram a abordagem 3.
+
+% ------------------------------------------------------------------------------
+\section{Abordagem 3: Núcleo Físico com Termos Complementares}
+\label{sec:res_abordagem3}
+
+A abordagem 3 partiu do índice da abordagem 2 e testou a inclusão dos sete grupos adimensionais. O ganho obtido foi pequeno: a acurácia de teste média passou de 72,9\% para 74,0\% com o limiar pela acurácia, e de 70,3\% para 71,6\% com o limiar pela acurácia balanceada, e o resultado na validação por estudo não melhorou (66,7\% e 62,0\%). Em compensação, a acurácia de treinamento subiu de 76,8\% para 81,2\%, de modo que a distância entre treinamento e teste aumentou, sinal de que parte dos termos acrescentados ajusta particularidades da amostra de treinamento.
+
+A seleção dos termos mostrou-se instável (Tabela~\ref{tab:res_abord3}). Em média, apenas 1,3 termo foi acrescentado ao núcleo, e o conjunto escolhido mudou de sorteio para sorteio. O termo mais frequente foi a conicidade do pino, $R_{pt}/R_{pr}$, escolhida em cerca de 55\% dos sorteios, com expoente negativo (pinos mais cônicos associados a maior risco), seguida da razão $p/\sigma_y$, em cerca de 30\%, e da inclinação e da espessura relativa, em menos de 20\%. Os grupos que contêm o avanço e a difusividade quase nunca foram selecionados (até 4\% dos sorteios), em concordância com a análise da abordagem 1. No split oficial, com o limiar pela acurácia, nenhum termo foi aceito e o índice final coincidiu com o da abordagem 2.
+
+\begin{table}[htbp]
+\centering
+\caption{Frequência com que cada grupo foi acrescentado ao núcleo $\omega R_s$ nos 500 sorteios.}
+\label{tab:res_abord3}
+\small
+\begin{tabular}{llcc}
+\toprule
+\textbf{Grupo} & \textbf{Natureza} & \textbf{Limiar: acurácia} & \textbf{Limiar: balanceada} \\ \midrule
+$R_{pt}/R_{pr}$ & Geométrica & 57\% & 54\% \\
+$p/\sigma_y$ & Dinâm. e metalúrgica & 30\% & 34\% \\
+$\theta$ & Dinâmica & 19\% & 17\% \\
+$t/R_s$ & Geométrica & 15\% & 16\% \\
+$R_{pr}/R_s$ & Geométrica & 4\% & 6\% \\
+$vR_s/\alpha$ & Cinem., geom. e térmica & 4\% & 3\% \\
+$\omega R_s/v$ & Cinem. e geométrica & 1\% & 3\% \\ \midrule
+Apenas o núcleo & & 15\% & 24\% \\ \bottomrule
+\end{tabular}
+\end{table}
+
+A hierarquia que emerge da abordagem 3 é coerente com a da abordagem 1: o núcleo cinemático-geométrico concentra quase toda a capacidade de previsão, os termos complementares mais frequentes são geométricos e dinâmicos, e os termos térmicos e os que envolvem o avanço praticamente não contribuem. Dado o ganho pequeno e a instabilidade dos termos, a abordagem 3 não justifica, nesta base, a complexidade adicional em relação à abordagem 2.
+
+% ------------------------------------------------------------------------------
+\section{Comparação entre as Abordagens e com a Literatura}
+\label{sec:comparacao}
+
+A Tabela~\ref{tab:comparacao} e a Figura~\ref{fig:r-comparacao} reúnem os resultados das três abordagens. As abordagens 2 e 3 atingem a meta de 70\% em média, com os dois critérios de limiar, e a abordagem 1 não a atinge com nenhum dos conjuntos. A dispersão entre sorteios é grande para todos os modelos: para a abordagem 2, a acurácia de teste em um sorteio individual variou de 60,0\% a 83,5\% entre os percentis de 5\% e 95\%, o que equivale a uma diferença de sete soldas em 30. Essa dispersão é inerente a um conjunto de teste de 30 soldas e deve ser considerada em qualquer comparação baseada em um único sorteio.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparação entre as abordagens (acurácias em \%).}
+\label{tab:comparacao}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Modelo} & \textbf{Limiar} & \textbf{\shortstack{Teste\\médio}} & \textbf{Sens.} & \textbf{Espec.} & \textbf{\shortstack{Validação\\por estudo}} \\ \midrule
+Classe majoritária & --- & 60,0 & 0,0 & 100,0 & 60,2 \\
+Apenas a rotação & acurácia & 66,7 & 75,4 & 60,9 & 63,0 \\ \midrule
+Abordagem 1 (seleção entre 1a--1c) & acurácia & 62,7 & 40,1 & 77,7 & 54,6 \\
+ & acur. balanceada & 60,3 & 58,9 & 61,2 & 52,8 \\ \midrule
+Abordagem 2 ($\omega R_s$) & acurácia & 72,9 & 63,0 & 79,4 & 66,7 \\
+ & acur. balanceada & 70,3 & 74,9 & 67,2 & 64,8 \\ \midrule
+Abordagem 3 ($\omega R_s$ + termos) & acurácia & 74,0 & 65,1 & 79,9 & 66,7 \\
+ & acur. balanceada & 71,6 & 73,6 & 70,3 & 62,0 \\ \midrule
+Du et al. (2019), método 1$^{a}$ & --- & 83,3$^{b}$ & 75,0 & 88,9 & --- \\ \bottomrule
+\end{tabular}
+
+\vspace{0.1cm}
+\raggedright\footnotesize $^{a}$Rede neural com os 10 parâmetros brutos. $^{b}$Um único sorteio de 30 soldas (9 de 12 vazios detectados; 16 de 18 soldas sãs corretas).
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-r-comparacao-abordagens.png}{\includegraphics[width=0.95\textwidth]{Imagens/fig-r-comparacao-abordagens.png}}{\imagempendente{Imagens/fig-r-comparacao-abordagens.png}{Gerada por TG2/codigos/r06\_comparacao.py.}}
+  \caption{Distribuição da acurácia de teste nos 500 sorteios 78/30: classe majoritária (Maj.), apenas a rotação ($\omega$), conjuntos 1a, 1b e 1c, seleção entre eles (1*) e abordagens 2 e 3. Caixas: quartis; hastes: percentis de 5\% e 95\%; losangos: médias.}
+  \label{fig:r-comparacao}
+\end{figure}
+
+A comparação entre os dois critérios de limiar revela um compromisso, e não um ganho. Em todas as abordagens, a escolha do limiar pela acurácia balanceada deslocou o classificador no sentido de detectar mais vazios, à custa de mais alarmes falsos (Figura~\ref{fig:r-sens-espec}): na abordagem 2, a sensibilidade subiu de 63,0\% para 74,9\% e a especificidade caiu de 79,4\% para 67,2\%, com redução de 2,6 pontos percentuais na acurácia e acurácia balanceada praticamente inalterada. A hipótese de que o critério balanceado seria mais eficiente não se confirmou como ganho líquido de desempenho. Ele se mostrou, contudo, a escolha mais segura do ponto de vista industrial, em que aprovar uma solda com vazio tem consequências muito mais graves do que reprovar uma solda sã, e, mesmo com ele, a meta de 70\% foi mantida pelas abordagens 2 e 3.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{Imagens/fig-r-sens-espec.png}{\includegraphics[width=0.75\textwidth]{Imagens/fig-r-sens-espec.png}}{\imagempendente{Imagens/fig-r-sens-espec.png}{Gerada por TG2/codigos/r06\_comparacao.py.}}
+  \caption{Sensibilidade e especificidade médias nos 500 sorteios com o limiar escolhido pela acurácia (azul) e pela acurácia balanceada (vermelho).}
+  \label{fig:r-sens-espec}
+\end{figure}
+
+No split oficial, sorteado com semente fixada antes de qualquer modelagem, as abordagens 2 e 3 acertaram 27 das 30 soldas de teste (90,0\%, com intervalo de confiança de 95\% entre 74\% e 97\%), e a abordagem 1, 24 (80,0\%). Esses valores, porém, estão no percentil de 99\% da distribuição dos 500 sorteios: por acaso, o conjunto de teste oficial não contém nenhuma solda dos estudos 8, 10, 12 e 17, que concentram os erros, e suas soldas apresentam, em média, cerca de metade da taxa de erro média da base. Por essa razão, o resultado do split oficial é apresentado apenas como complemento, e a comparação com a literatura é feita com base na acurácia de teste média.
+
+A comparação mais direta com Du, Mukherjee e DebRoy (2019) é com o método 1, uma rede neural alimentada pelos mesmos dez parâmetros brutos, que atingiu 83,3\% em um único conjunto de 30 soldas (Tabela~\ref{tab:du}). Esse valor coincide com o percentil de 95\% da distribuição da abordagem 2, de modo que, com um único sorteio, não é possível afirmar que a rede neural seja superior a um índice de um único parâmetro, nem o contrário: o próprio split oficial deste trabalho produziu 90\% para a abordagem 2. O que se pode afirmar é que a abordagem 2 alcança, com um único parâmetro físico e uma expressão calculável à mão, um desempenho da mesma ordem do obtido pela rede neural com dez entradas, com a vantagem de explicitar a relação entre as variáveis e o defeito. Os métodos de Du, Mukherjee e DebRoy (2019) baseados nas variáveis causais, que atingiram de 90\% a 96,6\%, permanecem como referência superior, à custa de um modelo mecanístico prévio para cada solda.
+
+% ------------------------------------------------------------------------------
+\section{Robustez dos Resultados}
+\label{sec:robustez}
+
+A Tabela~\ref{tab:robustez} apresenta os resultados das duas análises de robustez. A retirada dos grupos que envolvem a pressão axial e a inclinação, majoritariamente assumidas, não altera a abordagem 2, que não utiliza essas variáveis, reduz a abordagem 3 em 0,3 ponto percentual e a abordagem 1 em cerca de 2 pontos percentuais. A retirada das seis soldas de atribuição duvidosa melhora ligeiramente as abordagens 2 e 3, em especial na validação por estudo, o que indica que essas soldas estão entre as mais difíceis de classificar, mas não altera nenhuma das conclusões. Em ambos os casos, a ordem entre as abordagens e o atendimento à meta pelas abordagens 2 e 3 se mantêm.
+
+\begin{table}[htbp]
+\centering
+\caption{Análises de robustez (limiar pela acurácia; acurácias de teste médias em \%; entre parênteses, validação por estudo).}
+\label{tab:robustez}
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Modelo} & \textbf{Base completa} & \textbf{Sem $p$ e $\theta$} & \textbf{Sem as linhas 84--89} \\ \midrule
+Abordagem 1 (seleção) & 62,7 (54,6) & 60,5 (48,1) & 62,0 (52,9) \\
+Abordagem 2 & 72,9 (66,7) & 72,9 (66,7) & 74,1 (71,6) \\
+Abordagem 3 & 74,0 (66,7) & 73,7 (66,7) & 76,8 (72,5) \\ \bottomrule
+\end{tabular}
+\end{table}
+
+% ------------------------------------------------------------------------------
+\section{Limitações}
+\label{sec:limitacoes}
+
+Os resultados obtidos devem ser interpretados à luz de três limitações principais, todas decorrentes da natureza da base de dados. A primeira é que a base é uma compilação de estudos independentes, e as variáveis geométricas, dinâmicas, térmicas e metalúrgicas são constantes dentro de cada estudo. Seus efeitos foram, portanto, estimados a partir de apenas 14 condições, confundidas com tudo o que distingue um estudo de outro e não está registrado na base, como a máquina, o perfil do pino, a fixação das chapas e o critério de inspeção. O sinal contrário ao esperado da espessura e a instabilidade dos termos da abordagem 3 são manifestações dessa limitação, e a hierarquia entre as naturezas deve ser entendida como uma associação observada nesta base, e não como uma relação de causa e efeito.
+
+A segunda é que parte dos dados é incerta: a pressão e a inclinação foram assumidas em cerca de dois terços das soldas, as propriedades das ligas assumem apenas três valores, e há casos de atribuição duvidosa e de possível erro de unidade. As análises de robustez mostraram que as conclusões não dependem desses dados, mas eles limitam o que se pode afirmar sobre as naturezas dinâmica, térmica e metalúrgica.
+
+A terceira é a existência de um limite superior para a acurácia de qualquer índice construído com as variáveis da base. O caso dos estudos 6 e 8 é ilustrativo: ambos tratam da mesma liga, com ferramentas praticamente iguais (raio do ombro de 10~mm e pino de 3,1~mm na raiz e 0,9~mm na ponta) e chapas de 4~mm e 3~mm, mas o primeiro apresenta vazios até cerca de 1200~rpm, enquanto o segundo produz soldas sãs a 500~rpm. Nenhuma combinação das variáveis registradas é capaz de separar esses casos, e erros desse tipo persistem em todas as abordagens. Por fim, a validação foi feita sobre a mesma base que orientou, na fase exploratória, a escolha do índice da abordagem 2, como declarado na Seção~\ref{sec:validacao}; embora o índice tenha justificativa física independente e nenhum expoente ajustado, sua validação definitiva requer dados não utilizados neste trabalho.
+
+% ==============================================================================
+% CAPÍTULO 5 - CONCLUSÃO
+% ==============================================================================
+\chapter{Conclusão}
+\label{cap:conclusao}
+
+Este trabalho propôs, calibrou e validou um Coeficiente Analítico de Vazio, $C_{void}$, para prever a formação de vazios volumétricos em juntas de ligas de alumínio soldadas por FSW, a partir da base de 108 soldas compilada por Du, Mukherjee e DebRoy (2019). Partindo da proposta do TG1, de um índice formado por grupos adimensionais de diferentes naturezas, o trabalho percorreu três abordagens, avaliadas por um mesmo protocolo de validação, e chegou a um resultado mais simples do que o inicialmente previsto.
+
+A abordagem 1, em que o $C_{void}$ é um produto de grupos adimensionais obtidos pelo teorema $\Pi$ de Buckingham, não atingiu a meta: com três conjuntos de grupos fundamentados em mecanismos distintos de formação de vazios, as acurácias de teste médias ficaram entre 60,7\% e 64,0\%. A investigação desse resultado constitui, possivelmente, a principal contribuição física do trabalho. Em um índice adimensional, a rotação só pode entrar dividida por uma velocidade de referência, e as duas disponíveis na base, o avanço e a escala de difusão do calor, não carregam a informação necessária. Nas soldas da base, o número de Péclet é inferior a 1 em 93\% dos casos, o que caracteriza um regime dominado pela condução, em que a temperatura junto ao ombro depende da potência gerada, e não da energia por unidade de comprimento. Coerentemente, a análise restrita a comparações dentro de cada estudo mostrou que o avanço tem peso cerca de dez vezes menor que o da rotação, o que exclui as combinações clássicas $\omega/v$ e $\omega^{2}/v$.
+
+Esse diagnóstico conduziu à abordagem 2, em que o $C_{void}$ é a razão entre uma velocidade periférica crítica e a velocidade periférica do ombro, $C_{void} = V_{crit}/(\omega R_s)$, com $V_{crit} = 0{,}84$~m/s quando o limiar é escolhido pela acurácia, ou $1{,}05$~m/s quando escolhido pela acurácia balanceada. Com um único parâmetro e nenhum expoente ajustado, esse índice atingiu 72,9\% e 70,3\% de acurácia de teste média, respectivamente, superando a meta de 70\% estabelecida no TG1, e foi também, empatado com a abordagem 3, o de melhor desempenho na previsão de estudos não utilizados na calibração. A abordagem 3, que complementa esse índice com grupos adimensionais selecionados pelos dados, elevou a acurácia para 74,0\%, mas com termos instáveis e sem ganho na previsão de estudos novos. Por sua simplicidade, pela justificativa física direta, como a velocidade máxima de deslizamento na interface e de arraste do material, e por um desempenho equivalente ao das alternativas mais complexas, a abordagem 2 é a forma recomendada do $C_{void}$. Para uso industrial, recomenda-se o limiar de 1,05~m/s, isto é, um produto entre a rotação, em rpm, e o raio do ombro, em mm, de pelo menos cerca de 10.000, que detecta três de cada quatro vazios, privilegiando a segurança em relação aos alarmes falsos.
+
+Quanto ao segundo objetivo, a hierarquia de sensibilidade obtida é consistente entre as abordagens: as naturezas cinemática e geométrica, combinadas na velocidade periférica do ombro, concentram a capacidade de previsão; a natureza dinâmica tem papel secundário; e as naturezas térmica e metalúrgica, representadas por propriedades que assumem apenas três valores na base, praticamente não contribuem. Essa hierarquia deve ser lida, contudo, como uma associação observada nesta base, já que apenas a rotação e o avanço variam dentro dos estudos, e os efeitos das demais variáveis são estimados entre estudos que diferem também em aspectos não registrados.
+
+Em comparação com a literatura, a abordagem 2 alcançou desempenho da mesma ordem do obtido por Du, Mukherjee e DebRoy (2019) com uma rede neural de dez entradas, cujos 83,3\% correspondem ao percentil de 95\% da distribuição de acurácias do índice proposto, com a vantagem de ser uma expressão explícita, calculável sem recursos computacionais e diretamente interpretável. O trabalho também evidenciou a importância de avaliar classificadores treinados em bases pequenas por meio de muitos sorteios e da previsão de estudos inteiros: o split oficial deste trabalho, sorteado antes de qualquer modelagem, produziu 90\% de acurácia, valor que, isoladamente, superestimaria o desempenho real em mais de 15 pontos percentuais.
+
+As principais limitações do trabalho decorrem da base de dados: a compilação de estudos independentes, em que oito das dez variáveis são constantes dentro de cada estudo; a presença de valores assumidos para a pressão e a inclinação; a representação das ligas por apenas três pares de propriedades; e a existência de casos, como os dos estudos 6 e 8, que nenhuma combinação das variáveis registradas consegue separar.
+
+Como continuidade, sugere-se, em primeiro lugar, validar o índice $\omega R_s$ e o seu valor crítico com dados independentes, preferencialmente experimentos em que a ferramenta, a espessura e a pressão também variem dentro de um mesmo estudo, o que permitiria estimar seus efeitos sem a confusão entre estudos. A ampliação da base para outras ligas e famílias de materiais permitiria, por sua vez, identificar a velocidade de referência física que torna o índice adimensional, assim como testar formulações térmicas que incorporem a temperatura \textit{solidus} e uma dependência mais fraca do avanço, coerente com o regime de baixo número de Péclet identificado. Por fim, o mesmo protocolo de validação pode ser aplicado a outros defeitos, como túneis e falta de penetração, e ao estudo dedicado da conicidade do pino, o termo complementar mais frequente na abordagem 3.
+
+\newpage
+
+% ==============================================================================
+% REFERÊNCIAS BIBLIOGRÁFICAS
+% ==============================================================================
+\phantomsection\addcontentsline{toc}{chapter}{Referências}
+\begin{center}
+    {\fontsize{18}{22}\selectfont\bfseries Referências\par}
+\end{center}
+\vspace{0.5cm}
+
+\begin{singlespace}
+\raggedright
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+AHMED, M. M. Z. et al. Effect of tool geometry and heat input on the hardness, grain structure, and crystallographic texture of thick-section friction stir-welded aluminium. \textbf{Metallurgical and Materials Transactions A}, v. 50, n. 1, p. 271-284, 2019.
+
+AHMED, M. M. Z. et al. Bobbin Tool Friction Stir Welding of Aluminum Using Different Tool Pin Geometries: Mathematical Models for the Heat Generation. \textbf{Metals}, v. 11, n. 3, p. 438, 2021.
+
+AHMED, W. H.; KADHUM, A. H.; SALLEH, M. S. A Review on Tool Pin Geometry of Friction Stir Welding. \textbf{Al-Khwarizmi Engineering Journal}, v. 20, n. 2, p. 39-55, 2024.
+
+ALCOFORADO, João Luís Sousa Guedes. \textbf{Análise de falhas e defeitos de uma junta tipo topo soldada por FSW utilizando uma liga AA2198-T351}. 2021. 62 f. Trabalho de Conclusão de Curso (Graduação em Engenharia Mecânica-Aeronáutica) -- Instituto Tecnológico de Aeronáutica, São José dos Campos, 2021.
+
+ALDANONDO, E. et al. Effect of Tool Geometry and Welding Parameters on Friction Stir Welded Lap Joint Formation with AA2099-T83 and AA2060-T8E30 Aluminium Alloys. \textbf{Metals}, v. 10, n. 7, p. 872, 2020.
+
+ARBEGAST, W. J. A flow-partitioned deformation zone model for defect formation during friction stir welding. \textbf{Scripta Materialia}, v. 58, n. 5, p. 372-376, 2008.
+
+ARORA, A.; DEBROY, T.; BHADESHIA, H. K. D. H. Back-of-the-envelope calculations in friction stir welding -- Velocities, peak temperature, torque, and hardness. \textbf{Acta Materialia}, v. 59, n. 5, p. 2020-2028, 2011.
+
+BARUAH, Arindam. \textbf{Void formation process data in welding}. Kaggle, [2023?]. Disponível em: \url{https://www.kaggle.com/datasets/arindambaruah/void-formation-process-data-in-welding}. Acesso em: 22 out. 2026.
+
+BATISTA FILHO, Johnnie Raphael Beserra; TANAKA, Victor Heiji. \textbf{Análise de falhas e defeitos de uma junta tipo topo por FSW utilizando a liga Alclad AA2024-T3}. 2020. 72 f. Trabalho de Conclusão de Curso (Graduação em Engenharia Mecânica-Aeronáutica) -- Instituto Tecnológico de Aeronáutica, São José dos Campos, 2020.
+
+BEZERRA, Â. C. S. \textbf{Análise da energia efetiva por comprimento e ocorrência de defeitos no processo FSW (Friction Stir Welding)}. 2025. 56 f. Trabalho de Graduação (Engenharia Mecânica-Aeronáutica) -- Instituto Tecnológico de Aeronáutica, São José dos Campos, 2025.
+
+CINTRA FILHO, José Antonio Pio. \textbf{Análise de integridade estrutural de uma junta tipo topo soldada em uma liga de alumínio Alclad AA 2024-T3 por FSW na indústria aeroespacial}. 2018. 172 f. Dissertação (Mestrado) -- Instituto Tecnológico de Aeronáutica, São José dos Campos, 2018.
+
+DU, Y.; MUKHERJEE, T.; DEBROY, T. Conditions for void formation in friction stir welding from machine learning. \textbf{npj Computational Materials}, v. 5, n. 68, 2019.
+
+ESAKI, Sayuri Matsui. \textbf{Simulação computacional do processo de soldagem por fricção e mistura (FSW) utilizando elementos finitos}. 2022. 59 f. Trabalho de Conclusão de Curso (Graduação em Engenharia Mecânica-Aeronáutica) -- Instituto Tecnológico de Aeronáutica, São José dos Campos, 2022.
+
+FOX, R. W.; MCDONALD, A. T.; PRITCHARD, P. J. \textbf{Introdução à mecânica dos fluidos}. 8. ed. Rio de Janeiro: LTC, 2014.
+
+GOMES, Lucas Rodrigues. \textbf{Modelagem teórica de junta tipo topo soldada por FSW em uma liga de alumínio Alclad AA 2024-T3}. 2019. 43 f. Trabalho de Conclusão de Curso (Graduação em Engenharia Mecânica-Aeronáutica) -- Instituto Tecnológico de Aeronáutica, São José dos Campos, 2019.
+
+LASKA, A. et al. Temperature Evolution, Material Flow, and Resulting Mechanical Properties as a Function of Tool Geometry during Friction Stir Welding of AA6082. \textbf{Journal of Materials Engineering and Performance}, v. 32, p. 10655-10668, 2023.
+
+MEYGHANI, B.; AWANG, M. The Influence of the Tool Tilt Angle on the Heat Generation and the Material Behavior in Friction Stir Welding (FSW). \textbf{Metals}, v. 12, n. 11, p. 1837, 2022.
+
+MISHRA, R. S.; MA, Z. Y. Friction stir welding and processing. \textbf{Materials Science and Engineering: R: Reports}, v. 50, n. 1-2, p. 1-78, 2005.
+\end{singlespace}
+
+
+\end{document}

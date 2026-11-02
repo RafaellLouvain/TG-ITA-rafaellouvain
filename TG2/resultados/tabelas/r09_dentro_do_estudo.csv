@@ -1,0 +1,9 @@
+analise,termo,valor,IC95
+AUC intra-estudo,ω (−ln ω),0.9619,
+AUC intra-estudo,v (+ln v),0.5448,
+AUC intra-estudo,ω/v (−),0.7937,
+AUC intra-estudo,ω²/v (−),0.8924,
+expoente relativo de v que maximiza a AUC intra-estudo,c (ω·v^c),-0.1000,-0.30 a 0.05
+AUC intra-estudo na varredura,c = -1.0,0.7937,
+AUC intra-estudo na varredura,c = -0.5,0.8924,
+AUC intra-estudo na varredura,c = 0.0,0.9619,

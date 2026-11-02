@@ -107,7 +107,7 @@ Limitação a declarar: α e σ_y têm só 3 valores (um por liga) → térmica 
 
 | Modelo | Sensibilidade | Robustez dos dados (sem `*`; sem linhas 84–89) |
 |---|---|---|
-| **B** | **Completa:** (1) elasticidades βᵢ = ∂ln C/∂ln Πᵢ e efeito por variável física (soma dos βᵢ × expoente da variável em cada Π); (2) tornado: cada variável do p10 ao p90 com as demais na mediana, indicando se cruza o limiar; (3) retirada de bloco: queda de acurácia e acurácia balanceada de teste ao retirar cada natureza e recalibrar; (4) bootstrap por estudo (~1000): IC dos βᵢ e frequência de cada natureza em cada posição da hierarquia; (5) sinais dos βᵢ × tabela de sinais esperados (Tab. de síntese, seção 2.9) | sim |
+| **B** | **Completa:** (1) elasticidades βᵢ = ∂ln C/∂ln Πᵢ e efeito por variável física (soma dos βᵢ × expoente da variável em cada Π); (3) retirada de bloco: queda de acurácia e acurácia balanceada de teste ao retirar cada natureza e recalibrar; (4) bootstrap por estudo (~1000): IC dos βᵢ e frequência de cada natureza em cada posição da hierarquia; (5) sinais dos βᵢ × tabela de sinais esperados (Tab. de síntese, seção 2.9) | sim |
 | **A** | Hierarquia trivial (expoentes fixos 1 e 1). Só: robustez do limiar (IC do V_crit por bootstrap; acurácia com limiar ±10 %) e análise dos erros (estudos onde o índice falha) | sim |
 | **C** | Ordem de entrada e ganho de acurácia de teste de cada bloco (é a própria hierarquia) + tornado da equação final como figura ilustrativa | sim |
 

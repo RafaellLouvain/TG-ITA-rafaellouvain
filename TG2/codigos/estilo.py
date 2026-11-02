@@ -3,6 +3,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+import matplotlib.ticker as mticker  # noqa: E402
 
 from dados import SAIDA  # noqa: E402
 
@@ -22,3 +23,18 @@ def salvar(fig, nome):
     fig.savefig(FIG / f"{nome}.png")
     fig.savefig(FIG / f"{nome}.pdf")
     plt.close(fig)
+
+
+def _fmt(x, _pos=None):
+    return f"{x:g}".replace(".", ",")
+
+
+VIRGULA = mticker.FuncFormatter(_fmt)
+
+
+def virgula(ax, eixos="xy"):
+    """Vírgula decimal nos rótulos dos eixos lineares."""
+    if "x" in eixos:
+        ax.xaxis.set_major_formatter(VIRGULA)
+    if "y" in eixos:
+        ax.yaxis.set_major_formatter(VIRGULA)

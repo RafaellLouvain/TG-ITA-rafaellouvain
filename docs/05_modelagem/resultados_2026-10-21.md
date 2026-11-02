@@ -1,5 +1,7 @@
 # Resultados dos modelos A, B e C — 2026-10-21 (para alinhamento antes da escrita)
 
+> **Nomenclatura no texto do TG2 (2026-10-22):** abordagem B → **abordagem 1**; A → **abordagem 2**; C → **abordagem 3**; conjuntos B1, B2, B3 → **1a, 1b, 1c**. Código e resultados mantêm os nomes internos A/B/C.
+
 > Código: `TG2/codigos/` (README lá). Tabelas: `TG2/resultados/tabelas/`; figuras: `TG2/resultados/figuras/`.
 > Protocolo: [protocolo_metodologia](protocolo_metodologia.md). Plano: [plano_capitulos_metodologia_resultados](plano_capitulos_metodologia_resultados.md).
 > "Acurácia de teste média" = média em 500 splits 78/30 estratificados; LOSO = deixa um estudo de fora (14 grupos);
@@ -97,6 +99,12 @@ em todos os 14 estudos**. Consequências para a escrita:
 - em contrapartida, **v varia dentro de 12 estudos e mesmo assim não separa vazios** (AUC intra-estudo 0,55 na
   análise exploratória) → evidência limpa, sem confusão entre estudos, de que o avanço pesa pouco no regime do
   dataset — reforça o argumento do Péclet.
+
+**Quantificação (r09, só comparações dentro do estudo):** AUC intra-estudo: ω 0,96; ω²/v 0,89; ω/v 0,79; v 0,54.
+Varrendo o índice ω·v^c, o expoente relativo ótimo do avanço é **c = −0,10 (IC 95 % bootstrap por estudo: −0,30 a
++0,05)** → o avanço tem efeito no sentido esperado, mas ~10× menor que a rotação; **exclui** tanto o avanço por
+rotação ω/v (c = −1) quanto a forma de Arbegast–Hartley ω²/v (c = −0,5). (A logística condicional não converge por
+quase-separação: a rotação separa 96 % dos pares dentro dos estudos.)
 
 V_crit calibrado nas 108 soldas (equação final recomendada): **0,843 m/s (≈ 8 050 rpm·mm)** pelo critério de
 acurácia; **1,052 m/s (≈ 10 040 rpm·mm)** pelo balanceado — iguais aos do treino oficial.

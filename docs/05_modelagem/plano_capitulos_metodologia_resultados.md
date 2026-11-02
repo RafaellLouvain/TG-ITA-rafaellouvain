@@ -1,5 +1,7 @@
 # Plano dos capítulos 3 (Metodologia) e 4 (Resultados e Discussões) do TG2
 
+> **Nomenclatura no texto do TG2 (2026-10-22):** abordagem B → **abordagem 1**; A → **abordagem 2**; C → **abordagem 3**; conjuntos B1, B2, B3 → **1a, 1b, 1c**. Código e resultados mantêm os nomes internos A/B/C.
+
 > Alinhado com o Rafael em 2026-10-21. Decisões detalhadas (dados, desbalanceamento, validação, sensibilidade) em
 > [protocolo_metodologia](protocolo_metodologia.md). A Conclusão (cap. 5) fica para depois.
 
