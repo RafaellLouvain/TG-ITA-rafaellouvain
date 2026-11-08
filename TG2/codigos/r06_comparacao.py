@@ -81,18 +81,45 @@ salvar(fig, "fig_r06_sens_espec_acc_vs_bal")
 
 # Versão simplificada (texto do TG): um só critério de limiar (acurácia), sem a seleção 1*
 mod1 = ["Majoritária", "A0 (ω)", "B1", "B2", "B3", "A (ωR_s)", "C (híbrido)"]
-rot1 = {"Majoritária": "Classe\nmajoritária", "A0 (ω)": "Só\nrotação", "B1": "1a", "B2": "1b", "B3": "1c",
-        "A (ωR_s)": "Abord. 2\n($\\omega R_s$)", "C (híbrido)": "Abord. 3"}
-fig, ax = plt.subplots(figsize=(15 * CM, 7.5 * CM))
+rot1 = {"Majoritária": "Classe\nmajoritária", "A0 (ω)": "Só\nrotação",
+        "B1": "Abordagem 1:\nBuckingham\ncompleto", "B2": "Abordagem 1:\nconjunto\ntérmico",
+        "B3": "Abordagem 1:\nconjunto\nescoamento", "A (ωR_s)": "Abordagem 2\n($\\omega R_s$)",
+        "C (híbrido)": "Abordagem 3"}
+fig, ax = plt.subplots(figsize=(16 * CM, 8 * CM))
 dados = [pd.read_csv(B / f"rep_acc_{slug(m)}.csv.gz")["acc"] * 100 for m in mod1]
 bp = ax.boxplot(dados, whis=(5, 95), showfliers=False, patch_artist=True, widths=0.6, medianprops=dict(color="k"))
 for p in bp["boxes"]:
     p.set_facecolor("#d6eaf8")
 ax.scatter(range(1, len(mod1) + 1), [x.mean() for x in dados], marker="D", s=16, c="k", zorder=3, label="média")
+for i, x in enumerate(dados, start=1):
+    ax.text(i + 0.33, x.mean(), f"{x.mean():.1f}".replace(".", ","), fontsize=6.5, va="center", ha="left")
 ax.axhline(70, color="#c0392b", ls="--", lw=1, label="meta (70 %)")
 ax.axhline(83.3, color="gray", ls=":", lw=1, label="Du et al. (método 1)")
 ax.set_xticks(range(1, len(mod1) + 1))
-ax.set_xticklabels([rot1[m] for m in mod1], fontsize=8)
+ax.set_xticklabels([rot1[m] for m in mod1], fontsize=6.5)
+ax.set_ylim(45, 95)
 ax.set_ylabel("Acurácia de teste (%)")
 ax.legend(loc="lower right", fontsize=7.5)
 salvar(fig, "fig_r06_comparacao_acc")
+
+# Mesmo conjunto de modelos no protocolo de validação de Du et al. (um único sorteio 78/30, semente fixa), no mesmo
+# estilo da figura anterior: como há um só valor por modelo, cada caixa se reduz a uma linha
+ofic = pd.read_csv(T / "r06_validacao_com_percentil.csv").query("criterio == 'acc'").set_index("modelo")
+acc1 = [ofic.at[m, "of_acc"] * 100 for m in mod1]
+fig, ax = plt.subplots(figsize=(16 * CM, 8 * CM))
+bp = ax.boxplot([[a] for a in acc1], whis=(5, 95), showfliers=False, patch_artist=True, widths=0.6,
+                medianprops=dict(color="k", lw=1.5))
+for p in bp["boxes"]:
+    p.set_facecolor("#d6eaf8")
+ax.scatter(range(1, len(mod1) + 1), acc1, marker="D", s=16, c="k", zorder=3, label="acurácia no sorteio único")
+for i, a in enumerate(acc1, start=1):
+    ax.text(i, a + 1.0, f"{a:.1f}".replace(".", ",") + f"\n({round(a * 0.3):d}/30)", fontsize=6.5, va="bottom",
+            ha="center")
+ax.axhline(70, color="#c0392b", ls="--", lw=1, label="meta (70 %)")
+ax.axhline(83.3, color="gray", ls=":", lw=1, label="Du et al. (método 1)")
+ax.set_xticks(range(1, len(mod1) + 1))
+ax.set_xticklabels([rot1[m] for m in mod1], fontsize=6.5)
+ax.set_ylim(45, 95)
+ax.set_ylabel("Acurácia de teste (%)")
+ax.legend(loc="lower right", fontsize=7.5)
+salvar(fig, "fig_r06_comparacao_protocolo_du")
