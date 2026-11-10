@@ -1,0 +1,37 @@
+% ESTILO C -- Faixa de título: faixa azul chapada no topo com título em branco, Helvetica, fundo off-white
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[brazilian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.92]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\graphicspath{{../Imagens/}}
+\definecolor{azulita}{HTML}{0056B3}
+\definecolor{offwhite}{HTML}{FAFAF7}
+\definecolor{cinza}{HTML}{3C3C3C}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=offwhite}
+\setbeamercolor{normal text}{fg=cinza}
+\setbeamercolor{frametitle}{bg=azulita,fg=white}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamertemplate{frametitle}{\nointerlineskip\begin{beamercolorbox}[wd=\paperwidth,ht=1.15cm,dp=0.35cm,leftskip=0.6cm]{frametitle}\insertframetitle\end{beamercolorbox}\vspace{0.2cm}}
+\setbeamercolor{itemize item}{fg=azulita}
+\setbeamertemplate{itemize item}{\small\color{azulita}$\blacktriangleright$}
+\setbeamertemplate{footline}{\hfill{\color{gray}\scriptsize\insertframenumber\,/\,\inserttotalframenumber}\hspace{0.5cm}\vspace{0.3cm}}
+\setlength{\leftmargini}{1.2em}
+\input{_conteudo_exemplo}
+\begin{document}
+{\setbeamercolor{background canvas}{bg=azulita}
+\begin{frame}[plain]
+\begin{columns}[c]
+\begin{column}{0.18\textwidth}\centering\includegraphics[width=0.95\linewidth]{ita-logo.png}\end{column}
+\begin{column}{0.76\textwidth}
+{\color{white}\Large\bfseries\titulotg\par}
+\vspace{0.3cm}{\color{white!80!azulita}\normalsize\subtitulotg\par}
+\vspace{0.6cm}{\color{white}\normalsize\bfseries\autortg\par}\vspace{2pt}
+{\color{white!85!azulita}\small\orientadortg\par}\vspace{0.25cm}
+{\color{white!75!azulita}\footnotesize\infotg\par}
+\end{column}
+\end{columns}
+\end{frame}}
+\slideexemplo
+\end{document}

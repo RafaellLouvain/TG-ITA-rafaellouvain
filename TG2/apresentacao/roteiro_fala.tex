@@ -1,0 +1,460 @@
+% Roteiro de fala (colinha) da apresentação final do TG2 -- acompanha apresentacao_TG2.pdf
+\documentclass[11pt,a4paper]{article}
+\usepackage[brazilian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\definecolor{azulita}{HTML}{0056B3}
+\definecolor{cinza}{HTML}{555555}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlist{nosep,leftmargin=1.4em,itemsep=2pt}
+\titleformat{\section}{\large\bfseries\color{azulita}}{}{0pt}{}[\vspace{-4pt}{\color{azulita}\rule{\linewidth}{0.6pt}}]
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\pagestyle{fancy}\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\color{cinza}\scriptsize Roteiro de fala -- TG2 -- Rafael Louvain}\fancyfoot[R]{\color{cinza}\scriptsize\thepage}
+
+% Bloco de um slide: número, título, tempo
+\newcommand{\slide}[3]{\par\vspace{8pt}\noindent{\color{azulita}\bfseries Slide #1 \;$\cdot$\; #2}\hfill{\color{cinza}\small #3}\par\vspace{2pt}}
+\newcommand{\msg}[1]{\noindent\textbf{Mensagem:} #1\par}
+\newenvironment{fala}{\noindent\textbf{O que falar:}\begin{enumerate}}{\end{enumerate}}
+\newcommand{\nums}[1]{\noindent{\color{cinza}\textbf{Números para lembrar:} #1}\par}
+\newcommand{\trans}[1]{\noindent{\color{cinza}\textit{Transição:} #1}\par}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries\color{azulita} Roteiro de fala da apresentação final do TG2\par}
+\vspace{3pt}{\color{cinza}Colinha slide a slide para \texttt{apresentacao\_TG2.pdf} (45 slides + 2 de reserva)\par}
+\end{center}
+
+\section*{Como usar este roteiro}
+\begin{itemize}
+  \item Cada slide traz a \textbf{mensagem} (a frase que a banca deve guardar), \textbf{o que falar} em passos curtos, os \textbf{números} que convém dizer de memória e uma \textbf{transição} para o próximo slide.
+  \item Os bullets do slide já são o apoio visual: não é preciso lê-los; use-os como lembrete e fale com as próprias palavras.
+  \item O tempo indicado soma cerca de 37 minutos. Se precisar encurtar, os slides marcados com \textbf{(pode resumir)} podem ser falados em 15 a 20 segundos.
+\end{itemize}
+
+\begin{center}\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Parte} & \textbf{Slides} & \textbf{Tempo} & \textbf{Ritmo} \\ \midrule
+Introdução & 1--6 & 4 min & motivação rápida \\
+Revisão da literatura & 7--13 & 6 min & só o que será usado depois \\
+Metodologia & 14--24 & 9 min & claro e sem pressa \\
+Resultados e discussão & 25--41 & 15 min & o centro da apresentação \\
+Conclusão & 42--45 & 3 min & reforçar a mensagem principal \\ \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{As três mensagens que devem ficar na cabeça da banca:}
+\begin{enumerate}
+  \item \textbf{A meta foi atingida com uma única expressão:} $C_{void} = 0{,}84~\text{m/s}/(\omega R_s)$; 90,0\% no protocolo de Du et al. e 72,9\% na média de 500 sorteios.
+  \item \textbf{Há uma explicação física:} no regime de condução (Péclet $<1$), a temperatura junto ao ombro depende da potência gerada, e por isso a velocidade periférica do ombro basta e o avanço pesa pouco.
+  \item \textbf{O índice tem domínio claro:} descreve a fronteira fria (vazio por falta de calor); a fronteira quente depende de variáveis de forjamento e é o próximo passo.
+\end{enumerate}
+
+% =============================================================================
+\section*{Parte 1 -- Introdução (slides 1 a 6, cerca de 4 min)}
+
+\slide{1}{Capa}{20 s}
+\begin{fala}
+  \item Cumprimente a banca e se apresente: nome, curso, orientador.
+  \item Diga o tema em uma frase: ``vou apresentar um coeficiente simples, o $C_{void}$, para prever vazios em soldas feitas por FSW a partir dos parâmetros de processo''.
+\end{fala}
+
+\slide{2}{O processo FSW e sua relevância}{40 s}
+\msg{o FSW une metais sem fundi-los e viabilizou a soldagem de ligas aeronáuticas.}
+\begin{fala}
+  \item Aponte na figura o ombro e o pino: a ferramenta gira, mergulha na junta e avança.
+  \item Explique que o calor vem do atrito e da deformação; o metal amolece, mas não funde.
+  \item Por isso não há defeitos de solidificação, e o processo viabilizou as ligas 2xxx e 7xxx, muito usadas na aeronáutica.
+\end{fala}
+\trans{``Mas o processo tem um defeito crítico, que é o foco do trabalho.''}
+
+\slide{3}{O problema: vazios volumétricos}{40 s}
+\msg{o vazio é interno, invisível e reduz a resistência; por isso precisa ser previsto antes de soldar.}
+\begin{fala}
+  \item Mostre na figura as macrografias com vazio grande, pequeno e sem vazio.
+  \item O vazio aparece quando o material não preenche o espaço que o pino deixa para trás, em geral no lado de avanço.
+  \item Ele concentra tensões e reduz a resistência à fadiga, e só é detectado por ensaios não destrutivos ou corte da peça.
+  \item Conclua: acertar os parâmetros por tentativa e erro é caro; o ideal é prever antes.
+\end{fala}
+
+\slide{4}{Como se prevê hoje}{50 s}
+\msg{os métodos atuais são precisos, mas caros ou pouco interpretáveis.}
+\begin{fala}
+  \item Simulação (CFD, elementos finitos) funciona, mas exige muito esforço para cada condição.
+  \item Apresente Du, Mukherjee e DebRoy (2019), a referência central: 108 soldas e cinco métodos de aprendizado de máquina.
+  \item Leia a tabela de cima para baixo: com os parâmetros brutos, 83,3\%; com variáveis causais calculadas por modelos, até 96,6\%.
+  \item Feche com a lacuna: nenhum desses métodos dá uma equação explícita que um engenheiro aplique à mão.
+\end{fala}
+\nums{83,3\% (rede neural, parâmetros brutos); 90 a 96,6\% (variáveis causais).}
+
+\slide{5}{A linha de pesquisa no ITA}{30 s \;(pode resumir)}
+\begin{fala}
+  \item Situe o trabalho na linha do grupo: Cintra (2018) fez os ensaios experimentais; Gomes e Esaki modelaram a temperatura; Batista Filho e Tanaka e Alcoforado caracterizaram juntas; Bezerra (2025) aplicou regressão logística à energia.
+  \item Diga o passo novo: sair de uma liga e uma ferramenta para uma base com várias ligas, ferramentas e espessuras.
+\end{fala}
+
+\slide{6}{Objetivos}{40 s}
+\msg{uma expressão explícita, uma meta clara e uma hierarquia das variáveis.}
+\begin{fala}
+  \item Objetivo 1: propor o $C_{void}$, uma expressão simples a partir de processo, ferramenta e material.
+  \item Meta: mais de 70\% de acurácia na base de Du et al.
+  \item Objetivo 2: descobrir quais naturezas de variáveis mais influenciam o vazio.
+  \item Leia a frase da caixa: a ideia é trocar simulação e caixa-preta por uma equação de chão de fábrica.
+\end{fala}
+\trans{``Antes do modelo, revisei o que a literatura diz sobre cada variável.''}
+
+% =============================================================================
+\section*{Parte 2 -- Revisão da literatura (slides 7 a 13, cerca de 6 min)}
+
+\slide{7}{Ferramenta e variáveis do processo}{50 s}
+\msg{o ombro é a principal fonte de calor, e as variáveis se agrupam em cinco naturezas.}
+\begin{fala}
+  \item Na figura: o ombro, de raio $R_s$, gera a maior parte do calor; o pino arrasta e mistura o material.
+  \item Lado de avanço e de recuo: as velocidades se somam de um lado e se subtraem do outro; a solda é assimétrica.
+  \item Apresente as naturezas, porque elas voltam no objetivo 2: cinemática (rotação e avanço), geométrica (raios e espessura), dinâmica (pressão e inclinação), térmica (difusividade) e metalúrgica (limite de escoamento).
+\end{fala}
+
+\slide{8}{Geração de calor e temperatura}{50 s}
+\msg{a temperatura depende fortemente da rotação; o avanço governa mais a taxa de aquecimento.}
+\begin{fala}
+  \item O calor local é proporcional à velocidade de deslizamento $\omega r$, que é máxima na borda do ombro. Guarde essa ideia: ela volta na abordagem 2.
+  \item Mostre o gráfico: com e sem pino, a temperatura de pico é quase a mesma, ou seja, o ombro domina.
+  \item Cite Mishra e Ma: a temperatura máxima é função forte da rotação; e a correlação de Arbegast--Hartley, com expoente pequeno.
+\end{fala}
+\nums{pico entre 0,6 e 0,9 da temperatura de fusão.}
+
+\slide{9}{Escoamento do material}{40 s \;(pode resumir)}
+\msg{o vazio surge quando o material que sai da frente do pino não volta para trás dele.}
+\begin{fala}
+  \item O material é extrudado ao redor do pino, sobretudo pelo lado de recuo, e forjado atrás pelo ombro.
+  \item Pelo balanço de massa de Arbegast, se o que sai da frente não for igual ao que retorna, sobra uma cavidade.
+\end{fala}
+
+\slide{10}{Defeitos e a janela de processo}{50 s}
+\msg{há defeitos de solda fria e de solda quente; o vazio é do lado frio.}
+\begin{fala}
+  \item Explique os eixos: rotação (RPM) na horizontal e avanço (IPM) na vertical.
+  \item Canto frio, rotação baixa e avanço alto: falta calor, aparecem o vazio e a falta de preenchimento.
+  \item Canto quente: rebarba, arrancamento superficial, colapso do núcleo.
+  \item No meio, a janela de processo; a força axial amplia essa janela. Reforce: o vazio é um defeito de calor insuficiente.
+\end{fala}
+\trans{``Se o vazio é falta de calor, a pergunta é como rotação e avanço se combinam.''}
+
+\slide{11}{Influência dos parâmetros}{40 s}
+\msg{a literatura combina rotação e avanço em índices empíricos, cada um com um peso diferente para a rotação.}
+\begin{fala}
+  \item Rotação aumenta o calor; avanço reduz o calor por comprimento.
+  \item Os índices clássicos são $\omega/v$, $\omega^{2}/v$ e energia por comprimento; a figura mostra a temperatura crescendo com $\omega/v$.
+  \item Deixe uma pergunta no ar: qual combinação é a certa? Os resultados vão responder.
+\end{fala}
+
+\slide{12}{Predição de vazios: Du, Mukherjee e DebRoy (2019)}{40 s}
+\msg{as variáveis causais predizem bem, mas exigem modelos prévios.}
+\begin{fala}
+  \item As quatro variáveis causais: temperatura, taxa de deformação, torque e tensão de cisalhamento no pino.
+  \item Eles encontraram limites, por exemplo temperatura normalizada abaixo de 0,93 indica vazio; temperatura e tensão de cisalhamento são as mais influentes.
+  \item A proposta do TG é chegar a algo parecido direto dos parâmetros, sem simulação.
+\end{fala}
+
+\slide{13}{Síntese: o que esperar de cada variável}{30 s \;(pode resumir)}
+\msg{a revisão gera uma previsão do sinal de cada variável, usada depois para checar os modelos.}
+\begin{fala}
+  \item Não leia a tabela: diga só que rotação, raio do ombro e pressão reduzem o risco; avanço, espessura e difusividade aumentam; pino e limite de escoamento são incertos.
+\end{fala}
+\trans{``Com isso, passo à metodologia.''}
+
+% =============================================================================
+\section*{Parte 3 -- Metodologia (slides 14 a 24, cerca de 9 min)}
+
+\slide{14}{Visão geral}{40 s}
+\msg{um fluxo único, aplicado igualmente a todas as abordagens.}
+\begin{fala}
+  \item Percorra o diagrama: base, tratamento, análise dimensional, três abordagens, calibração, validação, diagnóstico e, por fim, a aplicação aos ensaios de Cintra.
+  \item Diga que cada abordagem nasceu do resultado da anterior: a 2 veio do diagnóstico da 1, e a 3 testa se a 2 pode ser melhorada.
+\end{fala}
+
+\slide{15}{Base de dados}{50 s}
+\msg{dados reais e públicos, mas compilados de 14 estudos diferentes.}
+\begin{fala}
+  \item 108 soldas de topo, 14 estudos, três ligas de alumínio; 43 com vazio e 65 sem.
+  \item Ponto-chave, que explica muitos resultados: dentro de cada estudo só a rotação e o avanço variam; as outras oito variáveis são constantes.
+  \item A difusividade e o limite de escoamento têm um único valor por liga.
+\end{fala}
+\nums{108 soldas; 43 com vazio (40\%); 14 estudos; 10 variáveis.}
+
+\slide{16}{Tratamento dos dados}{40 s}
+\msg{a base foi auditada antes de qualquer modelo.}
+\begin{fala}
+  \item Coluna de liga errada em 33 linhas: a liga foi identificada pelas propriedades, que batem com o estudo de origem.
+  \item Pressão e inclinação foram assumidas por Du et al. em cerca de dois terços das soldas; marquei esses valores.
+  \item Seis linhas duvidosas foram mantidas e testadas na robustez.
+\end{fala}
+
+\slide{17}{Análise dimensional e grupos adimensionais}{50 s}
+\msg{10 variáveis viram 7 grupos com significado físico.}
+\begin{fala}
+  \item Teorema $\Pi$: 10 variáveis e 3 dimensões dão 7 grupos.
+  \item Comente dois grupos da tabela: $\omega R_s/v$, rotações por comprimento de solda; e o número de Péclet, $vR_s/\alpha$, que será decisivo.
+  \item Duas restrições importantes: a rotação só entra dividida por uma velocidade de referência; pressão e limite de escoamento só entram juntos, como $p/\sigma_y$.
+\end{fala}
+
+\slide{18}{Abordagem 1: produto de grupos adimensionais}{50 s}
+\msg{a proposta original é uma lei de potência dos grupos, com expoentes calibrados.}
+\begin{fala}
+  \item Mostre a equação: $C_{void}$ é o produto dos grupos elevados a expoentes; vazio previsto se $C_{void} > 1$.
+  \item Cada expoente diz o peso e o sentido do grupo.
+  \item Três conjuntos, por mecanismo: Buckingham completo (todos os grupos), térmico (falta de calor) e escoamento (falta de material ao redor do pino).
+\end{fala}
+
+\slide{19}{Abordagem 2: índice físico único}{50 s}
+\msg{uma única grandeza física comparada a um valor crítico.}
+\begin{fala}
+  \item A equação: $C_{void} = V_{crit}/(\omega R_s)$; prevê-se vazio quando a velocidade periférica do ombro é menor que o valor crítico.
+  \item Justifique $\omega R_s$ com a revisão: é a velocidade de deslizamento na borda do ombro, onde o calor por área é máximo.
+  \item Só um parâmetro é calibrado; compara-se também com as versões adimensionais e com o índice só de rotação.
+\end{fala}
+
+\slide{20}{Abordagem 3: núcleo físico com termos complementares}{30 s \;(pode resumir)}
+\begin{fala}
+  \item A pergunta: algum grupo acrescenta informação à velocidade periférica?
+  \item Seleção progressiva: um grupo só entra se aumentar a acurácia interna em pelo menos 1 ponto, usando só o treinamento.
+\end{fala}
+
+\slide{21}{Calibração}{50 s}
+\msg{a regressão logística é o jeito natural de calibrar uma lei de potência com resposta sim/não.}
+\begin{fala}
+  \item Mostre a equação: o logaritmo da chance de vazio é linear nos logaritmos dos grupos; a chance vira um produto de potências, a mesma forma do $C_{void}$.
+  \item Não é aprendizado de máquina de caixa-preta: é o mesmo princípio das correlações adimensionais clássicas.
+  \item As duas classes recebem o mesmo peso; o limiar é escolhido no treino; métricas: acurácia, sensibilidade e especificidade.
+\end{fala}
+
+\slide{22}{Protocolo de validação}{60 s}
+\msg{três esquemas, do mais comparável à referência ao mais exigente.}
+\begin{fala}
+  \item Regra geral: o teste nunca é usado para calibrar; divisão estratificada com 78 soldas de treino e 30 de teste.
+  \item Caixa 1, protocolo de Du: um único sorteio; é o que permite comparar com a referência.
+  \item Caixa 2, 500 sorteios: repito tudo 500 vezes e tiro a média; é a medida principal, mais robusta.
+  \item Caixa 3, validação por estudo: cada estudo sai inteiro; simula uma máquina e uma ferramenta nunca vistas.
+\end{fala}
+\nums{78 treino / 30 teste; 500 sorteios; 14 estudos.}
+
+\slide{23}{Hierarquia de influência e robustez}{40 s}
+\msg{a hierarquia vem de evidências simples, cada uma ligada a uma natureza, e não de um modelo.}
+\begin{fala}
+  \item Cinemática: comparação só entre soldas do mesmo estudo, pela AUC, que é a fração de pares com e sem vazio ordenados corretamente.
+  \item Geométrica: quanto a acurácia ganha ao passar da rotação para $\omega R_s$.
+  \item Demais naturezas: retirar pressão e inclinação, frequência de escolha na abordagem 3, versões com difusividade; e a robustez repete tudo sem os dados incertos.
+\end{fala}
+
+\slide{24}{Aplicação aos ensaios de Cintra (2018)}{30 s}
+\begin{fala}
+  \item Para testar fora da base, apliquei o índice aos 47 ensaios do Cintra: uma liga, uma ferramenta, só rotação e avanço variando.
+  \item Só a abordagem 2 se aplica, porque as outras precisariam de variáveis não registradas; dois testes: aplicação direta e recalibração.
+\end{fala}
+\trans{``Agora, os resultados.''}
+
+% =============================================================================
+\section*{Parte 4 -- Resultados e discussão (slides 25 a 41, cerca de 15 min)}
+
+\slide{25}{Caracterização da base}{40 s}
+\msg{os estudos são muito diferentes, e o nível crítico de rotação muda de um para outro.}
+\begin{fala}
+  \item Mostre na figura: dentro de cada estudo, os vazios (×) ficam nas rotações mais baixas.
+  \item Mas o nível em que o vazio some é diferente entre estudos, porque a ferramenta e a chapa mudam. Isso motiva procurar uma grandeza que alinhe os estudos.
+\end{fala}
+
+\slide{26}{Abordagem 1: desempenho}{60 s}
+\msg{no protocolo de Du, os grupos atingem a meta e igualam a rede neural; no rigoroso, não.}
+\begin{fala}
+  \item Primeiro o positivo: no protocolo de Du, os três conjuntos passam de 70\%, e o Buckingham completo chega a 83,3\%, igual à rede neural, com uma expressão explícita.
+  \item No protocolo rigoroso, a média fica entre 60,7\% e 64,0\%.
+  \item Aponte a última linha: o índice só com a rotação teve 66,7\%, mais que os grupos. Foi essa pista que levou à abordagem 2.
+\end{fala}
+\nums{83,3\% (Du); 60,7--64,0\% (500 sorteios); 66,7\% (só rotação).}
+
+\slide{27}{Por que os grupos falharam: o regime de condução}{70 s}
+\msg{nas soldas da base, a temperatura depende da potência gerada, e não da energia por comprimento.}
+\begin{fala}
+  \item O número de Péclet compara a velocidade de avanço com a de difusão do calor; ele é menor que 1 em 93\% das soldas.
+  \item Fisicamente: o calor se espalha à frente da ferramenta mais rápido do que ela avança; o campo de temperatura acompanha a ferramenta quase parado.
+  \item Consequência: o que importa é a potência, que depende da rotação e do ombro; dividir pela velocidade de avanço só atrapalha.
+  \item A tabela confirma: $\omega R_s$ tem 72,9\%; dividido pelo avanço cai para 60,9\%; pela difusão, 63,7\%.
+\end{fala}
+\nums{Péclet $< 1$ em 93\% (mediana 0,30).}
+
+\slide{28}{Rotação × avanço dentro dos estudos}{60 s}
+\msg{comparando soldas do mesmo estudo, a rotação explica quase tudo e o avanço quase nada.}
+\begin{fala}
+  \item Explique a AUC: de cada par de soldas do mesmo estudo, uma com e outra sem vazio, conto quantas vezes o índice aponta a certa.
+  \item A rotação acerta 96\% dos pares; o avanço, 54\%, praticamente um sorteio.
+  \item Na figura, o melhor expoente do avanço é $c = -0{,}10$, um décimo do peso da rotação; o intervalo exclui $\omega/v$ e $\omega^{2}/v$, as fórmulas clássicas.
+\end{fala}
+\nums{AUC 0,96 (rotação) $\times$ 0,54 (avanço); $c = -0{,}10$.}
+
+\slide{29}{Abordagem 1: expressões calibradas}{40 s}
+\begin{fala}
+  \item Mostre as três expressões calibradas; não leia os expoentes um a um.
+  \item Diga como ler: expoente negativo significa que aumentar o grupo reduz o risco; os três conjuntos dão à rotação o sentido esperado.
+\end{fala}
+
+\slide{30}{Coerência física dos expoentes}{40 s}
+\msg{o conjunto térmico tem expoentes fisicamente coerentes.}
+\begin{fala}
+  \item Expandindo os grupos, rotação, raio do ombro, pressão e difusividade têm o sinal previsto pela revisão; o avanço também, mas com peso pequeno (+0,26), coerente com o slide anterior.
+  \item A exceção é a espessura, que só varia entre estudos e por isso carrega outras diferenças entre eles.
+\end{fala}
+\trans{``O diagnóstico aponta para a velocidade periférica do ombro, que é a abordagem 2.''}
+
+\slide{31}{Abordagem 2: velocidade periférica crítica do ombro}{70 s}
+\msg{um único limiar de velocidade periférica prevê o vazio de origem fria.}
+\begin{fala}
+  \item O índice: prevê-se vazio quando $\omega R_s$ é menor que 0,84 m/s, ou seja, quando falta calor junto ao ombro.
+  \item Em unidades de oficina: rotação em rpm vezes raio do ombro em mm abaixo de cerca de 8.000.
+  \item Na figura, a linha cheia separa: abaixo dela, vazio previsto. Mostre um estudo em que a separação é clara.
+  \item Resultado: 90,0\% no protocolo de Du e 72,9\% na média de 500 sorteios; a meta foi atingida nos dois, com um único parâmetro.
+\end{fala}
+\nums{$V_{crit} = 0{,}84$ m/s; $\approx 8.000$ rpm$\cdot$mm; 90,0\% e 72,9\%.}
+
+\slide{32}{Como usar na prática}{50 s}
+\begin{fala}
+  \item Faça a conta do exemplo em voz alta: ombro de 10 mm a 600 rpm dá 0,63 m/s, abaixo do limiar, vazio; a 1.200 rpm, 1,26 m/s, solda sã.
+  \item Para a indústria, aprovar uma solda com vazio é o pior erro; o limiar conservador de 1,05 m/s (cerca de 10.000 rpm$\cdot$mm) detecta três de cada quatro vazios e ainda mantém 70,3\%.
+\end{fala}
+
+\slide{33}{Abordagem 3: núcleo físico com termos complementares}{40 s \;(pode resumir)}
+\msg{acrescentar grupos ao $\omega R_s$ quase não ajuda.}
+\begin{fala}
+  \item Ganho de 72,9\% para 74,0\%, sem ganho na validação por estudo, e com o treino subindo mais que o teste.
+  \item Os termos escolhidos mudam de sorteio para sorteio; o mais frequente é a conicidade do pino. Não vale a complexidade.
+\end{fala}
+
+\slide{34}{Comparação com Du et al.: mesmo protocolo}{60 s}
+\msg{com uma expressão, o desempenho é da mesma ordem dos métodos complexos.}
+\begin{fala}
+  \item No mesmo protocolo: 90,0\% contra 83,3\% da rede neural com os mesmos parâmetros.
+  \item Igual à árvore de decisão com variáveis causais de modelo analítico, e a cerca de 6 pontos dos métodos com simulação numérica, sem simulação nenhuma.
+  \item Seja honesto com a ressalva: os conjuntos de teste não são os mesmos, então a leitura é de mesma ordem de grandeza.
+\end{fala}
+\nums{90,0\% $\times$ 83,3\% (rede) $\times$ 90,0\% (árvore analítica) $\times$ 96,6\% (numérico).}
+
+\slide{35}{Comparação no protocolo rigoroso}{50 s}
+\msg{a abordagem 2 se mantém acima da meta; um único sorteio pode enganar.}
+\begin{fala}
+  \item Nos boxplots: abordagens 2 e 3 acima da linha de 70\% em média; abordagem 1 abaixo.
+  \item Um único sorteio varia de cerca de 60\% a 83\% para o mesmo modelo; o nosso sorteio único caiu no percentil 99.
+  \item Na validação por estudo, 66,7\%, a 3,3 pontos da meta, mesmo em condições totalmente novas.
+\end{fala}
+
+\slide{36}{Os dois protocolos lado a lado}{40 s}
+\begin{fala}
+  \item Compare as figuras: os mesmos modelos aparecem bem mais altos no sorteio único do que na média.
+  \item Por isso adotei a média de 500 sorteios como medida principal; é a avaliação mais rigorosa e mais honesta.
+\end{fala}
+
+\slide{37}{Hierarquia das naturezas}{60 s}
+\msg{cinemática > geométrica > dinâmica e metalúrgica > térmica.}
+\begin{fala}
+  \item Percorra os quatro níveis, sempre com o número que sustenta cada um: 96\% contra 54\% dos pares; de 66,7\% para 72,9\% com o raio do ombro; $p/\sigma_y$ escolhida em 30\% mas sem efeito ao ser retirada; difusividade piorando o índice.
+  \item Faça a ressalva: pressão e inclinação foram assumidas e as propriedades têm um valor por liga; o que não foi detectado não é necessariamente desprezível.
+\end{fala}
+
+\slide{38}{Robustez dos resultados}{30 s \;(pode resumir)}
+\begin{fala}
+  \item Sem pressão e inclinação, a abordagem 2 não muda; sem as seis soldas duvidosas, as abordagens 2 e 3 até melhoram. As conclusões se mantêm.
+\end{fala}
+
+\slide{39}{Vazios de origem fria na base de Du et al.}{50 s}
+\msg{os vazios desta base são de calor insuficiente, e por isso a velocidade periférica basta.}
+\begin{fala}
+  \item Du et al. atribuem os vazios a aporte de calor insuficiente.
+  \item A tabela mostra: a fração de vazios cai com $\omega R_s$ e chega a zero acima de 1,3 m/s.
+  \item Junte com o Péclet: no regime frio, existe um limiar de velocidade periférica associado à falta de calor.
+\end{fala}
+
+\slide{40}{Ensaios de Cintra (2018): um mecanismo diferente}{70 s}
+\msg{o índice delimita a fronteira fria; os defeitos do Cintra parecem limitados pelo forjamento.}
+\begin{fala}
+  \item Aplicação direta: com essa ferramenta, o limiar equivale a cerca de 1.010 rpm, e todos os ensaios estão abaixo; 83\% têm túnel. Coerente, mas é igual a prever sempre vazio.
+  \item A tabela mostra o problema: a fração com túnel não cai com a rotação; nenhuma recalibração separa as soldas.
+  \item A explicação: o próprio Cintra classificou as soldas como quentes ou mistas e atribuiu os defeitos à variação da força de forjamento. O defeito é de consolidação, não de calor.
+  \item Implicação: nesse regime, pressão axial e inclinação devem pesar mais que $\omega R_s$.
+\end{fala}
+
+\slide{41}{Limitações}{40 s}
+\begin{fala}
+  \item Os limites vêm dos dados: oito variáveis só variam entre estudos; pressão e inclinação assumidas; propriedades com um valor por liga.
+  \item Os estudos 6 e 8 são o exemplo: mesma liga e ferramenta, comportamentos opostos.
+  \item E o domínio: o índice vale para a fronteira fria; nenhuma base disponível permite estudar a quente.
+\end{fala}
+
+% =============================================================================
+\section*{Parte 5 -- Conclusão (slides 42 a 45, cerca de 3 min)}
+
+\slide{42}{Conclusões: o resultado}{50 s}
+\begin{fala}
+  \item Repita a equação em voz alta: vazio previsto quando a velocidade periférica do ombro está abaixo de 0,84 m/s, cerca de 8.000 rpm$\cdot$mm.
+  \item 90,0\% no protocolo de Du, comparável a métodos com simulação; 72,9\% no protocolo rigoroso; meta atingida.
+  \item A proposta original também atingiu a meta no protocolo de Du (83,3\%); para a indústria, o limiar conservador de 1,05 m/s.
+\end{fala}
+
+\slide{43}{Conclusões: o que se aprendeu}{50 s}
+\begin{fala}
+  \item A física: no regime de condução, a temperatura depende da potência; por isso o avanço pesa pouco.
+  \item A hierarquia: cinemática, geométrica, dinâmica e metalúrgica, térmica.
+  \item O domínio: fronteira entre regime frio e adequado.
+  \item O método: em bases pequenas, um único sorteio superestima; muitos sorteios e validação por estudo são essenciais.
+\end{fala}
+
+\slide{44}{Trabalhos futuros}{40 s}
+\begin{fala}
+  \item Use a figura da janela: este trabalho resolveu a fronteira de baixo, a de calor insuficiente.
+  \item Próximo passo: uma base com defeitos frios e quentes e com força axial e inclinação medidas; primeiro confirmar o limiar de $\omega R_s$, depois achar a expressão da fronteira quente.
+  \item E expressar $V_{crit}$ em função do material, para o índice valer em outras ligas.
+\end{fala}
+
+\slide{45}{Obrigado}{10 s}
+\begin{fala}
+  \item Agradeça e abra para perguntas.
+\end{fala}
+
+% =============================================================================
+\section*{Perguntas prováveis da banca e respostas sugeridas}
+
+\textbf{1. Por que não comparar com uma rede neural treinada no mesmo protocolo?}\\
+O objetivo era uma expressão explícita, não o melhor classificador possível. A comparação com Du et al. foi feita no mesmo protocolo deles (sorteio único 78/30), e a abordagem 2 ficou acima da rede neural com os mesmos parâmetros. Treinar uma rede nos 500 sorteios seria um bom complemento, mas não muda a mensagem: um parâmetro físico alcança a mesma ordem de desempenho.
+
+\textbf{2. Na validação por estudo, a acurácia ficou abaixo de 70\%. O índice serve para uma máquina nova?}\\
+Ficou a 3,3 pontos da meta (66,7\%), o melhor resultado entre as abordagens. A perda vem de diferenças entre estudos que a base não registra (máquina, fixação, critério de inspeção). Por isso recomendo validar o $V_{crit}$ com dados independentes antes do uso industrial.
+
+\textbf{3. $V_{crit}$ tem unidade de velocidade. Vale para outros materiais?}\\
+Não necessariamente. Ele foi calibrado em três ligas de alumínio. A análise dimensional diz que $V_{crit}$ deveria ser uma velocidade de referência dependente do material; com mais ligas, seria possível expressá-lo em função das propriedades e tornar o índice adimensional. Está nos trabalhos futuros.
+
+\textbf{4. Por que a pressão axial não entra, se a literatura diz que ela importa?}\\
+Nesta base, ela não acrescentou poder de previsão, mas foi assumida em cerca de dois terços das soldas, então não dá para concluir que não importa. Para vazios de origem fria, limitados pelo calor, o efeito da rotação domina; para defeitos de consolidação, como os do Cintra, espero que a pressão seja decisiva.
+
+\textbf{5. Por que $\omega R_s$ e não a potência, que cresce com $\omega R_s^{3}$?}\\
+Quando deixei os expoentes da rotação e do raio do ombro livres, os dados preferiram expoentes quase iguais (razão de 1,08), isto é, o produto $\omega R_s$. A interpretação é de uma condição local na borda do ombro, onde a velocidade de deslizamento e o calor por área são máximos. Como o raio do ombro só varia entre estudos, trato isso como hipótese.
+
+\textbf{6. O intervalo do expoente do avanço inclui zero. O avanço não tem efeito?}\\
+A estimativa central é $-0{,}10$, no sentido esperado, mas pequena. O que o intervalo garante é que o peso do avanço é muito menor do que supõem $\omega/v$ e $\omega^{2}/v$, que ficam fora dele.
+
+\textbf{7. A escolha de $\omega R_s$ não foi influenciada pelos próprios dados?}\\
+Sim, e isso está declarado na metodologia: a análise exploratória sugeriu o índice. Mas ele tem justificativa física independente e um único parâmetro, sem expoentes ajustados, e foi avaliado em 500 sorteios e na validação por estudo. A validação definitiva precisa de dados novos.
+
+\textbf{8. Os túneis do Cintra não são vazios frios? Por que o índice falha?}\\
+Na literatura, o túnel é um defeito frio, mas as soldas do Cintra foram classificadas por ele como quentes ou mistas, e ele atribuiu os defeitos à variação da força de forjamento. Nos dados, mais rotação não reduz o túnel. Isso indica um defeito de consolidação, fora do domínio do índice, e não uma falha do índice no regime para o qual foi feito.
+
+\textbf{9. Por que a acurácia, e não a acurácia balanceada, como critério principal?}\\
+A meta foi definida em acurácia no TG1. As classes foram equilibradas no ajuste, e a sensibilidade e a especificidade são apresentadas; para uso industrial, ofereço o limiar conservador, que privilegia a detecção de vazios.
+
+\end{document}

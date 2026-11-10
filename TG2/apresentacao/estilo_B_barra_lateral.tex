@@ -1,0 +1,41 @@
+% ESTILO B -- Barra lateral: fonte sem serifa, barra vertical azul fina à esquerda, fio amarelo sob o título
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[brazilian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{tikz}
+\graphicspath{{../Imagens/}}
+\definecolor{azulita}{HTML}{0056B3}
+\definecolor{amarelo}{HTML}{FFCC00}
+\definecolor{cinza}{HTML}{4A4A4A}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{background}{\begin{tikzpicture}[remember picture,overlay]
+  \fill[azulita] (current page.north west) rectangle ([xshift=0.22cm]current page.south west);\end{tikzpicture}}
+\setbeamercolor{frametitle}{fg=cinza}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\setbeamertemplate{frametitle}{\vspace*{0.25cm}\insertframetitle\par\vspace{3pt}{\color{amarelo}\rule{2.2cm}{2pt}}}
+\setbeamercolor{itemize item}{fg=azulita}
+\setbeamertemplate{itemize item}{\color{azulita}\rule[0.25ex]{0.45em}{0.45em}}
+\setbeamertemplate{footline}{\hspace{0.8cm}{\color{gray}\tiny Rafael Louvain \;$\cdot$\; TG2 \;$\cdot$\; ITA 2026}\hfill{\color{azulita}\scriptsize\bfseries\insertframenumber}\hspace{0.5cm}\vspace{0.15cm}}
+\setlength{\leftmargini}{1.2em}
+\input{_conteudo_exemplo}
+\begin{document}
+{\setbeamertemplate{background}{\begin{tikzpicture}[remember picture,overlay]
+  \fill[azulita] (current page.north west) rectangle ([xshift=4.2cm]current page.south west);
+  \node at ([xshift=2.1cm]current page.west) {\includegraphics[width=3.4cm]{ita-logo.png}};\end{tikzpicture}}
+\begin{frame}[plain]
+\begin{columns}
+\begin{column}{0.27\textwidth}\end{column}
+\begin{column}{0.68\textwidth}
+{\color{cinza}\Large\bfseries\titulotg\par}
+\vspace{0.25cm}{\color{amarelo}\rule{2.2cm}{2pt}}\par\vspace{0.25cm}
+{\color{azulita}\normalsize\subtitulotg\par}
+\vspace{0.6cm}
+{\normalsize\bfseries\autortg\par}\vspace{2pt}
+{\small\color{cinza}\orientadortg\par}\vspace{0.25cm}
+{\scriptsize\color{gray}\infotg\par}
+\end{column}
+\end{columns}
+\end{frame}}
+\slideexemplo
+\end{document}

@@ -1,0 +1,32 @@
+% ESTILO A -- Minimalista acadêmico: fundo branco, Computer Modern (igual ao relatório), fio azul sob o título
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[brazilian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usefonttheme{serif}
+\graphicspath{{../Imagens/}}
+\definecolor{azulita}{HTML}{0056B3}
+\definecolor{cinza}{HTML}{555555}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{frametitle}{fg=azulita}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\setbeamertemplate{frametitle}{\vspace*{0.25cm}\insertframetitle\par\vspace{2pt}{\color{azulita}\rule{\linewidth}{0.6pt}}}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{itemize item}{fg=azulita}
+\setbeamertemplate{itemize item}{\small$\bullet$}
+\setbeamertemplate{footline}{\hfill{\color{cinza}\scriptsize\insertframenumber}\hspace{0.5cm}\vspace{0.3cm}}
+\setlength{\leftmargini}{1.2em}
+\input{_conteudo_exemplo}
+\begin{document}
+\begin{frame}[plain]
+\centering
+\includegraphics[height=1.2cm]{ita-logo.png}\par\vspace{0.4cm}
+{\color{azulita}\large\bfseries\titulotg\par}
+\vspace{0.3cm}{\color{cinza}\normalsize\subtitulotg\par}
+\vspace{0.4cm}{\color{azulita}\rule{0.35\linewidth}{0.6pt}}\par\vspace{0.4cm}
+{\normalsize\autortg\par}\vspace{2pt}
+{\small\color{cinza}\orientadortg\par}\vspace{0.3cm}
+{\footnotesize\color{cinza}\infotg\par}
+\end{frame}
+\slideexemplo
+\end{document}
